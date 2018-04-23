@@ -13,9 +13,9 @@
 
 
 // settings
-const double SPF = 0.016666666666666666666666666666667; // seconds per frame
-unsigned int SCR_WIDTH = 800;
-unsigned int SCR_HEIGHT = 600;
+const double SPF(1.0 / 60.0); // seconds per frame
+unsigned int SCR_WIDTH(800);
+unsigned int SCR_HEIGHT(600);
 
 // Function prototypes
 void processInput(GLFWwindow* window);
@@ -36,14 +36,16 @@ int main(int argc, char const *argv[])
     RenderObject ship(glm::vec3(4, 3, 0), glm::vec3(0, 0, 0), models::ship, std::vector<float>({ 1.0f, 0.0f, 0.5f }));
     levelManager.addRenderObject(ship);
 
-    RenderObject cube(glm::vec3(5, 5, 0), glm::vec3(0.0f, -0.01f, 0.0f), models::testSquare, std::vector<float>({ 1.0f, 0.0f, 0.5f }));
+    RenderObject cube(glm::vec3(5, 5, 0), glm::vec3(0.0f, -0.05f, 0.0f), models::testSquare, std::vector<float>({ 1.0f, 0.0f, 0.5f }));
     levelManager.addRenderObject(cube);
+
 
     double previous = glfwGetTime();
     double lag = 0.0;
 
     while (!glfwWindowShouldClose(window))
     {
+        // timing
         double current = glfwGetTime();
         double elapsed = current - previous;
         previous = current;
@@ -54,6 +56,8 @@ int main(int argc, char const *argv[])
         processInput(window);
 
         bool ticked = false;
+
+        Sleep(30);
 
         while (lag >= SPF)
         {
@@ -67,7 +71,7 @@ int main(int argc, char const *argv[])
         // render
         if (ticked)
         {
-            renderer.draw();
+            renderer.draw(lag / SPF);
         }
     }
 

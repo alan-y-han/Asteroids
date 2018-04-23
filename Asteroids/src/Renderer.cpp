@@ -58,7 +58,7 @@ GLFWwindow* Renderer::initialise()
     return window;
 }
 
-void Renderer::draw()
+void Renderer::draw(const double lag)
 {
     // render
     shader.use();
@@ -76,6 +76,9 @@ void Renderer::draw()
         // pass model matrix to shader
         glm::mat4 model;
         model = glm::translate(model, ro.position);
+        glm::vec3 lagExtrapolate = ro.velocity * glm::vec3(lag, lag, lag);
+        std::cerr << lagExtrapolate.x << ", " << lagExtrapolate.y << ", " << lagExtrapolate.z << std::endl;
+        model = glm::translate(model, lagExtrapolate);
         shader.setMat4("model", model);
         
         glBindVertexArray(ro.VAO);
