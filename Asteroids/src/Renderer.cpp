@@ -77,7 +77,14 @@ void Renderer::draw()
 
     for (int i = 0; i < renderObjects.size(); i++)
     {
-        glBindVertexArray(renderObjects[i]->VAO);
+        RenderObject* currentRO = renderObjects[i];
+
+        // pass model matrix to shader
+        glm::mat4 model;
+        model = glm::translate(model, currentRO->position);
+        shader.setMat4("model", model);
+        
+        glBindVertexArray(currentRO->VAO);
         glDrawArrays(GL_LINE_LOOP, 0, 4);
     }
 

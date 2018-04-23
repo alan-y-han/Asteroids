@@ -1,6 +1,9 @@
 #pragma once
 
 #include <glad\glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <cstdlib>
 #include <iostream>
@@ -11,7 +14,10 @@ class RenderObject
 {
 public:
     unsigned int VAO;
-    RenderObject(std::vector<float> vertices, std::vector<float> color);
+    glm::vec3 position;
+    glm::vec3 velocity;
+
+    RenderObject(glm::vec3 position, glm::vec3 velocity, std::vector<float> vertices, std::vector<float> color);
 private:
     unsigned int VBO;
     std::vector<float> vertices;

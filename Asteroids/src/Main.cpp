@@ -28,7 +28,10 @@ int main(int argc, char const *argv[])
         return -1;
     }
 
-    RenderObject cube(models::ship, std::vector<float>({ 1.0f, 0.0f, 0.5f }));
+    RenderObject ship(glm::vec3(4, 3, 0), glm::vec3(0, 0, 0), models::ship, std::vector<float>({ 1.0f, 0.0f, 0.5f }));
+    renderer.addRenderObject(&ship);
+
+    RenderObject cube(glm::vec3(5, 5, 0), glm::vec3(0, 0, 0), models::testSquare, std::vector<float>({ 1.0f, 0.0f, 0.5f }));
     renderer.addRenderObject(&cube);
 
     while (!glfwWindowShouldClose(window))

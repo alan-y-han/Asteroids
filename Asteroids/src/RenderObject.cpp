@@ -1,6 +1,8 @@
 #include "RenderObject.h"
 
-RenderObject::RenderObject(std::vector<float> vertices, std::vector<float> color) :
+RenderObject::RenderObject(glm::vec3 position, glm::vec3 velocity, std::vector<float> vertices, std::vector<float> color) :
+    position(position),
+    velocity(velocity),
     vertices(vertices),
     color(color)
 {
