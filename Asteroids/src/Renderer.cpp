@@ -4,8 +4,10 @@
 int Renderer::SCR_WIDTH;
 int Renderer::SCR_HEIGHT;
 
-Renderer::Renderer(std::string name, int width, int height) :
-    name(name)
+Renderer::Renderer(std::string name, int width, int height, std::string vertexPath, std::string fragmentPath) :
+    name(name),
+    vertexPath(vertexPath),
+    fragmentPath(fragmentPath)
 {
     SCR_WIDTH = width;
     SCR_HEIGHT = height;
@@ -41,6 +43,17 @@ GLFWwindow* Renderer::initialise()
     // OpenGL options
     glEnable(GL_DEPTH_TEST);
 
+    // Initialise camera
+    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -32.0f));
+
+    projection = glm::ortho(0.0f, 8.0f, 0.0f, 6.0f, 0.1f, 100.0f);
+
+    // Initialise shader
+    shader.initialiseShader(vertexPath, fragmentPath);
+    shader.use();
+    shader.setMat4("view", view);
+    shader.setMat4("projection", projection);
+
     return window;
 }
 
@@ -52,6 +65,13 @@ void Renderer::addRenderObject(RenderObject* renderObject)
 void Renderer::draw()
 {
     // render
+    shader.use();
+
+    // TODO: remove
+    glm::mat4 model;
+    model = glm::translate(model, glm::vec3(4, 3, 0));
+    shader.setMat4("model", model);
+
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

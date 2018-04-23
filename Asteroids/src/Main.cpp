@@ -5,7 +5,6 @@
 #include <glm\gtc\type_ptr.hpp>
 
 #include "Models.h"
-#include "Shader.h"
 #include "Renderer.h"
 
 #include <iostream>
@@ -21,16 +20,13 @@ void processInput(GLFWwindow* window);
 
 int main(int argc, char const *argv[])
 {
-    Renderer renderer("Asteroids", 800, 600);
+    Renderer renderer("Asteroids", 800, 600, "src/vs.glsl", "src/fs.glsl");
     GLFWwindow* window = renderer.initialise();
     if (!window)
     {
         std::cerr << "Failed to initialise GLFW window, exiting" << std::endl;
         return -1;
     }
-
-    Shader shader("src/vs.glsl", "src/fs.glsl");
-    shader.use();
 
     RenderObject cube(models::ship, std::vector<float>({ 1.0f, 0.0f, 0.5f }));
     renderer.addRenderObject(&cube);
