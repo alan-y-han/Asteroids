@@ -4,10 +4,11 @@
 int Renderer::SCR_WIDTH;
 int Renderer::SCR_HEIGHT;
 
-Renderer::Renderer(std::string name, int width, int height, std::string vertexPath, std::string fragmentPath) :
-    name(name),
+Renderer::Renderer(std::string windowName, int width, int height, std::string vertexPath, std::string fragmentPath, std::vector<RenderObject>& renderObjects) :
+    name(windowName),
     vertexPath(vertexPath),
-    fragmentPath(fragmentPath)
+    fragmentPath(fragmentPath),
+    renderObjects(renderObjects)
 {
     SCR_WIDTH = width;
     SCR_HEIGHT = height;
@@ -57,11 +58,6 @@ GLFWwindow* Renderer::initialise()
     return window;
 }
 
-void Renderer::addRenderObject(RenderObject* renderObject)
-{
-    renderObjects.push_back(renderObject);
-}
-
 void Renderer::draw()
 {
     // render
@@ -75,16 +71,14 @@ void Renderer::draw()
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    for (int i = 0; i < renderObjects.size(); i++)
+    for (RenderObject& ro : renderObjects)
     {
-        RenderObject* currentRO = renderObjects[i];
-
         // pass model matrix to shader
         glm::mat4 model;
-        model = glm::translate(model, currentRO->position);
+        model = glm::translate(model, ro.position);
         shader.setMat4("model", model);
         
-        glBindVertexArray(currentRO->VAO);
+        glBindVertexArray(ro.VAO);
         glDrawArrays(GL_LINE_LOOP, 0, 4);
     }
 

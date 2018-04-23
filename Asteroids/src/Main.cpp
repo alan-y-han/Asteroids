@@ -4,13 +4,16 @@
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
 
+#include "LevelManager.h"
 #include "Models.h"
 #include "Renderer.h"
 
+#include <cstdlib>
 #include <iostream>
 
 
 // settings
+const double SPF = 0.016666666666666666666666666666667; // seconds per frame
 unsigned int SCR_WIDTH = 800;
 unsigned int SCR_HEIGHT = 600;
 
@@ -20,31 +23,56 @@ void processInput(GLFWwindow* window);
 
 int main(int argc, char const *argv[])
 {
-    Renderer renderer("Asteroids", 800, 600, "src/vs.glsl", "src/fs.glsl");
+    LevelManager levelManager;
+
+    Renderer renderer("Asteroids", 800, 600, "src/vs.glsl", "src/fs.glsl", levelManager.renderObjects);
     GLFWwindow* window = renderer.initialise();
     if (!window)
     {
         std::cerr << "Failed to initialise GLFW window, exiting" << std::endl;
-        return -1;
+        return EXIT_FAILURE;
     }
 
     RenderObject ship(glm::vec3(4, 3, 0), glm::vec3(0, 0, 0), models::ship, std::vector<float>({ 1.0f, 0.0f, 0.5f }));
-    renderer.addRenderObject(&ship);
+    levelManager.addRenderObject(ship);
 
-    RenderObject cube(glm::vec3(5, 5, 0), glm::vec3(0, 0, 0), models::testSquare, std::vector<float>({ 1.0f, 0.0f, 0.5f }));
-    renderer.addRenderObject(&cube);
+    RenderObject cube(glm::vec3(5, 5, 0), glm::vec3(0.0f, -0.01f, 0.0f), models::testSquare, std::vector<float>({ 1.0f, 0.0f, 0.5f }));
+    levelManager.addRenderObject(cube);
+
+    double previous = glfwGetTime();
+    double lag = 0.0;
 
     while (!glfwWindowShouldClose(window))
     {
+        double current = glfwGetTime();
+        double elapsed = current - previous;
+        previous = current;
+        lag += elapsed;
+
         // process input
         glfwPollEvents();
         processInput(window);
 
-        renderer.draw();
+        bool ticked = false;
+
+        while (lag >= SPF)
+        {
+            // update game state
+            levelManager.tick();
+
+            ticked = true;
+            lag -= SPF;
+        }
+
+        // render
+        if (ticked)
+        {
+            renderer.draw();
+        }
     }
 
     glfwTerminate();
-    return 0;
+    return EXIT_SUCCESS;
 }
 
 void processInput(GLFWwindow* window)

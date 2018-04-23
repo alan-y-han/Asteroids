@@ -17,9 +17,8 @@
 class Renderer
 {
 public:    
-    Renderer(std::string name, int width, int height, std::string vertexPath, std::string fragmentPath);
+    Renderer(std::string windowName, int width, int height, std::string vertexPath, std::string fragmentPath, std::vector<RenderObject>& renderObjects);
     GLFWwindow* initialise();
-    void addRenderObject(RenderObject* renderObject);
     void draw();
 private:
     GLFWwindow* window;
@@ -33,7 +32,7 @@ private:
     std::string fragmentPath;
     Shader shader;
 
-    std::vector<RenderObject*> renderObjects;
+    std::vector<RenderObject>& renderObjects;
 
     static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 };
