@@ -4,6 +4,7 @@
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
 
+#include "Models.h"
 #include "Shader.h"
 #include "Renderer.h"
 
@@ -29,7 +30,10 @@ int main(int argc, char const *argv[])
     }
 
     Shader shader("src/vs.glsl", "src/fs.glsl");
+    shader.use();
 
+    RenderObject cube(models::ship, std::vector<float>({ 1.0f, 0.0f, 0.5f }));
+    renderer.addRenderObject(&cube);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -37,12 +41,7 @@ int main(int argc, char const *argv[])
         glfwPollEvents();
         processInput(window);
 
-        // render
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        // swap buffers
-        glfwSwapBuffers(window);
+        renderer.draw();
     }
 
     glfwTerminate();

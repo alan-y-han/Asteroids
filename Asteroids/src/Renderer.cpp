@@ -44,9 +44,25 @@ GLFWwindow* Renderer::initialise()
     return window;
 }
 
-GLFWwindow * Renderer::getWindow()
+void Renderer::addRenderObject(RenderObject* renderObject)
 {
-    return window;
+    renderObjects.push_back(renderObject);
+}
+
+void Renderer::draw()
+{
+    // render
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    for (int i = 0; i < renderObjects.size(); i++)
+    {
+        glBindVertexArray(renderObjects[i]->VAO);
+        glDrawArrays(GL_LINE_LOOP, 0, 4);
+    }
+
+    // swap buffers
+    glfwSwapBuffers(window);
 }
 
 void Renderer::framebuffer_size_callback(GLFWwindow* window, int width, int height)
