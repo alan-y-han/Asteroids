@@ -36,7 +36,7 @@ int main(int argc, char const *argv[])
     RenderObject ship(glm::vec3(4, 3, 0), glm::vec3(0, 0, 0), models::ship, std::vector<float>({ 1.0f, 0.0f, 0.5f }));
     levelManager.addRenderObject(ship);
 
-    RenderObject cube(glm::vec3(5, 5, 0), glm::vec3(0.0f, -0.05f, 0.0f), models::testSquare, std::vector<float>({ 1.0f, 0.0f, 0.5f }));
+    RenderObject cube(glm::vec3(5, 5, 0), glm::vec3(0.0f, -0.02f, 0.0f), models::testSquare, std::vector<float>({ 1.0f, 0.0f, 0.5f }));
     levelManager.addRenderObject(cube);
 
 
@@ -57,8 +57,6 @@ int main(int argc, char const *argv[])
 
         bool ticked = false;
 
-        Sleep(30);
-
         while (lag >= SPF)
         {
             // update game state
@@ -71,7 +69,7 @@ int main(int argc, char const *argv[])
         // render
         if (ticked)
         {
-            renderer.draw(lag / SPF);
+            renderer.draw();
         }
     }
 

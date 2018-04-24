@@ -43,6 +43,7 @@ GLFWwindow* Renderer::initialise()
 
     // OpenGL options
     glEnable(GL_DEPTH_TEST);
+    glfwSwapInterval(1);
 
     // Initialise camera
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, -32.0f));
@@ -58,7 +59,7 @@ GLFWwindow* Renderer::initialise()
     return window;
 }
 
-void Renderer::draw(const double lag)
+void Renderer::draw()
 {
     // render
     shader.use();
@@ -76,9 +77,6 @@ void Renderer::draw(const double lag)
         // pass model matrix to shader
         glm::mat4 model;
         model = glm::translate(model, ro.position);
-        glm::vec3 lagExtrapolate = ro.velocity * glm::vec3(lag, lag, lag);
-        std::cerr << lagExtrapolate.x << ", " << lagExtrapolate.y << ", " << lagExtrapolate.z << std::endl;
-        model = glm::translate(model, lagExtrapolate);
         shader.setMat4("model", model);
         
         glBindVertexArray(ro.VAO);

@@ -19,7 +19,7 @@ class Renderer
 public:    
     Renderer(std::string windowName, int width, int height, std::string vertexPath, std::string fragmentPath, std::vector<RenderObject>& renderObjects);
     GLFWwindow* initialise();
-    void draw(const double lag);
+    void draw();
 private:
     static int SCR_WIDTH;
     static int SCR_HEIGHT;
