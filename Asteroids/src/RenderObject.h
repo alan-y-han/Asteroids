@@ -17,9 +17,15 @@ public:
     glm::vec3 position;
     glm::vec3 velocity;
 
-    RenderObject(glm::vec3 position, glm::vec3 velocity, std::vector<float> vertices, std::vector<float> color);
+    RenderObject
+    (
+        glm::vec3 position,
+        glm::vec3 velocity,
+        std::vector<float> vertices,
+        glm::vec3 color
+    );
 private:
     unsigned int VBO;
     std::vector<float> vertices;
-    std::vector<float> color;
+    glm::vec3 color;
 };

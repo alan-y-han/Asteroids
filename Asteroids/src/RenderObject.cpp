@@ -1,6 +1,6 @@
 #include "RenderObject.h"
 
-RenderObject::RenderObject(glm::vec3 position, glm::vec3 velocity, std::vector<float> vertices, std::vector<float> color) :
+RenderObject::RenderObject(glm::vec3 position, glm::vec3 velocity, std::vector<float> vertices, glm::vec3 color) :
     position(position),
     velocity(velocity),
     vertices(vertices),
@@ -26,9 +26,9 @@ RenderObject::RenderObject(glm::vec3 position, glm::vec3 velocity, std::vector<f
         vertexData[0 + (i * 2)] = vertices[0 + i];
         vertexData[1 + (i * 2)] = vertices[1 + i];
         vertexData[2 + (i * 2)] = vertices[2 + i];
-        vertexData[3 + (i * 2)] = color[0];
-        vertexData[4 + (i * 2)] = color[1];
-        vertexData[5 + (i * 2)] = color[2];
+        vertexData[3 + (i * 2)] = color.r;
+        vertexData[4 + (i * 2)] = color.g;
+        vertexData[5 + (i * 2)] = color.b;
     }
 
     glGenVertexArrays(1, &VAO);

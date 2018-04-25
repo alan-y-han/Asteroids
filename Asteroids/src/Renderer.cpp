@@ -4,11 +4,10 @@
 int Renderer::SCR_WIDTH;
 int Renderer::SCR_HEIGHT;
 
-Renderer::Renderer(std::string windowName, int width, int height, std::string vertexPath, std::string fragmentPath, std::vector<RenderObject>& renderObjects) :
+Renderer::Renderer(std::string windowName, int width, int height, std::string vertexPath, std::string fragmentPath) :
     name(windowName),
     vertexPath(vertexPath),
-    fragmentPath(fragmentPath),
-    renderObjects(renderObjects)
+    fragmentPath(fragmentPath)
 {
     SCR_WIDTH = width;
     SCR_HEIGHT = height;
@@ -72,19 +71,24 @@ void Renderer::draw()
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    for (RenderObject& ro : renderObjects)
+    for (RenderObject* ro : renderObjects)
     {
         // pass model matrix to shader
         glm::mat4 model;
-        model = glm::translate(model, ro.position);
+        model = glm::translate(model, ro->position);
         shader.setMat4("model", model);
         
-        glBindVertexArray(ro.VAO);
+        glBindVertexArray(ro->VAO);
         glDrawArrays(GL_LINE_LOOP, 0, 4);
     }
 
     // swap buffers
     glfwSwapBuffers(window);
+}
+
+void Renderer::registerRO(RenderObject* ro)
+{
+    renderObjects.push_back(ro);
 }
 
 void Renderer::framebuffer_size_callback(GLFWwindow* window, int width, int height)

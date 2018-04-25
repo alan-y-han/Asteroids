@@ -5,7 +5,6 @@
 #include <glm\gtc\type_ptr.hpp>
 
 #include "LevelManager.h"
-#include "Models.h"
 #include "Renderer.h"
 
 #include <cstdlib>
@@ -23,9 +22,8 @@ void processInput(GLFWwindow* window);
 
 int main(int argc, char const *argv[])
 {
-    LevelManager levelManager;
+    Renderer renderer("Asteroids", 800, 600, "src/vs.glsl", "src/fs.glsl");
 
-    Renderer renderer("Asteroids", 800, 600, "src/vs.glsl", "src/fs.glsl", levelManager.renderObjects);
     GLFWwindow* window = renderer.initialise();
     if (!window)
     {
@@ -33,12 +31,8 @@ int main(int argc, char const *argv[])
         return EXIT_FAILURE;
     }
 
-    RenderObject ship(glm::vec3(4, 3, 0), glm::vec3(0, 0, 0), models::ship, std::vector<float>({ 1.0f, 0.0f, 0.5f }));
-    levelManager.addRenderObject(ship);
-
-    RenderObject cube(glm::vec3(5, 5, 0), glm::vec3(0.0f, -0.02f, 0.0f), models::testSquare, std::vector<float>({ 1.0f, 0.0f, 0.5f }));
-    levelManager.addRenderObject(cube);
-
+    LevelManager levelManager(renderer);
+    levelManager.initialiseLevel();
 
     double previous = glfwGetTime();
     double lag = 0.0;

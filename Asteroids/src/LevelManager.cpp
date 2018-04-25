@@ -1,18 +1,19 @@
 #include "LevelManager.h"
 
-LevelManager::LevelManager()
+#include "Models.h"
+
+LevelManager::LevelManager(Renderer& renderer) :
+    renderer(renderer),
+    ship(tickEventManager, glm::vec3(4.0f, 3.0f, 0.0f), glm::vec3(0.0f, 0.01f, 0.0f))
 {
 }
 
-void LevelManager::addRenderObject(RenderObject renderObject)
+void LevelManager::initialiseLevel()
 {
-    renderObjects.push_back(renderObject);
+    renderer.registerRO(&ship.ro);
 }
 
 void LevelManager::tick()
 {
-    for (RenderObject& ro : renderObjects)
-    {
-        ro.position += ro.velocity;
-    }
+    tickEventManager.trigger();
 }
