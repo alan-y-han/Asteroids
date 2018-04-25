@@ -1,5 +1,8 @@
 #pragma once
 
+#include <glad\glad.h>
+#include <GLFW\glfw3.h>
+
 #include <vector>
 
 #include "RenderObject.h"
@@ -11,8 +14,15 @@ class Ship
 public:
     RenderObject ro;
 
-    Ship(TickEventManager& tickEventManager, glm::vec3 position, glm::vec3 velocity);
+    Ship
+    (
+        TickEventManager& tickEventManager,
+        KeyEventManager& keyEventManager,
+        glm::vec3 position,
+        glm::vec3 velocity
+    );
 
 private:
     void tickFunction();
+    void keyFunction(int keycode);
 };

@@ -4,7 +4,7 @@
 
 LevelManager::LevelManager(Renderer& renderer) :
     renderer(renderer),
-    ship(tickEventManager, glm::vec3(4.0f, 3.0f, 0.0f), glm::vec3(0.0f, 0.01f, 0.0f))
+    ship(tickEventManager, keyEventManager, glm::vec3(4.0f, 3.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f))
 {
 }
 

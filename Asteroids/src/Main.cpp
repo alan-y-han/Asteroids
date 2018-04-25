@@ -4,6 +4,7 @@
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
 
+#include "EventManager.h"
 #include "LevelManager.h"
 #include "Renderer.h"
 
@@ -17,7 +18,7 @@ unsigned int SCR_WIDTH(800);
 unsigned int SCR_HEIGHT(600);
 
 // Function prototypes
-void processInput(GLFWwindow* window);
+void processInput(GLFWwindow* window, KeyEventManager keyEventManager);
 
 
 int main(int argc, char const *argv[])
@@ -45,14 +46,14 @@ int main(int argc, char const *argv[])
         previous = current;
         lag += elapsed;
 
-        // process input
-        glfwPollEvents();
-        processInput(window);
-
         bool ticked = false;
 
         while (lag >= SPF)
         {
+            // process input
+            glfwPollEvents();
+            processInput(window, levelManager.keyEventManager);
+
             // update game state
             levelManager.tick();
 
@@ -71,10 +72,26 @@ int main(int argc, char const *argv[])
     return EXIT_SUCCESS;
 }
 
-void processInput(GLFWwindow* window)
+void processInput(GLFWwindow* window, KeyEventManager keyEventManager)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     {
         glfwSetWindowShouldClose(window, true);
+    }
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    {
+        keyEventManager.trigger(GLFW_KEY_W);
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    {
+        keyEventManager.trigger(GLFW_KEY_S);
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    {
+        keyEventManager.trigger(GLFW_KEY_A);
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    {
+        keyEventManager.trigger(GLFW_KEY_D);
     }
 }

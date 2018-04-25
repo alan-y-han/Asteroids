@@ -11,9 +11,13 @@
 class LevelManager
 {
 public:
+    KeyEventManager keyEventManager;
+    
     LevelManager(Renderer& renderer);
     void initialiseLevel();
     void tick();
+
+
 
 private:
     Renderer& renderer;
