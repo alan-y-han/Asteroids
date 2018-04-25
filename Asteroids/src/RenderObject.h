@@ -16,11 +16,15 @@ public:
     unsigned int VAO;
     glm::vec3 position;
     glm::vec3 velocity;
+    float angle;
+    float rVelocity;
 
     RenderObject
     (
         glm::vec3 position,
         glm::vec3 velocity,
+        float angle,
+        float rVelocity,
         std::vector<float> vertices,
         glm::vec3 color
     );

@@ -76,6 +76,7 @@ void Renderer::draw()
         // pass model matrix to shader
         glm::mat4 model;
         model = glm::translate(model, ro->position);
+        model = glm::rotate(model, glm::radians(ro->angle), glm::vec3(0.0f, 0.0f, 1.0f));
         shader.setMat4("model", model);
         
         glBindVertexArray(ro->VAO);
