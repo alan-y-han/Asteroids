@@ -52,8 +52,8 @@ GLFWwindow* Renderer::initialise()
     // Initialise shader
     shader.initialiseShader(vertexPath, fragmentPath);
     shader.use();
-    shader.setMat4("view", view);
-    shader.setMat4("projection", projection);
+    shader.setViewMatrix(view);
+    shader.setProjectionMatrix(projection);
 
     return window;
 }
@@ -62,11 +62,6 @@ void Renderer::draw()
 {
     // render
     shader.use();
-
-    // TODO: remove
-    glm::mat4 model;
-    model = glm::translate(model, glm::vec3(4, 3, 0));
-    shader.setMat4("model", model);
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -77,7 +72,7 @@ void Renderer::draw()
         glm::mat4 model;
         model = glm::translate(model, ro->position);
         model = glm::rotate(model, glm::radians(ro->angle), glm::vec3(0.0f, 0.0f, 1.0f));
-        shader.setMat4("model", model);
+        shader.setModelMatrix(model);
         
         glBindVertexArray(ro->VAO);
         glDrawArrays(GL_LINE_LOOP, 0, 4);
