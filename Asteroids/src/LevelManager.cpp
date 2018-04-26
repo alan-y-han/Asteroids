@@ -8,31 +8,27 @@ float randFloat(float min, float max)
     return min + (((float)rand() / RAND_MAX) * range);
 }
 
-LevelManager::LevelManager(Renderer& renderer) :
-    renderer(renderer),
-    ship(tickEventManager, keyEventManager, glm::vec3(4.0f, 3.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), 0.0f, 0.0f)
+LevelManager::LevelManager()
 {
 }
 
 void LevelManager::initialiseLevel()
 {
-    renderer.registerRO(&ship.ro);
+
+    //ship(tickEventManager, keyEventManager, glm::vec3(4.0f, 3.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), 0.0f, 0.0f)
 
     int noParticles = 0;
 
     while (noParticles < 7000)
     {
-        particles[noParticles] = new Particle
+        gameObjects.emplace(new Particle
         (
             tickEventManager,
             glm::vec3(randFloat(0, 8), randFloat(0, 8), 0),
             glm::vec3(randFloat(-0.008f, 0.008f), randFloat(-0.008f, 0.008f), 0),
             randFloat(0, 360),
             randFloat(-4, 4)
-        );
-
-        GameObject* lastParticleRO = &(particles[noParticles]->ro);
-        renderer.registerRO(lastParticleRO);
+        ));
 
         noParticles++;
     }

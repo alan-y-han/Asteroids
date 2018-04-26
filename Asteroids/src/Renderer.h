@@ -7,8 +7,10 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
+#include <memory>
 #include <string>
 #include <vector>
+#include <unordered_set>
 
 #include "GameObject.h"
 #include "Shader.h"
@@ -21,8 +23,7 @@ class Renderer
 public:
     Renderer(std::string windowName, int width, int height, std::string vertexPath, std::string fragmentPath);
     GLFWwindow* initialise();
-    void draw();
-    void registerRO(GameObject* ro);
+    void draw(std::unordered_set<std::unique_ptr<GameObject>>& gameObjects);
 
 private:
     static int SCR_WIDTH;
@@ -32,7 +33,6 @@ private:
     std::string name;
     std::string vertexPath;
     std::string fragmentPath;
-    std::vector<GameObject*> renderObjects;
 
     GLFWwindow* window;
     glm::mat4 view;

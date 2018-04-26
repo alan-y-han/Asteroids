@@ -1,6 +1,6 @@
 #include "Particle.h"
 
-std::vector<float> particle =
+std::vector<float> particleVertices =
 {
     0.05f, 0.05f, 0.0f,
     -0.05f, 0.05f, 0.0f,
@@ -8,7 +8,7 @@ std::vector<float> particle =
     0.05f, -0.05f, 0.0f
 };
 
-glm::vec3 color(1.0f, 0.5f, 0.0f);
+glm::vec3 particleColor(1.0f, 0.5f, 0.0f);
 
 
 Particle::Particle
@@ -19,7 +19,7 @@ Particle::Particle
     float angle,
     float rVelocity
 ) :
-    ro(position, velocity, angle, rVelocity, particle, color)
+    GameObject(position, velocity, angle, rVelocity, particleVertices, particleColor)
 {
     std::function<void()> tickFunc = std::bind(&Particle::tickFunction, this);
     tickEvent.subscribe(tickFunc);
@@ -32,6 +32,6 @@ Particle::~Particle()
 
 void Particle::tickFunction()
 {
-    ro.position += ro.velocity;
-    ro.angle += ro.rVelocity;
+    position += velocity;
+    angle += rVelocity;
 }

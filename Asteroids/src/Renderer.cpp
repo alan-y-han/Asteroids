@@ -58,41 +58,36 @@ GLFWwindow* Renderer::initialise()
     return window;
 }
 
-void Renderer::draw()
+void Renderer::draw(std::unordered_set<std::unique_ptr<GameObject>>& gameObjects)
 {
     shader.use();
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    for (GameObject* ro : renderObjects)
+    for (const std::unique_ptr<GameObject>& go : gameObjects)
     {
         // create model matrix and pass to shader
         glm::mat4 model;
         // rotation
-        float rad = glm::radians(ro->angle);
+        float rad = glm::radians(go->angle);
         model[0][0] = cos(rad);
         model[1][0] = -sin(rad);
         model[0][1] = sin(rad);
         model[1][1] = cos(rad);
         // translation
-        model[3][0] = ro->position.x;
-        model[3][1] = ro->position.y;
-        model[3][2] = ro->position.z;
+        model[3][0] = go->position.x;
+        model[3][1] = go->position.y;
+        model[3][2] = go->position.z;
 
         shader.setModelMatrix(model);
 
-        glBindVertexArray(ro->VAO);
+        glBindVertexArray(go->VAO);
         glDrawArrays(GL_LINE_LOOP, 0, 4);
     }
 
     // swap buffers
     glfwSwapBuffers(window);
-}
-
-void Renderer::registerRO(GameObject* ro)
-{
-    renderObjects.push_back(ro);
 }
 
 void Renderer::framebuffer_size_callback(GLFWwindow* window, int width, int height)

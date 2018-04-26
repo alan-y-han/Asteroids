@@ -9,11 +9,9 @@
 #include "EventManager.h"
 
 
-class Particle
+class Particle : public GameObject
 {
 public:
-    GameObject ro;
-
     Particle
     (
         TickEventManager& tickEventManager,

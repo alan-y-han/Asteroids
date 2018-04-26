@@ -1,10 +1,9 @@
 #pragma once
 
-#include <vector>
-#include <array>
+#include <memory>
+#include <unordered_set>
 
 #include "EventManager.h"
-#include "Renderer.h"
 #include "GameObject.h"
 #include "Ship.h"
 #include "Particle.h"
@@ -14,16 +13,12 @@ class LevelManager
 {
 public:
     KeyEventManager keyEventManager;
+    std::unordered_set<std::unique_ptr<GameObject>> gameObjects;
     
-    LevelManager(Renderer& renderer);
+    LevelManager();
     void initialiseLevel();
     void tick();
 
-
-
 private:
-    Renderer& renderer;
     TickEventManager tickEventManager;
-    Ship ship;
-    Particle* particles[30000];
 };

@@ -32,7 +32,7 @@ int main(int argc, char const *argv[])
         return EXIT_FAILURE;
     }
 
-    LevelManager levelManager(renderer);
+    LevelManager levelManager;
     levelManager.initialiseLevel();
 
     double previous = glfwGetTime();
@@ -64,7 +64,7 @@ int main(int argc, char const *argv[])
         // render
         if (ticked)
         {
-            renderer.draw();
+            renderer.draw(levelManager.gameObjects);
         }
     }
 

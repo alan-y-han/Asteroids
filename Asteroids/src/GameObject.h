@@ -29,7 +29,7 @@ public:
         glm::vec3 color
     );
 private:
+    glm::vec3 color;
     unsigned int VBO;
     std::vector<float> vertices;
-    glm::vec3 color;
 };
