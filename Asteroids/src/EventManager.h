@@ -18,7 +18,7 @@ private:
     {
         size_t operator()(const std::function<void()>& func) const
         {
-            return reinterpret_cast<size_t>(&func);
+            return reinterpret_cast<size_t>(&func) / sizeof(func);
         }
     };
     struct FunctionComparator
