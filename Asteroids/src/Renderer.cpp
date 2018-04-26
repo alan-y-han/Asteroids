@@ -60,7 +60,6 @@ GLFWwindow* Renderer::initialise()
 
 void Renderer::draw()
 {
-    // render
     shader.use();
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -68,10 +67,19 @@ void Renderer::draw()
 
     for (RenderObject* ro : renderObjects)
     {
-        // pass model matrix to shader
+        // create model matrix and pass to shader
         glm::mat4 model;
-        model = glm::translate(model, ro->position);
-        model = glm::rotate(model, glm::radians(ro->angle), glm::vec3(0.0f, 0.0f, 1.0f));
+        // rotation
+        float rad = glm::radians(ro->angle);
+        model[0][0] = cos(rad);
+        model[1][0] = -sin(rad);
+        model[0][1] = sin(rad);
+        model[1][1] = cos(rad);
+        // translation
+        model[3][0] = ro->position.x;
+        model[3][1] = ro->position.y;
+        model[3][2] = ro->position.z;
+
         shader.setModelMatrix(model);
         
         glBindVertexArray(ro->VAO);

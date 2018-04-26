@@ -17,29 +17,32 @@ LevelManager::LevelManager(Renderer& renderer) :
 void LevelManager::initialiseLevel()
 {
     renderer.registerRO(&ship.ro);
+
+    int noParticles = 0;
+
+    while (noParticles < 10000)
+    {
+        particles[noParticles] = new Particle
+        (
+            tickEventManager,
+            glm::vec3(randFloat(0, 8), randFloat(0, 8), 0),
+            glm::vec3(randFloat(-0.008f, 0.008f), randFloat(-0.008f, 0.008f), 0),
+            randFloat(0, 360),
+            randFloat(-4, 4)
+        );
+
+        RenderObject* lastParticleRO = &(particles[noParticles]->ro);
+        renderer.registerRO(lastParticleRO);
+
+        noParticles++;
+        //std::cout << noParticles << std::endl;
+    }
 }
 
-int noParticles = 0;
 
 void LevelManager::tick()
 {
     tickEventManager.trigger();
 
-    if (noParticles < 10000)
-    {
-    particles[noParticles] = new Particle
-    (
-        tickEventManager,
-        glm::vec3(randFloat(0, 8), randFloat(0, 8), 0),
-        glm::vec3(randFloat(-0.008f, 0.008f), randFloat(-0.008f, 0.008f), 0),
-        randFloat(0, 360),
-        randFloat(-4, 4)
-    );
-
-    RenderObject* lastParticleRO = &(particles[noParticles]->ro);
-    renderer.registerRO(lastParticleRO);
     
-    noParticles++;
-    std::cout << noParticles << std::endl;
-    }
 }

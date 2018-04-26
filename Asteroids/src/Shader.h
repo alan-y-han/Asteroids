@@ -15,9 +15,7 @@ public:
     // the program ID
     unsigned int ID;
 
-    // default constructor, doesn't initialise the shader
-    Shader();
-    // constructor reads and builds the shader
+    Shader(); // call initialiseShader() before use
     Shader(std::string& vertexPath, std::string& fragmentPath);
     // initialise the shader (used with the default constructor)
     void initialiseShader(std::string& vertexPath, std::string& fragmentPath);
