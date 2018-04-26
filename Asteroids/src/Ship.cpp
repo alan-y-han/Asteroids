@@ -1,6 +1,6 @@
 #include "Ship.h"
 
-std::vector<float> ship =
+std::vector<float> shipVertices =
 {
     0.0f, 0.5f, 0.0f,
     -0.25f, -0.5f, 0.0f,
@@ -20,7 +20,7 @@ Ship::Ship
     float angle,
     float rVelocity
 ) :
-    ro(position, velocity, angle, rVelocity, ship, shipColor)
+    GameObject(position, velocity, angle, rVelocity, shipVertices, shipColor)
 {
     std::function<void()> tickFunc = std::bind(&Ship::tickFunction, this);
     tickEvent.subscribe(tickFunc);
@@ -31,9 +31,8 @@ Ship::Ship
 
 void Ship::tickFunction()
 {
-    ro.position += ro.velocity;
-    ro.angle += ro.rVelocity;
-    //std::cout << ro.velocity.x << ", " << ro.velocity.y << ", " << ro.velocity.z << std::endl;
+    position += velocity;
+    angle += rVelocity;
 }
 
 float speed = 0.001f;
@@ -43,18 +42,18 @@ void Ship::keyFunction(int keycode)
     switch (keycode)
     {
     case GLFW_KEY_W:
-        ro.velocity.x -= sin(glm::radians(ro.angle)) * speed;
-        ro.velocity.y += cos(glm::radians(ro.angle)) * speed;
+        velocity.x -= sin(glm::radians(angle)) * speed;
+        velocity.y += cos(glm::radians(angle)) * speed;
         break;
     case GLFW_KEY_S:
-        ro.velocity.x += sin(glm::radians(ro.angle)) * speed;
-        ro.velocity.y -= cos(glm::radians(ro.angle)) * speed;
+        velocity.x += sin(glm::radians(angle)) * speed;
+        velocity.y -= cos(glm::radians(angle)) * speed;
         break;
     case GLFW_KEY_A:
-        ro.angle += 4.0f;
+        angle += 4.0f;
         break;
     case GLFW_KEY_D:
-        ro.angle -= 4.0f;
+        angle -= 4.0f;
         break;
     default:
         break;

@@ -9,11 +9,9 @@
 #include "EventManager.h"
 
 
-class Ship
+class Ship : public GameObject
 {
 public:
-    GameObject ro;
-
     Ship
     (
         TickEventManager& tickEventManager,
