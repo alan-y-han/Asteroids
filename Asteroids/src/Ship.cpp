@@ -8,10 +8,11 @@ std::vector<float> ship =
     0.25f, -0.5f, 0.0f
 };
 
-glm::vec3 color(1.0f, 0.0f, 0.5f);
+glm::vec3 shipColor(1.0f, 0.0f, 0.5f);
 
 
-Ship::Ship(
+Ship::Ship
+(
     TickEventManager& tickEvent,
     KeyEventManager& keyEventManager,
     glm::vec3 position,
@@ -19,7 +20,7 @@ Ship::Ship(
     float angle,
     float rVelocity
 ) :
-    ro(position, velocity, angle, rVelocity, ship, color)
+    ro(position, velocity, angle, rVelocity, ship, shipColor)
 {
     std::function<void()> tickFunc = std::bind(&Ship::tickFunction, this);
     tickEvent.subscribe(tickFunc);
