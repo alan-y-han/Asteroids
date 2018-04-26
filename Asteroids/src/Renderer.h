@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-#include "RenderObject.h"
+#include "GameObject.h"
 #include "Shader.h"
 
 #include <functional>
@@ -22,7 +22,7 @@ public:
     Renderer(std::string windowName, int width, int height, std::string vertexPath, std::string fragmentPath);
     GLFWwindow* initialise();
     void draw();
-    void registerRO(RenderObject* ro);
+    void registerRO(GameObject* ro);
 
 private:
     static int SCR_WIDTH;
@@ -32,7 +32,7 @@ private:
     std::string name;
     std::string vertexPath;
     std::string fragmentPath;
-    std::vector<RenderObject*> renderObjects;
+    std::vector<GameObject*> renderObjects;
 
     GLFWwindow* window;
     glm::mat4 view;

@@ -5,7 +5,7 @@
 
 #include "EventManager.h"
 #include "Renderer.h"
-#include "RenderObject.h"
+#include "GameObject.h"
 #include "Ship.h"
 #include "Particle.h"
 
@@ -25,6 +25,5 @@ private:
     Renderer& renderer;
     TickEventManager tickEventManager;
     Ship ship;
-    //std::vector<Particle> particles;
-    Particle* particles[10000];
+    Particle* particles[30000];
 };

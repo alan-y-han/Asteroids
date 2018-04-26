@@ -65,7 +65,7 @@ void Renderer::draw()
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    for (RenderObject* ro : renderObjects)
+    for (GameObject* ro : renderObjects)
     {
         // create model matrix and pass to shader
         glm::mat4 model;
@@ -81,7 +81,7 @@ void Renderer::draw()
         model[3][2] = ro->position.z;
 
         shader.setModelMatrix(model);
-        
+
         glBindVertexArray(ro->VAO);
         glDrawArrays(GL_LINE_LOOP, 0, 4);
     }
@@ -90,7 +90,7 @@ void Renderer::draw()
     glfwSwapBuffers(window);
 }
 
-void Renderer::registerRO(RenderObject* ro)
+void Renderer::registerRO(GameObject* ro)
 {
     renderObjects.push_back(ro);
 }

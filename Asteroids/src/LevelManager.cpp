@@ -20,7 +20,7 @@ void LevelManager::initialiseLevel()
 
     int noParticles = 0;
 
-    while (noParticles < 10000)
+    while (noParticles < 7000)
     {
         particles[noParticles] = new Particle
         (
@@ -31,11 +31,10 @@ void LevelManager::initialiseLevel()
             randFloat(-4, 4)
         );
 
-        RenderObject* lastParticleRO = &(particles[noParticles]->ro);
+        GameObject* lastParticleRO = &(particles[noParticles]->ro);
         renderer.registerRO(lastParticleRO);
 
         noParticles++;
-        //std::cout << noParticles << std::endl;
     }
 }
 
@@ -43,6 +42,4 @@ void LevelManager::initialiseLevel()
 void LevelManager::tick()
 {
     tickEventManager.trigger();
-
-    
 }

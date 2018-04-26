@@ -5,14 +5,14 @@
 
 #include <vector>
 
-#include "RenderObject.h"
+#include "GameObject.h"
 #include "EventManager.h"
 
 
 class Ship
 {
 public:
-    RenderObject ro;
+    GameObject ro;
 
     Ship
     (

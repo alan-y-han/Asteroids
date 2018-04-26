@@ -1,6 +1,6 @@
-#include "RenderObject.h"
+#include "GameObject.h"
 
-RenderObject::RenderObject(
+GameObject::GameObject(
     glm::vec3 position,
     glm::vec3 velocity,
     float angle,
@@ -19,7 +19,7 @@ RenderObject::RenderObject(
 
     if (vertices.size() % 3 != 0)
     {
-        std::cerr << "Warning: non-integer number of 3D vertices passed to RenderObject" << std::endl;
+        std::cerr << "Warning: non-integer number of 3D vertices passed to GameObject" << std::endl;
     }
 
     int vertexDataSize = vertices.size() * 2;

@@ -30,7 +30,6 @@ private:
         }
     };
 
-
     std::unordered_set <std::function<void()>, FunctionHasher, FunctionComparator> subscribers;
 };
 

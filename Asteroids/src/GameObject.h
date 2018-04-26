@@ -10,7 +10,7 @@
 #include <vector>
 
 
-class RenderObject
+class GameObject
 {
 public:
     unsigned int VAO;
@@ -19,7 +19,7 @@ public:
     float angle;
     float rVelocity;
 
-    RenderObject
+    GameObject
     (
         glm::vec3 position,
         glm::vec3 velocity,
