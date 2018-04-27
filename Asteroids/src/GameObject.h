@@ -34,6 +34,7 @@ public:
         std::vector<float> vertices,
         glm::vec3 color
     );
+    ~GameObject();
 private:
     glm::vec3 color;
     std::vector<float> vertices;

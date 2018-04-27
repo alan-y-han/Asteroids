@@ -19,19 +19,27 @@ Particle::Particle
     float angle,
     float rVelocity
 ) :
-    GameObject(tickEventManager, position, velocity, angle, rVelocity, particleVertices, particleColor)
+    GameObject(tickEventManager, position, velocity, angle, rVelocity, particleVertices, particleColor),
+    tickFunc(std::bind(&Particle::tickFunction, this))
 {
-    std::function<void()> tickFunc = std::bind(&Particle::tickFunction, this);
-    this->tickEventManager.subscribe(tickFunc);
+    this->tickEventManager.subscribe(&tickFunc);
 }
 
 Particle::~Particle()
 {
-    //tickEventManager.unsubscribe()
+    tickEventManager.unsubscribe(&tickFunc);
 }
+
+int life = 0;
 
 void Particle::tickFunction()
 {
+    life++;
+    if (life > 120)
+    {
+        //tickEventManager.unsubscribe(&tickFunc);
+    }
+
     position += velocity;
     angle += rVelocity;
 

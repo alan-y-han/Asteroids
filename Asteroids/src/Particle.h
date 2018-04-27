@@ -25,4 +25,5 @@ public:
 
 private:
     void tickFunction();
+    std::function<void()> tickFunc;
 };

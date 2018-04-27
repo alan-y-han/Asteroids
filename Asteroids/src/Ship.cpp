@@ -23,13 +23,12 @@ Ship::Ship
     std::function<void(GameObject* gameObject)> addGOFunc
 ) :
     GameObject(tickEventManager, position, velocity, angle, rVelocity, shipVertices, shipColor),
+    tickFunc(std::bind(&Ship::tickFunction, this)),
+    keyFunc(std::bind(&Ship::keyFunction, this, std::placeholders::_1)),
     addGOFunc(addGOFunc)
 {
-    std::function<void()> tickFunc = std::bind(&Ship::tickFunction, this);
-    this->tickEventManager.subscribe(tickFunc);
-
-    std::function<void(int)> keyFunc = std::bind(&Ship::keyFunction, this, std::placeholders::_1);
-    keyEventManager.subscribe(keyFunc);
+    this->tickEventManager.subscribe(&tickFunc);
+    keyEventManager.subscribe(&keyFunc);
 }
 
 void Ship::tickFunction()
@@ -80,16 +79,17 @@ void Ship::keyFunction(int keycode)
         velocity.x -= sin(glm::radians(angle)) * speed;
         velocity.y += cos(glm::radians(angle)) * speed;
         generateEngineParticle();
+        generateEngineParticle();
         break;
     case GLFW_KEY_S:
         velocity.x += sin(glm::radians(angle)) * speed;
         velocity.y -= cos(glm::radians(angle)) * speed;
         break;
     case GLFW_KEY_A:
-        angle += 4.0f;
+        angle += 3.0f;
         break;
     case GLFW_KEY_D:
-        angle -= 4.0f;
+        angle -= 3.0f;
         break;
     default:
         break;
