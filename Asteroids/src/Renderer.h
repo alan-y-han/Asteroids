@@ -13,6 +13,7 @@
 #include <unordered_set>
 
 #include "GameObject.h"
+#include "Config.h"
 #include "Shader.h"
 
 #include <functional>
@@ -21,14 +22,11 @@
 class Renderer
 {
 public:
-    Renderer(std::string windowName, int width, int height, std::string vertexPath, std::string fragmentPath);
+    Renderer(std::string windowName, std::string vertexPath, std::string fragmentPath);
     GLFWwindow* initialise();
     void draw(std::unordered_set<std::unique_ptr<GameObject>>& gameObjects);
 
 private:
-    static int SCR_WIDTH;
-    static int SCR_HEIGHT;
-
     // constructor arguments
     std::string name;
     std::string vertexPath;

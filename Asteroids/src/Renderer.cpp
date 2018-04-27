@@ -1,16 +1,11 @@
 #include "Renderer.h"
 
 
-int Renderer::SCR_WIDTH;
-int Renderer::SCR_HEIGHT;
-
-Renderer::Renderer(std::string windowName, int width, int height, std::string vertexPath, std::string fragmentPath) :
+Renderer::Renderer(std::string windowName, std::string vertexPath, std::string fragmentPath) :
     name(windowName),
     vertexPath(vertexPath),
     fragmentPath(fragmentPath)
 {
-    SCR_WIDTH = width;
-    SCR_HEIGHT = height;
 }
 
 GLFWwindow* Renderer::initialise()
@@ -22,7 +17,7 @@ GLFWwindow* Renderer::initialise()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-    window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, name.c_str(), NULL, NULL);
+    window = glfwCreateWindow(config::SCR_WIDTH, config::SCR_HEIGHT, name.c_str(), NULL, NULL);
     if (window == NULL)
     {
         std::cerr << "Failed to create GLFW window" << std::endl;
@@ -47,7 +42,7 @@ GLFWwindow* Renderer::initialise()
     // Initialise camera
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, -32.0f));
 
-    projection = glm::ortho(0.0f, 8.0f, 0.0f, 6.0f, 0.1f, 100.0f);
+    projection = glm::ortho(0.0f, config::SCR_WIDTH, 0.0f, config::SCR_HEIGHT, 0.1f, 100.0f);
 
     // Initialise shader
     shader.initialiseShader(vertexPath, fragmentPath);
@@ -92,7 +87,5 @@ void Renderer::draw(std::unordered_set<std::unique_ptr<GameObject>>& gameObjects
 
 void Renderer::framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    SCR_WIDTH = width;
-    SCR_HEIGHT = height;
     glViewport(0, 0, width, height);
 }

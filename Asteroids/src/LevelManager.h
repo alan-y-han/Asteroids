@@ -4,6 +4,7 @@
 #include <memory>
 #include <unordered_set>
 
+#include "Config.h"
 #include "EventManager.h"
 #include "GameObject.h"
 #include "Ship.h"

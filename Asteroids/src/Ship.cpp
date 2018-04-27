@@ -1,11 +1,12 @@
 #include "Ship.h"
 
+
 std::vector<float> shipVertices =
 {
-    0.0f, 0.5f, 0.0f,
-    -0.25f, -0.5f, 0.0f,
-    0.0f, -0.25f, 0.0f,
-    0.25f, -0.5f, 0.0f
+    0.0f, 40.0f, 0.0f,
+    -25.0f, -40.0f, 0.0f,
+    0.0f, -25.0f, 0.0f,
+    25.0f, -40.0f, 0.0f
 };
 
 glm::vec3 shipColor(1.0f, 0.0f, 0.5f);
@@ -36,27 +37,28 @@ void Ship::tickFunction()
 {
     position += velocity;
     angle += rVelocity;
-    if (position.x > 8.0f)
+
+    if (position.x > config::SCR_WIDTH)
     {
-        position.x -= 8.0f;
+        position.x -= config::SCR_WIDTH;
     }
-    else if (position.x < 0.0f)
+    else if (position.x < 0)
     {
-        position.x += 8.0f;
+        position.x += config::SCR_WIDTH;
     }
-    if (position.y > 6.0f)
+    if (position.y > config::SCR_HEIGHT)
     {
-        position.y -= 6.0f;
+        position.y -= config::SCR_HEIGHT;
     }
-    else if (position.y < 0.0f)
+    else if (position.y < 0)
     {
-        position.y += 6.0f;
+        position.y += config::SCR_HEIGHT;
     }
 }
 
 
 // TODO: clean up
-float speed = 0.001f;
+float speed = 0.1f;
 
 float shipRandFloat(float min, float max)
 {
@@ -64,11 +66,23 @@ float shipRandFloat(float min, float max)
     return min + (((float)rand() / RAND_MAX) * range);
 }
 
+glm::vec3 rotate2D(float x, float y, float angle)
+{
+    float dx = cos(glm::radians(angle)) * x - sin(glm::radians(angle)) * y;
+    float dy = sin(glm::radians(angle)) * x + cos(glm::radians(angle)) * y;
+    return glm::vec3(dx, dy, 0.0f);
+}
+
 void Ship::keyFunction(int keycode)
 {
-    float dx = cos(glm::radians(angle)) * 0.0f - sin(glm::radians(angle)) * (-0.3f);
-    float dy = sin(glm::radians(angle)) * 0.0f + cos(glm::radians(angle)) * (-0.3f);
+    glm::vec3 particlePos = rotate2D(0 + shipRandFloat(-5, 5), -30, angle);
 
+    float dvx_abs = 1.0f;
+    float dvy_abs = 2.0f;
+    float dvx = shipRandFloat(-dvx_abs, dvx_abs);
+    float dvy = shipRandFloat(-dvy_abs, dvy_abs) - 5.0f;
+
+    glm::vec3 particleVelRand = rotate2D(dvx, dvy, angle);
 
     switch (keycode)
     {
@@ -81,8 +95,8 @@ void Ship::keyFunction(int keycode)
         addGOFunc(new Particle
         (
             tickEventManager,
-            glm::vec3(position.x + dx, position.y + dy, 0.0f),
-            glm::vec3(sin(glm::radians(angle)) * 0.05f + shipRandFloat(-0.005f, 0.005f), -cos(glm::radians(angle)) * 0.05f + shipRandFloat(-0.005f, 0.005f), 0.0f) + velocity,
+            position + particlePos,
+            velocity + particleVelRand,
             shipRandFloat(0, 360),
             shipRandFloat(-4, 4)
         ));

@@ -2,10 +2,10 @@
 
 std::vector<float> particleVertices =
 {
-    0.05f, 0.05f, 0.0f,
-    -0.05f, 0.05f, 0.0f,
-    -0.05f, -0.05f, 0.0f,
-    0.05f, -0.05f, 0.0f
+    3.0f, 3.0f, 0.0f,
+    -3.0f, 3.0f, 0.0f,
+    -3.0f, -3.0f, 0.0f,
+    3.0f, -3.0f, 0.0f
 };
 
 glm::vec3 particleColor(1.0f, 0.5f, 0.0f);
@@ -35,20 +35,20 @@ void Particle::tickFunction()
     position += velocity;
     angle += rVelocity;
 
-    if (position.x > 8.0f)
+    if (position.x > config::SCR_WIDTH)
     {
-        position.x -= 8.0f;
+        position.x -= config::SCR_WIDTH;
     }
-    else if (position.x < 0.0f)
+    else if (position.x < 0)
     {
-        position.x += 8.0f;
+        position.x += config::SCR_WIDTH;
     }
-    if (position.y > 6.0f)
+    if (position.y > config::SCR_HEIGHT)
     {
-        position.y -= 6.0f;
+        position.y -= config::SCR_HEIGHT;
     }
-    else if (position.y < 0.0f)
+    else if (position.y < 0)
     {
-        position.y += 6.0f;
+        position.y += config::SCR_HEIGHT;
     }
 }

@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Config.cpp" />
     <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\Ship.cpp" />
     <ClCompile Include="src\EventManager.cpp" />
@@ -166,12 +167,11 @@
     <ClCompile Include="src\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\GlobalSettings.h" />
+    <ClInclude Include="src\Config.h" />
     <ClInclude Include="src\Particle.h" />
     <ClInclude Include="src\Ship.h" />
     <ClInclude Include="src\EventManager.h" />
     <ClInclude Include="src\LevelManager.h" />
-    <ClInclude Include="src\Models.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\Shader.h" />

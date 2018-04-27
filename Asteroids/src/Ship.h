@@ -6,6 +6,7 @@
 #include <functional>
 #include <vector>
 
+#include "Config.h"
 #include "GameObject.h"
 #include "EventManager.h"
 #include "Particle.h"

@@ -14,8 +14,6 @@
 
 // settings
 const double SPF(1.0 / 60.0); // seconds per frame
-unsigned int SCR_WIDTH(800);
-unsigned int SCR_HEIGHT(600);
 
 // Function prototypes
 void processInput(GLFWwindow* window, KeyEventManager keyEventManager);
@@ -23,7 +21,7 @@ void processInput(GLFWwindow* window, KeyEventManager keyEventManager);
 
 int main(int argc, char const *argv[])
 {
-    Renderer renderer("Asteroids", 800, 600, "src/vs.glsl", "src/fs.glsl");
+    Renderer renderer("Asteroids", "src/vs.glsl", "src/fs.glsl");
 
     GLFWwindow* window = renderer.initialise();
     if (!window)

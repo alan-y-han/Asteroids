@@ -1,15 +1,5 @@
 #include "LevelManager.h"
 
-#include "Models.h"
-
-
-// TODO: clean up
-
-float randFloat(float min, float max)
-{
-    float range = max - min;
-    return min + (((float)rand() / RAND_MAX) * range);
-}
 
 LevelManager::LevelManager()
 {
@@ -22,7 +12,7 @@ void LevelManager::initialiseLevel()
     addGameObject(new Ship(
         tickEventManager,
         keyEventManager,
-        glm::vec3(4.0f, 3.0f, 1.0f),
+        glm::vec3(config::SCR_WIDTH / 2, config::SCR_HEIGHT / 2, 1.0f),
         glm::vec3(0.0f, 0.0f, 0.0f),
         0.0f,
         0.0f,
