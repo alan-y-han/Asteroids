@@ -34,4 +34,21 @@ void Particle::tickFunction()
 {
     position += velocity;
     angle += rVelocity;
+
+    if (position.x > 8.0f)
+    {
+        position.x -= 8.0f;
+    }
+    else if (position.x < 0.0f)
+    {
+        position.x += 8.0f;
+    }
+    if (position.y > 6.0f)
+    {
+        position.y -= 6.0f;
+    }
+    else if (position.y < 0.0f)
+    {
+        position.y += 6.0f;
+    }
 }

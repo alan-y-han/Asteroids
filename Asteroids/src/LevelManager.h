@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <memory>
 #include <unordered_set>
 
@@ -21,4 +22,6 @@ public:
 
 private:
     TickEventManager tickEventManager;
+
+    void addGameObject(GameObject* gameObject);
 };

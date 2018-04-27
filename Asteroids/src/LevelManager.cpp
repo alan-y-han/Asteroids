@@ -2,6 +2,9 @@
 
 #include "Models.h"
 
+
+// TODO: clean up
+
 float randFloat(float min, float max)
 {
     float range = max - min;
@@ -14,34 +17,26 @@ LevelManager::LevelManager()
 
 void LevelManager::initialiseLevel()
 {
-    gameObjects.emplace(new Ship(
+    std::function<void(GameObject* gameObject)> addGOFunc = std::bind(&LevelManager::addGameObject, this, std::placeholders::_1);
+
+    addGameObject(new Ship(
         tickEventManager,
         keyEventManager,
         glm::vec3(4.0f, 3.0f, 1.0f),
         glm::vec3(0.0f, 0.0f, 0.0f),
         0.0f,
-        0.0f
+        0.0f,
+        addGOFunc
     ));
-
-    int noParticles = 0;
-
-    while (noParticles < 7000)
-    {
-        gameObjects.emplace(new Particle
-        (
-            tickEventManager,
-            glm::vec3(randFloat(0, 8), randFloat(0, 8), 0),
-            glm::vec3(randFloat(-0.008f, 0.008f), randFloat(-0.008f, 0.008f), 0),
-            randFloat(0, 360),
-            randFloat(-4, 4)
-        ));
-
-        noParticles++;
-    }
 }
 
 
 void LevelManager::tick()
 {
     tickEventManager.trigger();
+}
+
+void LevelManager::addGameObject(GameObject* gameObject)
+{
+    gameObjects.emplace(gameObject);
 }

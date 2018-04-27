@@ -166,6 +166,7 @@
     <ClCompile Include="src\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GlobalSettings.h" />
     <ClInclude Include="src\Particle.h" />
     <ClInclude Include="src\Ship.h" />
     <ClInclude Include="src\EventManager.h" />
