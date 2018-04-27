@@ -24,7 +24,7 @@ class Renderer
 public:
     Renderer(std::string windowName, std::string vertexPath, std::string fragmentPath);
     GLFWwindow* initialise();
-    void draw(std::unordered_set<std::unique_ptr<GameObject>>& gameObjects);
+    void draw(std::unordered_set<GameObject*>& gameObjects);
 
 private:
     // constructor arguments

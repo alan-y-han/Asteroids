@@ -20,9 +20,10 @@ Ship::Ship
     glm::vec3 velocity,
     float angle,
     float rVelocity,
-    std::function<void(GameObject* gameObject)> addGOFunc
+    std::function<void(GameObject* gameObject)>& addGOFunc,
+    std::function<void(GameObject* gameObject)>& removeGOFunc
 ) :
-    GameObject(tickEventManager, position, velocity, angle, rVelocity, shipVertices, shipColor),
+    GameObject(tickEventManager, removeGOFunc, position, velocity, angle, rVelocity, shipVertices, shipColor),
     tickFunc(std::bind(&Ship::tickFunction, this)),
     keyFunc(std::bind(&Ship::keyFunction, this, std::placeholders::_1)),
     addGOFunc(addGOFunc)
@@ -79,7 +80,7 @@ void Ship::keyFunction(int keycode)
         velocity.x -= sin(glm::radians(angle)) * speed;
         velocity.y += cos(glm::radians(angle)) * speed;
         generateEngineParticle();
-        generateEngineParticle();
+        //generateEngineParticle();
         break;
     case GLFW_KEY_S:
         velocity.x += sin(glm::radians(angle)) * speed;
@@ -110,6 +111,7 @@ void Ship::generateEngineParticle()
     addGOFunc(new Particle
     (
         tickEventManager,
+        removeGOFunc,
         position + particlePos,
         velocity + particleVelRand,
         shipRandFloat(0, 360),

@@ -3,6 +3,7 @@
 #include <glad\glad.h>
 #include <GLFW\glfw3.h>
 
+#include <functional>
 #include <vector>
 
 #include "Config.h"
@@ -16,6 +17,7 @@ public:
     Particle
     (
         TickEventManager& tickEventManager,
+        std::function<void(GameObject* gameObject)>& removeGOFunc,
         glm::vec3 position,
         glm::vec3 velocity,
         float angle,
@@ -26,4 +28,5 @@ public:
 private:
     void tickFunction();
     std::function<void()> tickFunc;
+    int lifetime;
 };

@@ -15,7 +15,7 @@ class LevelManager
 {
 public:
     KeyEventManager keyEventManager;
-    std::unordered_set<std::unique_ptr<GameObject>> gameObjects;
+    std::unordered_set<GameObject*> gameObjects;
     
     LevelManager();
     void initialiseLevel();
@@ -23,6 +23,10 @@ public:
 
 private:
     TickEventManager tickEventManager;
+    std::function<void(GameObject* gameObject)> addGOFunc;
+    std::function<void(GameObject* gameObject)> removeGOFunc;
+    std::vector<GameObject*> removalList;
 
     void addGameObject(GameObject* gameObject);
+    void removeGameObject(GameObject* gameObject);
 };

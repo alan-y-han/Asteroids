@@ -1,14 +1,14 @@
 #include "LevelManager.h"
 
 
-LevelManager::LevelManager()
+LevelManager::LevelManager() :
+    addGOFunc(std::bind(&LevelManager::addGameObject, this, std::placeholders::_1)),
+    removeGOFunc(std::bind(&LevelManager::removeGameObject, this, std::placeholders::_1))
 {
 }
 
 void LevelManager::initialiseLevel()
 {
-    std::function<void(GameObject* gameObject)> addGOFunc = std::bind(&LevelManager::addGameObject, this, std::placeholders::_1);
-
     addGameObject(new Ship(
         tickEventManager,
         keyEventManager,
@@ -16,7 +16,8 @@ void LevelManager::initialiseLevel()
         glm::vec3(0.0f, 0.0f, 0.0f),
         0.0f,
         0.0f,
-        addGOFunc
+        addGOFunc,
+        removeGOFunc
     ));
 }
 
@@ -24,9 +25,24 @@ void LevelManager::initialiseLevel()
 void LevelManager::tick()
 {
     tickEventManager.trigger();
+
+    if (removalList.size())
+    {
+        for (GameObject* go : removalList)
+        {
+            gameObjects.erase(go);
+            delete go;
+        }
+        removalList.clear();
+    }
 }
 
 void LevelManager::addGameObject(GameObject* gameObject)
 {
-    gameObjects.emplace(gameObject);
+    gameObjects.insert(gameObject);
+}
+
+void LevelManager::removeGameObject(GameObject * gameObject)
+{
+    removalList.push_back(gameObject);
 }

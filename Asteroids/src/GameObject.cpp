@@ -2,6 +2,7 @@
 
 GameObject::GameObject(
     TickEventManager& tickEventManager,
+    std::function<void(GameObject* gameObject)>& removeGOFunc,
     glm::vec3 position,
     glm::vec3 velocity,
     float angle,
@@ -10,6 +11,7 @@ GameObject::GameObject(
     glm::vec3 color
 ) :
     tickEventManager(tickEventManager),
+    removeGOFunc(removeGOFunc),
     position(position),
     velocity(velocity),
     angle(angle),

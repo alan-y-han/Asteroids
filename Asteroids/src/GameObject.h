@@ -16,17 +16,18 @@ class GameObject
 {
 public:
     TickEventManager& tickEventManager;
+    std::function<void(GameObject* gameObject)>& removeGOFunc;
     glm::vec3 position;
     glm::vec3 velocity;
     float angle;
     float rVelocity;
-
     // OpenGL rendering
     unsigned int VAO;
 
     GameObject
     (
         TickEventManager& tickEventManager,
+        std::function<void(GameObject* gameObject)>& removeGOFunc,
         glm::vec3 position,
         glm::vec3 velocity,
         float angle,
@@ -34,11 +35,11 @@ public:
         std::vector<float> vertices,
         glm::vec3 color
     );
-    ~GameObject();
+    virtual ~GameObject();
+
 private:
     glm::vec3 color;
     std::vector<float> vertices;
-
     // OpenGL rendering
     unsigned int VBO;
 };

@@ -14,7 +14,7 @@ public:
     void unsubscribe(std::function<void()>* func);
 
 private:
-    std::unordered_set <std::function<void()>*> subscribers;
+    std::unordered_set<std::function<void()>*> subscribers;
 };
 
 class KeyEventManager
