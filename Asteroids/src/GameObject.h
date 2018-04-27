@@ -9,18 +9,24 @@
 #include <iostream>
 #include <vector>
 
+#include "EventManager.h"
+
 
 class GameObject
 {
 public:
-    unsigned int VAO;
+    TickEventManager& tickEventManager;
     glm::vec3 position;
     glm::vec3 velocity;
     float angle;
     float rVelocity;
 
+    // OpenGL rendering
+    unsigned int VAO;
+
     GameObject
     (
+        TickEventManager& tickEventManager,
         glm::vec3 position,
         glm::vec3 velocity,
         float angle,
@@ -30,6 +36,8 @@ public:
     );
 private:
     glm::vec3 color;
-    unsigned int VBO;
     std::vector<float> vertices;
+
+    // OpenGL rendering
+    unsigned int VBO;
 };

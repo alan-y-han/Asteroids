@@ -1,6 +1,7 @@
 #include "GameObject.h"
 
 GameObject::GameObject(
+    TickEventManager& tickEventManager,
     glm::vec3 position,
     glm::vec3 velocity,
     float angle,
@@ -8,6 +9,7 @@ GameObject::GameObject(
     std::vector<float> vertices,
     glm::vec3 color
 ) :
+    tickEventManager(tickEventManager),
     position(position),
     velocity(velocity),
     angle(angle),

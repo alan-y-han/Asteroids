@@ -13,16 +13,16 @@ glm::vec3 particleColor(1.0f, 0.5f, 0.0f);
 
 Particle::Particle
 (
-    TickEventManager& tickEvent,
+    TickEventManager& tickEventManager,
     glm::vec3 position,
     glm::vec3 velocity,
     float angle,
     float rVelocity
 ) :
-    GameObject(position, velocity, angle, rVelocity, particleVertices, particleColor)
+    GameObject(tickEventManager, position, velocity, angle, rVelocity, particleVertices, particleColor)
 {
     std::function<void()> tickFunc = std::bind(&Particle::tickFunction, this);
-    tickEvent.subscribe(tickFunc);
+    this->tickEventManager.subscribe(tickFunc);
 }
 
 Particle::~Particle()

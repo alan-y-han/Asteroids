@@ -27,8 +27,9 @@ public:
     );
 
 private:
-    TickEventManager& tickEventManager;
     void tickFunction();
     void keyFunction(int keycode);
     std::function<void(GameObject* gameObject)> addGOFunc;
+
+    void generateEngineParticle();
 };

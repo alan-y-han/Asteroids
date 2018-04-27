@@ -22,12 +22,11 @@ Ship::Ship
     float rVelocity,
     std::function<void(GameObject* gameObject)> addGOFunc
 ) :
-    tickEventManager(tickEventManager),
-    GameObject(position, velocity, angle, rVelocity, shipVertices, shipColor),
+    GameObject(tickEventManager, position, velocity, angle, rVelocity, shipVertices, shipColor),
     addGOFunc(addGOFunc)
 {
     std::function<void()> tickFunc = std::bind(&Ship::tickFunction, this);
-    tickEventManager.subscribe(tickFunc);
+    this->tickEventManager.subscribe(tickFunc);
 
     std::function<void(int)> keyFunc = std::bind(&Ship::keyFunction, this, std::placeholders::_1);
     keyEventManager.subscribe(keyFunc);
@@ -75,31 +74,12 @@ glm::vec3 rotate2D(float x, float y, float angle)
 
 void Ship::keyFunction(int keycode)
 {
-    glm::vec3 particlePos = rotate2D(0 + shipRandFloat(-5, 5), -30, angle);
-
-    float dvx_abs = 1.0f;
-    float dvy_abs = 2.0f;
-    float dvx = shipRandFloat(-dvx_abs, dvx_abs);
-    float dvy = shipRandFloat(-dvy_abs, dvy_abs) - 5.0f;
-
-    glm::vec3 particleVelRand = rotate2D(dvx, dvy, angle);
-
     switch (keycode)
     {
     case GLFW_KEY_W:
         velocity.x -= sin(glm::radians(angle)) * speed;
         velocity.y += cos(glm::radians(angle)) * speed;
-
-        
-
-        addGOFunc(new Particle
-        (
-            tickEventManager,
-            position + particlePos,
-            velocity + particleVelRand,
-            shipRandFloat(0, 360),
-            shipRandFloat(-4, 4)
-        ));
+        generateEngineParticle();
         break;
     case GLFW_KEY_S:
         velocity.x += sin(glm::radians(angle)) * speed;
@@ -114,4 +94,25 @@ void Ship::keyFunction(int keycode)
     default:
         break;
     }
+}
+
+void Ship::generateEngineParticle()
+{
+    glm::vec3 particlePos = rotate2D(0 + shipRandFloat(-5, 5), -30, angle);
+
+    float dvx_abs = 1.0f;
+    float dvy_abs = 2.0f;
+    float dvx = shipRandFloat(-dvx_abs, dvx_abs);
+    float dvy = shipRandFloat(-dvy_abs, dvy_abs) - 5.0f;
+
+    glm::vec3 particleVelRand = rotate2D(dvx, dvy, angle);
+    
+    addGOFunc(new Particle
+    (
+        tickEventManager,
+        position + particlePos,
+        velocity + particleVelRand,
+        shipRandFloat(0, 360),
+        shipRandFloat(-4, 4)
+    ));
 }
