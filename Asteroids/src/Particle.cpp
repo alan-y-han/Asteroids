@@ -1,12 +1,12 @@
 #include "Particle.h"
 
 // TODO: clean up
-std::vector<float> particleVertices =
+std::vector<glm::vec3> particleVertices =
 {
-    3.0f, 3.0f, 0.0f,
-    -3.0f, 3.0f, 0.0f,
-    -3.0f, -3.0f, 0.0f,
-    3.0f, -3.0f, 0.0f
+    glm::vec3(3.0f, 3.0f, 0.0f),
+    glm::vec3(-3.0f, 3.0f, 0.0f),
+    glm::vec3(-3.0f, -3.0f, 0.0f),
+    glm::vec3(3.0f, -3.0f, 0.0f)
 };
 
 glm::vec3 particleColor(1.0f, 0.5f, 0.0f);

@@ -33,14 +33,14 @@ public:
         glm::vec3 velocity,
         float angle,
         float rVelocity,
-        std::vector<float> vertices,
+        std::vector<glm::vec3> vertices,
         glm::vec3 color
     );
     virtual ~GameObject();
 
 private:
     glm::vec3 color;
-    std::vector<float> vertices;
+    std::vector<glm::vec3> vertices;
     // OpenGL rendering
     unsigned int VBO;
 };

@@ -7,7 +7,7 @@ GameObject::GameObject(
     glm::vec3 velocity,
     float angle,
     float rVelocity,
-    std::vector<float> vertices,
+    std::vector<glm::vec3> vertices,
     glm::vec3 color
 ) :
     tickEventManager(tickEventManager),
@@ -22,27 +22,22 @@ GameObject::GameObject(
 {
     // assemble vertex buffer array from vertexData and color
 
-    if (vertices.size() % 3 != 0)
-    {
-        std::cerr << "Warning: non-integer number of 3D vertices passed to GameObject" << std::endl;
-    }
-
-    int vertexDataSize = vertices.size() * 2;
+    int vertexDataSize = vertices.size() * 3 * 2; // 6 floats per vertex
 
     float* vertexData = (float*)malloc(vertexDataSize * sizeof(float)); // X, Y, Z, R, G, B
     if (vertexData == NULL)
     {
-        std::cerr << "malloc failed" << std::endl;
+        std::cerr << "malloc failed in GameObject" << std::endl;
     }
 
-    for (int i = 0; i < vertices.size(); i += 3)
+    for (int i = 0; i < vertices.size(); i++)
     {
-        vertexData[0 + (i * 2)] = vertices[0 + i];
-        vertexData[1 + (i * 2)] = vertices[1 + i];
-        vertexData[2 + (i * 2)] = vertices[2 + i];
-        vertexData[3 + (i * 2)] = color.r;
-        vertexData[4 + (i * 2)] = color.g;
-        vertexData[5 + (i * 2)] = color.b;
+        vertexData[(i * 6) + 0] = vertices[i].x;
+        vertexData[(i * 6) + 1] = vertices[i].y;
+        vertexData[(i * 6) + 2] = vertices[i].z;
+        vertexData[(i * 6) + 3] = color.r;
+        vertexData[(i * 6) + 4] = color.g;
+        vertexData[(i * 6) + 5] = color.b;
     }
 
     glGenVertexArrays(1, &VAO);

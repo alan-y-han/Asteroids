@@ -3,12 +3,12 @@
 // TODO: clean up
 float speed = 0.1f;
 
-std::vector<float> shipVertices =
+std::vector<glm::vec3> shipVertices =
 {
-    0.0f, 50.0f, 0.0f,
-    -25.0f, -30.0f, 0.0f,
-    0.0f, -15.0f, 0.0f,
-    25.0f, -30.0f, 0.0f
+    glm::vec3(0.0f, 50.0f, 0.0f),
+    glm::vec3(-25.0f, -30.0f, 0.0f),
+    glm::vec3(0.0f, -15.0f, 0.0f),
+    glm::vec3(25.0f, -30.0f, 0.0f)
 };
 
 glm::vec3 shipColor(1.0f, 0.0f, 0.5f);
