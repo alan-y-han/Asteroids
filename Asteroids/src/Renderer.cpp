@@ -80,13 +80,13 @@ void Renderer::draw(std::unordered_set<GameObject*>& gameObjects)
 
         shader.setAlpha(go->alpha);
 
-        for (int x = -1; x < 2; x++)
+        for (int x = -1; x <= 1; x++)
         {
-            for (int y = -1; y < 2; y++)
+            for (int y = -1; y <= 1; y++)
             {
                 // translation
-                model[3][0] = go->position.x + x * config::SCR_WIDTH;
-                model[3][1] = go->position.y + y * config::SCR_HEIGHT;
+                model[3][0] = go->position.x + (x * config::SCR_WIDTH);
+                model[3][1] = go->position.y + (y * config::SCR_HEIGHT);
                 model[3][2] = go->position.z;
                 shader.setModelMatrix(model);
                 glDrawArrays(GL_LINE_LOOP, 0, 4);
