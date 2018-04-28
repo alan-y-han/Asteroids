@@ -41,11 +41,22 @@ Ship::Ship
     std::function<void(GameObject* gameObject)>& removeGOFunc
 ) :
     GameObject(tickEventManager, removeGOFunc, position, velocity, angle, rVelocity, shipVertices, shipColor),
+    keyEventManager(keyEventManager),
     tickFunc(std::bind(&Ship::tickFunction, this)),
     keyFunc(std::bind(&Ship::keyFunction, this, std::placeholders::_1)),
     addGOFunc(addGOFunc)
 {
-    this->tickEventManager.subscribe(&tickFunc);
+}
+
+Ship::~Ship()
+{
+    tickEventManager.unsubscribe(&tickFunc);
+    keyEventManager.unsubscribe(&keyFunc);
+}
+
+void Ship::initialise()
+{
+    tickEventManager.subscribe(&tickFunc);
     keyEventManager.subscribe(&keyFunc);
 }
 

@@ -18,7 +18,7 @@ public:
     Ship
     (
         TickEventManager& tickEventManager,
-        EventManager<GLFWwindow*> & keyEventManager,
+        EventManager<GLFWwindow*>& keyEventManager,
         glm::vec3 position,
         glm::vec3 velocity,
         float angle,
@@ -26,12 +26,15 @@ public:
         std::function<void(GameObject* gameObject)>& addGOFunc,
         std::function<void(GameObject* gameObject)>& removeGOFunc
     );
+    ~Ship();
 
 private:
+    EventManager<GLFWwindow*>& keyEventManager;
+    std::function<void(GameObject* gameObject)>& addGOFunc;
     std::function<void()> tickFunc;
     std::function<void(GLFWwindow*)> keyFunc;
-    std::function<void(GameObject* gameObject)>& addGOFunc;
 
+    virtual void initialise();
     void tickFunction();
     void keyFunction(GLFWwindow* window);
 

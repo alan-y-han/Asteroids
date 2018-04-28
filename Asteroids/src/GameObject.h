@@ -37,6 +37,7 @@ public:
         glm::vec3 color
     );
     virtual ~GameObject();
+    virtual void initialise(); // default does nothing by default, override in derived class
 
 private:
     glm::vec3 color;

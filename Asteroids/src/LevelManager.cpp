@@ -35,25 +35,38 @@ void LevelManager::processInput(GLFWwindow* window)
 
 void LevelManager::tick()
 {
+    // add new GameObjects to gameObjects set, and initialise them
+    if (GOsToAdd.size())
+    {
+        for (GameObject* go : GOsToAdd)
+        {
+            gameObjects.insert(go);
+            go->initialise();
+        }
+        GOsToAdd.clear();
+    }
+
+    // tell each GameObject to update its state
     tickEventManager.trigger();
 
-    if (removalList.size())
+    // delete GameObjects which have added themselves to the removal list
+    if (GOsToRemove.size())
     {
-        for (GameObject* go : removalList)
+        for (GameObject* go : GOsToRemove)
         {
             gameObjects.erase(go);
             delete go;
         }
-        removalList.clear();
+        GOsToRemove.clear();
     }
 }
 
 void LevelManager::addGameObject(GameObject* gameObject)
 {
-    gameObjects.insert(gameObject);
+    GOsToAdd.push_back(gameObject);
 }
 
 void LevelManager::removeGameObject(GameObject * gameObject)
 {
-    removalList.push_back(gameObject);
+    GOsToRemove.push_back(gameObject);
 }

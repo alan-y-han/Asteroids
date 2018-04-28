@@ -26,7 +26,9 @@ public:
     ~Particle();
 
 private:
-    void tickFunction();
     std::function<void()> tickFunc;
     int lifetime;
+
+    virtual void initialise();
+    void tickFunction();
 };

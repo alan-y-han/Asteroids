@@ -28,7 +28,8 @@ private:
     TickEventManager tickEventManager;
     std::function<void(GameObject* gameObject)> addGOFunc;
     std::function<void(GameObject* gameObject)> removeGOFunc;
-    std::vector<GameObject*> removalList;
+    std::vector<GameObject*> GOsToAdd;
+    std::vector<GameObject*> GOsToRemove;
 
     void addGameObject(GameObject* gameObject);
     void removeGameObject(GameObject* gameObject);

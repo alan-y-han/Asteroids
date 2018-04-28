@@ -25,12 +25,16 @@ Particle::Particle
     tickFunc(std::bind(&Particle::tickFunction, this)),
     lifetime(30)
 {
-    this->tickEventManager.subscribe(&tickFunc);
 }
 
 Particle::~Particle()
 {
     tickEventManager.unsubscribe(&tickFunc);
+}
+
+void Particle::initialise()
+{
+    tickEventManager.subscribe(&tickFunc);
 }
 
 void Particle::tickFunction()
