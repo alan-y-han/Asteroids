@@ -33,9 +33,11 @@ void Shader::initialiseShader(std::string& vertexPath, std::string& fragmentPath
     glDeleteShader(vertex);
     glDeleteShader(fragment);
 
+    // cache uniform locations
     modelLocation = glGetUniformLocation(ID, "model");
     viewLocation = glGetUniformLocation(ID, "view");
     projectionLocation = glGetUniformLocation(ID, "projection");
+    alphaLocation = glGetUniformLocation(ID, "alpha");
 }
 
 void Shader::use()
@@ -56,6 +58,11 @@ void Shader::setViewMatrix(const glm::mat4 & mat)
 void Shader::setProjectionMatrix(const glm::mat4 & mat)
 {
     glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, &mat[0][0]);
+}
+
+void Shader::setAlpha(const float alpha)
+{
+    glUniform1f(alphaLocation, alpha);
 }
 
 std::string Shader::readShaderFile(std::string& filePath)

@@ -31,23 +31,6 @@ void LevelManager::processInput(GLFWwindow* window)
     }
 
     keyEventManager.trigger(window);
-
-    //if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-    //{
-    //    keyEventManager.trigger(GLFW_KEY_W);
-    //}
-    //if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-    //{
-    //    keyEventManager.trigger(GLFW_KEY_S);
-    //}
-    //if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-    //{
-    //    keyEventManager.trigger(GLFW_KEY_A);
-    //}
-    //if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-    //{
-    //    keyEventManager.trigger(GLFW_KEY_D);
-    //}
 }
 
 void LevelManager::tick()

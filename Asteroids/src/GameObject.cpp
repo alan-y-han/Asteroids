@@ -16,6 +16,7 @@ GameObject::GameObject(
     velocity(velocity),
     angle(angle),
     rVelocity(rVelocity),
+    alpha(1.0f),
     vertices(vertices),
     color(color)
 {

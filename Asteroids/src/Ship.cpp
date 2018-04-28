@@ -1,5 +1,7 @@
 #include "Ship.h"
 
+// TODO: clean up
+float speed = 0.1f;
 
 std::vector<float> shipVertices =
 {
@@ -10,6 +12,21 @@ std::vector<float> shipVertices =
 };
 
 glm::vec3 shipColor(1.0f, 0.0f, 0.5f);
+
+float shipRandFloat(float min, float max)
+{
+    float range = max - min;
+    return min + (((float)rand() / RAND_MAX) * range);
+}
+
+glm::vec3 rotate2D(float x, float y, float angle)
+{
+    float dx = cos(glm::radians(angle)) * x - sin(glm::radians(angle)) * y;
+    float dy = sin(glm::radians(angle)) * x + cos(glm::radians(angle)) * y;
+    return glm::vec3(dx, dy, 0.0f);
+}
+
+// end TODO
 
 
 Ship::Ship
@@ -53,23 +70,6 @@ void Ship::tickFunction()
     {
         position.y += config::SCR_HEIGHT;
     }
-}
-
-
-// TODO: clean up
-float speed = 0.1f;
-
-float shipRandFloat(float min, float max)
-{
-    float range = max - min;
-    return min + (((float)rand() / RAND_MAX) * range);
-}
-
-glm::vec3 rotate2D(float x, float y, float angle)
-{
-    float dx = cos(glm::radians(angle)) * x - sin(glm::radians(angle)) * y;
-    float dy = sin(glm::radians(angle)) * x + cos(glm::radians(angle)) * y;
-    return glm::vec3(dx, dy, 0.0f);
 }
 
 void Ship::keyFunction(GLFWwindow* window)

@@ -81,6 +81,7 @@ void Renderer::draw(std::unordered_set<GameObject*>& gameObjects)
         model[3][2] = go->position.z;
 
         shader.setModelMatrix(model);
+        shader.setAlpha(go->alpha);
 
         glBindVertexArray(go->VAO);
         glDrawArrays(GL_LINE_LOOP, 0, 4);

@@ -21,6 +21,7 @@ public:
     glm::vec3 velocity;
     float angle;
     float rVelocity;
+    float alpha;
     // OpenGL rendering
     unsigned int VAO;
 

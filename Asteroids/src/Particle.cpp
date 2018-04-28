@@ -1,5 +1,6 @@
 #include "Particle.h"
 
+// TODO: clean up
 std::vector<float> particleVertices =
 {
     3.0f, 3.0f, 0.0f,
@@ -22,7 +23,7 @@ Particle::Particle
 ) :
     GameObject(tickEventManager, removeGOFunc, position, velocity, angle, rVelocity, particleVertices, particleColor),
     tickFunc(std::bind(&Particle::tickFunction, this)),
-    lifetime(90)
+    lifetime(30)
 {
     this->tickEventManager.subscribe(&tickFunc);
 }
@@ -35,6 +36,7 @@ Particle::~Particle()
 void Particle::tickFunction()
 {
     lifetime--;
+    alpha  = lifetime / 30.0f;
     if (lifetime < 0)
     {
         removeGOFunc(this);

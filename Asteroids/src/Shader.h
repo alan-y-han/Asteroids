@@ -25,6 +25,7 @@ public:
     void setModelMatrix(const glm::mat4& mat);
     void setViewMatrix(const glm::mat4& mat);
     void setProjectionMatrix(const glm::mat4& mat);
+    void setAlpha(const float alpha);
 private:
     std::string readShaderFile(std::string& filepath);
     unsigned int compileShader(int shaderType, const char* shaderCode, std::string debugName);
@@ -33,4 +34,5 @@ private:
     GLint modelLocation;
     GLint viewLocation;
     GLint projectionLocation;
+    GLint alphaLocation;
 };
