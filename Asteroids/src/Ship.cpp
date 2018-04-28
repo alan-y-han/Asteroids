@@ -5,10 +5,10 @@ float speed = 0.1f;
 
 std::vector<float> shipVertices =
 {
-    0.0f, 40.0f, 0.0f,
-    -25.0f, -40.0f, 0.0f,
-    0.0f, -25.0f, 0.0f,
-    25.0f, -40.0f, 0.0f
+    0.0f, 50.0f, 0.0f,
+    -25.0f, -30.0f, 0.0f,
+    0.0f, -15.0f, 0.0f,
+    25.0f, -30.0f, 0.0f
 };
 
 glm::vec3 shipColor(1.0f, 0.0f, 0.5f);
@@ -97,7 +97,7 @@ void Ship::keyFunction(GLFWwindow* window)
 
 void Ship::generateEngineParticle()
 {
-    glm::vec3 particlePos = rotate2D(0 + shipRandFloat(-5, 5), -30, angle);
+    glm::vec3 particlePos = rotate2D(0 + shipRandFloat(-5, 5), -20, angle);
 
     float dvx_abs = 0.8f;
     float dvy_abs = 2.0f;
