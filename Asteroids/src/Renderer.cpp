@@ -47,7 +47,7 @@ GLFWwindow* Renderer::initialise()
     // Initialise camera
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, -32.0f));
 
-    projection = glm::ortho(-config::SCR_WIDTH, config::SCR_WIDTH * 2, -config::SCR_HEIGHT, config::SCR_HEIGHT * 2, 0.1f, 100.0f);
+    projection = glm::ortho(0.0f, config::SCR_WIDTH, 0.0f, config::SCR_HEIGHT, 0.1f, 100.0f);
 
     // Initialise shader
     shader.initialiseShader(vertexPath, fragmentPath);
@@ -60,6 +60,8 @@ GLFWwindow* Renderer::initialise()
 
 void Renderer::draw(std::unordered_set<GameObject*>& gameObjects)
 {
+    std::cout << gameObjects.size() << std::endl;
+
     shader.use();
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -89,7 +91,7 @@ void Renderer::draw(std::unordered_set<GameObject*>& gameObjects)
                 model[3][1] = go->position.y + (y * config::SCR_HEIGHT);
                 model[3][2] = go->position.z;
                 shader.setModelMatrix(model);
-                glDrawArrays(GL_LINE_LOOP, 0, 4);
+                glDrawArrays(GL_LINE_LOOP, 0, go->vertices.size());
             }
         }
     }

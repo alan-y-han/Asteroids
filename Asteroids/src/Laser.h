@@ -10,10 +10,10 @@
 #include "GameObject.h"
 
 
-class Particle : public GameObject
+class Laser : public GameObject
 {
 public:
-    Particle
+    Laser
     (
         TickEventManager& tickEventManager,
         std::function<void(GameObject* gameObject)>& removeGOFunc,
@@ -22,12 +22,11 @@ public:
         float angle,
         float rVelocity
     );
-    ~Particle();
+    ~Laser();
 
 private:
-    std::function<void()> tickFunc;
-    const int lifetime;
     int lifetimeRemaining;
+    std::function<void()> tickFunc;
 
     virtual void initialise();
     void tickFunction();

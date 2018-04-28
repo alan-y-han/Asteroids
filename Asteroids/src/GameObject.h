@@ -22,6 +22,8 @@ public:
     float angle;
     float rVelocity;
     float alpha;
+    const std::vector<glm::vec3> vertices;
+    const glm::vec3 color;
     // OpenGL rendering
     unsigned int VAO;
 
@@ -40,8 +42,6 @@ public:
     virtual void initialise(); // default does nothing by default, override in derived class
 
 private:
-    glm::vec3 color;
-    std::vector<glm::vec3> vertices;
     // OpenGL rendering
     unsigned int VBO;
 };

@@ -44,7 +44,8 @@ Ship::Ship
     keyEventManager(keyEventManager),
     tickFunc(std::bind(&Ship::tickFunction, this)),
     keyFunc(std::bind(&Ship::keyFunction, this, std::placeholders::_1)),
-    addGOFunc(addGOFunc)
+    addGOFunc(addGOFunc),
+    laserCooldown(7)
 {
 }
 
@@ -58,10 +59,19 @@ void Ship::initialise()
 {
     tickEventManager.subscribe(&tickFunc);
     keyEventManager.subscribe(&keyFunc);
+
+    laserCooldownTimer = 0;
 }
 
 void Ship::tickFunction()
 {
+    // cool down laser
+    if (laserCooldownTimer > 0)
+    {
+        laserCooldownTimer--;
+    }
+
+    // movement
     position += velocity;
     angle += rVelocity;
 
@@ -93,6 +103,8 @@ void Ship::keyFunction(GLFWwindow* window)
         velocity.x -= sin(glm::radians(angle)) * speed;
         velocity.y += cos(glm::radians(angle)) * speed;
         generateEngineParticle();
+        generateEngineParticle();
+        generateEngineParticle();
     }
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
     {
@@ -107,16 +119,24 @@ void Ship::keyFunction(GLFWwindow* window)
     {
         angle -= 3.0f;
     }
+    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+    {
+        if (laserCooldownTimer == 0)
+        {
+            fireLaser();
+            laserCooldownTimer += laserCooldown;
+        }
+    }
 }
 
 void Ship::generateEngineParticle()
 {
-    glm::vec3 particlePos = rotate2D(0 + shipRandFloat(-5, 5), -20, angle);
+    glm::vec3 particlePos = rotate2D(0 + shipRandFloat(-5, 5), -10, angle);
 
     float dvx_abs = 0.8f;
-    float dvy_abs = 2.0f;
+    float dvy_abs = 5.0f;
     float dvx = shipRandFloat(-dvx_abs, dvx_abs);
-    float dvy = shipRandFloat(-dvy_abs, dvy_abs) - 5.0f;
+    float dvy = shipRandFloat(-dvy_abs, dvy_abs) - 15.0f;
 
     glm::vec3 particleVelRand = rotate2D(dvx, dvy, angle);
     
@@ -128,5 +148,21 @@ void Ship::generateEngineParticle()
         velocity + particleVelRand,
         shipRandFloat(0, 360),
         shipRandFloat(-4, 4)
+    ));
+}
+
+void Ship::fireLaser()
+{
+    glm::vec3 laserPos = rotate2D(0, 45, angle);
+    glm::vec3 laserVel = rotate2D(0, 12, angle);
+
+    addGOFunc(new Laser
+    (
+        tickEventManager,
+        removeGOFunc,
+        position + laserPos,
+        velocity + laserVel,
+        angle,
+        0
     ));
 }

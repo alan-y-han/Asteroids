@@ -1,47 +1,42 @@
-#include "Particle.h"
+#include "Laser.h"
 
 // TODO: clean up
-std::vector<glm::vec3> particleVertices =
+std::vector<glm::vec3> laserVertices =
 {
-    glm::vec3(3.0f, 3.0f, 0.0f),
-    glm::vec3(-3.0f, 3.0f, 0.0f),
-    glm::vec3(-3.0f, -3.0f, 0.0f),
-    glm::vec3(3.0f, -3.0f, 0.0f)
+    glm::vec3(0.0f, 0.0f, 0.0f),
+    glm::vec3(0.0f, 15.0f, 0.0f)
 };
 
-glm::vec3 particleColor(1.0f, 0.5f, 0.0f);
+glm::vec3 laserColor(0.3f, 0.8f, 1.0f);
 
 
-Particle::Particle
-(
+Laser::Laser(
     TickEventManager& tickEventManager,
-    std::function<void(GameObject* gameObject)>& removeGOFunc,
+    std::function<void(GameObject*gameObject)>& removeGOFunc,
     glm::vec3 position,
     glm::vec3 velocity,
     float angle,
     float rVelocity
-) :
-    GameObject(tickEventManager, removeGOFunc, position, velocity, angle, rVelocity, particleVertices, particleColor),
-    tickFunc(std::bind(&Particle::tickFunction, this)),
-    lifetime(10),
-    lifetimeRemaining(lifetime)
+):
+    GameObject(tickEventManager, removeGOFunc, position, velocity, angle, rVelocity, laserVertices, laserColor),
+    tickFunc(std::bind(&Laser::tickFunction, this)),
+    lifetimeRemaining(120)
 {
 }
 
-Particle::~Particle()
+Laser::~Laser()
 {
     tickEventManager.unsubscribe(&tickFunc);
 }
 
-void Particle::initialise()
+void Laser::initialise()
 {
     tickEventManager.subscribe(&tickFunc);
 }
 
-void Particle::tickFunction()
+void Laser::tickFunction()
 {
     lifetimeRemaining--;
-    alpha = static_cast<float>(lifetimeRemaining) / static_cast<float>(lifetime);
     if (lifetimeRemaining < 0)
     {
         removeGOFunc(this);
