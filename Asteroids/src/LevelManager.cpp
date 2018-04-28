@@ -36,6 +36,26 @@ void LevelManager::processInput(GLFWwindow* window)
 void LevelManager::tick()
 {
     // add new GameObjects to gameObjects set, and initialise them
+    addGameObjects();
+
+    // tell each GameObject to update its state
+    tickEventManager.trigger();
+
+    // delete GameObjects which have added themselves to the removal list
+    removeGameObjects();
+
+    // add any new GameObjects created during tickEventManager.trigger();
+    // this means they are rendered during this frame
+    addGameObjects();
+}
+
+void LevelManager::addGameObject(GameObject* gameObject)
+{
+    GOsToAdd.push_back(gameObject);
+}
+
+void LevelManager::addGameObjects()
+{
     if (GOsToAdd.size())
     {
         for (GameObject* go : GOsToAdd)
@@ -45,11 +65,15 @@ void LevelManager::tick()
         }
         GOsToAdd.clear();
     }
+}
 
-    // tell each GameObject to update its state
-    tickEventManager.trigger();
+void LevelManager::removeGameObject(GameObject * gameObject)
+{
+    GOsToRemove.push_back(gameObject);
+}
 
-    // delete GameObjects which have added themselves to the removal list
+void LevelManager::removeGameObjects()
+{
     if (GOsToRemove.size())
     {
         for (GameObject* go : GOsToRemove)
@@ -59,14 +83,4 @@ void LevelManager::tick()
         }
         GOsToRemove.clear();
     }
-}
-
-void LevelManager::addGameObject(GameObject* gameObject)
-{
-    GOsToAdd.push_back(gameObject);
-}
-
-void LevelManager::removeGameObject(GameObject * gameObject)
-{
-    GOsToRemove.push_back(gameObject);
 }

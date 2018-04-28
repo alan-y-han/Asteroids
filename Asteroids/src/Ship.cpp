@@ -85,6 +85,9 @@ void Ship::tickFunction()
 
 void Ship::keyFunction(GLFWwindow* window)
 {
+    // N.B. state is modified in the order defined below
+    // Ship velocity depends on angle
+    // but angle (AD) is processed after velocity (WS)
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
         velocity.x -= sin(glm::radians(angle)) * speed;

@@ -32,5 +32,7 @@ private:
     std::vector<GameObject*> GOsToRemove;
 
     void addGameObject(GameObject* gameObject);
+    void addGameObjects();
     void removeGameObject(GameObject* gameObject);
+    void removeGameObjects();
 };
