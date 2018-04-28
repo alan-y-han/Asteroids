@@ -21,7 +21,7 @@ void LevelManager::initialiseLevel()
     ));
 }
 
-void LevelManager::processInput(GLFWwindow * window)
+void LevelManager::processInput(GLFWwindow* window)
 {
     glfwPollEvents();
 
@@ -29,22 +29,25 @@ void LevelManager::processInput(GLFWwindow * window)
     {
         glfwSetWindowShouldClose(window, true);
     }
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-    {
-        keyEventManager.trigger(GLFW_KEY_W);
-    }
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-    {
-        keyEventManager.trigger(GLFW_KEY_S);
-    }
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-    {
-        keyEventManager.trigger(GLFW_KEY_A);
-    }
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-    {
-        keyEventManager.trigger(GLFW_KEY_D);
-    }
+
+    keyEventManager.trigger(window);
+
+    //if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    //{
+    //    keyEventManager.trigger(GLFW_KEY_W);
+    //}
+    //if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    //{
+    //    keyEventManager.trigger(GLFW_KEY_S);
+    //}
+    //if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    //{
+    //    keyEventManager.trigger(GLFW_KEY_A);
+    //}
+    //if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    //{
+    //    keyEventManager.trigger(GLFW_KEY_D);
+    //}
 }
 
 void LevelManager::tick()

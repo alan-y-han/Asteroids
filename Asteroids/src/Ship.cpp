@@ -15,7 +15,7 @@ glm::vec3 shipColor(1.0f, 0.0f, 0.5f);
 Ship::Ship
 (
     TickEventManager& tickEventManager,
-    KeyEventManager& keyEventManager,
+    EventManager<GLFWwindow*>& keyEventManager,
     glm::vec3 position,
     glm::vec3 velocity,
     float angle,
@@ -72,28 +72,26 @@ glm::vec3 rotate2D(float x, float y, float angle)
     return glm::vec3(dx, dy, 0.0f);
 }
 
-void Ship::keyFunction(int keycode)
+void Ship::keyFunction(GLFWwindow* window)
 {
-    switch (keycode)
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
     {
-    case GLFW_KEY_W:
         velocity.x -= sin(glm::radians(angle)) * speed;
         velocity.y += cos(glm::radians(angle)) * speed;
         generateEngineParticle();
-        //generateEngineParticle();
-        break;
-    case GLFW_KEY_S:
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+    {
         velocity.x += sin(glm::radians(angle)) * speed;
         velocity.y -= cos(glm::radians(angle)) * speed;
-        break;
-    case GLFW_KEY_A:
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+    {
         angle += 3.0f;
-        break;
-    case GLFW_KEY_D:
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+    {
         angle -= 3.0f;
-        break;
-    default:
-        break;
     }
 }
 
@@ -101,7 +99,7 @@ void Ship::generateEngineParticle()
 {
     glm::vec3 particlePos = rotate2D(0 + shipRandFloat(-5, 5), -30, angle);
 
-    float dvx_abs = 1.0f;
+    float dvx_abs = 0.8f;
     float dvy_abs = 2.0f;
     float dvx = shipRandFloat(-dvx_abs, dvx_abs);
     float dvy = shipRandFloat(-dvy_abs, dvy_abs) - 5.0f;

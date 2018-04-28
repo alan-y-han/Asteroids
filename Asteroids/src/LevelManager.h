@@ -1,4 +1,6 @@
 #pragma once
+#include <glad\glad.h>
+#include <GLFW\glfw3.h>
 
 #include <functional>
 #include <memory>
@@ -14,7 +16,7 @@
 class LevelManager
 {
 public:
-    KeyEventManager keyEventManager;
+    EventManager<GLFWwindow*> keyEventManager;
     std::unordered_set<GameObject*> gameObjects;
     
     LevelManager();

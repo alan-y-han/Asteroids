@@ -18,7 +18,7 @@ public:
     Ship
     (
         TickEventManager& tickEventManager,
-        KeyEventManager& keyEventManager,
+        EventManager<GLFWwindow*> & keyEventManager,
         glm::vec3 position,
         glm::vec3 velocity,
         float angle,
@@ -29,11 +29,11 @@ public:
 
 private:
     std::function<void()> tickFunc;
-    std::function<void(int)> keyFunc;
+    std::function<void(GLFWwindow*)> keyFunc;
     std::function<void(GameObject* gameObject)>& addGOFunc;
 
     void tickFunction();
-    void keyFunction(int keycode);
+    void keyFunction(GLFWwindow* window);
 
     void generateEngineParticle();
 };
