@@ -19,6 +19,7 @@ public:
     
     LevelManager();
     void initialiseLevel();
+    void processInput(GLFWwindow* window);
     void tick();
 
 private:

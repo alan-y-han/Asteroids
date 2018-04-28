@@ -4,19 +4,13 @@
 #include <glm\gtc\matrix_transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
 
+#include "Config.h"
 #include "EventManager.h"
 #include "LevelManager.h"
 #include "Renderer.h"
 
 #include <cstdlib>
 #include <iostream>
-
-
-// settings
-const double SPF(1.0 / 60.0); // seconds per frame
-
-// Function prototypes
-void processInput(GLFWwindow* window, KeyEventManager keyEventManager);
 
 
 int main(int argc, char const *argv[])
@@ -46,17 +40,16 @@ int main(int argc, char const *argv[])
 
         bool ticked = false;
 
-        while (lag >= SPF)
+        while (lag >= config::SPF)
         {
             // process input
-            glfwPollEvents();
-            processInput(window, levelManager.keyEventManager);
+            levelManager.processInput(window);
 
             // update game state
             levelManager.tick();
 
             ticked = true;
-            lag -= SPF;
+            lag -= config::SPF;
         }
 
         // render
@@ -66,30 +59,5 @@ int main(int argc, char const *argv[])
         }
     }
 
-    glfwTerminate();
     return EXIT_SUCCESS;
-}
-
-void processInput(GLFWwindow* window, KeyEventManager keyEventManager)
-{
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-    {
-        glfwSetWindowShouldClose(window, true);
-    }
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-    {
-        keyEventManager.trigger(GLFW_KEY_W);
-    }
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-    {
-        keyEventManager.trigger(GLFW_KEY_S);
-    }
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-    {
-        keyEventManager.trigger(GLFW_KEY_A);
-    }
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-    {
-        keyEventManager.trigger(GLFW_KEY_D);
-    }
 }

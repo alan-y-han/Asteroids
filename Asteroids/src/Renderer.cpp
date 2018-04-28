@@ -8,6 +8,11 @@ Renderer::Renderer(std::string windowName, std::string vertexPath, std::string f
 {
 }
 
+Renderer::~Renderer()
+{
+    glfwTerminate();
+}
+
 GLFWwindow* Renderer::initialise()
 {
     // Initialise GLFW
