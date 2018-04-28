@@ -12,8 +12,8 @@
 #include <vector>
 #include <unordered_set>
 
-#include "GameObject.h"
 #include "Config.h"
+#include "GameObject.h"
 #include "Shader.h"
 
 #include <functional>

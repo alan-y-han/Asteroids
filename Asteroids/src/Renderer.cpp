@@ -47,7 +47,7 @@ GLFWwindow* Renderer::initialise()
     // Initialise camera
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, -32.0f));
 
-    projection = glm::ortho(0.0f, config::SCR_WIDTH, 0.0f, config::SCR_HEIGHT, 0.1f, 100.0f);
+    projection = glm::ortho(-config::SCR_WIDTH, config::SCR_WIDTH * 2, -config::SCR_HEIGHT, config::SCR_HEIGHT * 2, 0.1f, 100.0f);
 
     // Initialise shader
     shader.initialiseShader(vertexPath, fragmentPath);
@@ -67,6 +67,8 @@ void Renderer::draw(std::unordered_set<GameObject*>& gameObjects)
 
     for (GameObject* go : gameObjects)
     {
+        glBindVertexArray(go->VAO);
+
         // create model matrix and pass to shader
         glm::mat4 model;
         // rotation
@@ -75,16 +77,21 @@ void Renderer::draw(std::unordered_set<GameObject*>& gameObjects)
         model[1][0] = -sin(rad);
         model[0][1] = sin(rad);
         model[1][1] = cos(rad);
-        // translation
-        model[3][0] = go->position.x;
-        model[3][1] = go->position.y;
-        model[3][2] = go->position.z;
 
-        shader.setModelMatrix(model);
         shader.setAlpha(go->alpha);
 
-        glBindVertexArray(go->VAO);
-        glDrawArrays(GL_LINE_LOOP, 0, 4);
+        for (int x = -1; x < 2; x++)
+        {
+            for (int y = -1; y < 2; y++)
+            {
+                // translation
+                model[3][0] = go->position.x + x * config::SCR_WIDTH;
+                model[3][1] = go->position.y + y * config::SCR_HEIGHT;
+                model[3][2] = go->position.z;
+                shader.setModelMatrix(model);
+                glDrawArrays(GL_LINE_LOOP, 0, 4);
+            }
+        }
     }
 
     // swap buffers
