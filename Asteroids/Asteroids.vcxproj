@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Asteroid.cpp" />
     <ClCompile Include="src\Config.cpp" />
     <ClCompile Include="src\Laser.cpp" />
     <ClCompile Include="src\Particle.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="src\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Asteroid.h" />
     <ClInclude Include="src\Config.h" />
     <ClInclude Include="src\Laser.h" />
     <ClInclude Include="src\Particle.h" />

@@ -36,14 +36,23 @@ private:
     std::function<void()> tickFunc;
     std::function<void(GLFWwindow*)> keyFunc;
     std::function<void(GameObject* gameObject)>& addGOFunc;
+    
     // other variables
-    const int laserCooldown;
+    std::vector<glm::vec3> vertices;
+    glm::vec3 color;
+
+    float accel;
+    float frictionFactor;
+    float rSpeed;
+
+    int laserCooldown;
     int laserCooldownTimer;
 
+    // functions
     virtual void initialise();
     void tickFunction();
     void keyFunction(GLFWwindow* window);
-
+    glm::vec3 rotate2D(float x, float y, float angle);
     void generateEngineParticle();
     void fireLaser();
 };

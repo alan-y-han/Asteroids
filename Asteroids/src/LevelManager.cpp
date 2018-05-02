@@ -19,6 +19,9 @@ void LevelManager::initialiseLevel()
         addGOFunc,
         removeGOFunc
     ));
+    createAsteroid();
+
+    addGameObjects();
 }
 
 void LevelManager::processInput(GLFWwindow* window)
@@ -35,17 +38,11 @@ void LevelManager::processInput(GLFWwindow* window)
 
 void LevelManager::tick()
 {
-    // add new GameObjects to gameObjects set, and initialise them
-    addGameObjects();
-
     // tell each GameObject to update its state
     tickEventManager.trigger();
 
-    // delete GameObjects which have added themselves to the removal list
     removeGameObjects();
 
-    // add any new GameObjects created during tickEventManager.trigger();
-    // this means they are rendered during this frame
     addGameObjects();
 }
 
@@ -83,4 +80,16 @@ void LevelManager::removeGameObjects()
         }
         GOsToRemove.clear();
     }
+}
+
+void LevelManager::createAsteroid()
+{
+    addGameObject(new Asteroid(
+        tickEventManager,
+        removeGOFunc,
+        glm::vec3(100, 100, 0),
+        glm::vec3(2, -0.5, 0),
+        20,
+        -2
+    ));
 }

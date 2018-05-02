@@ -6,6 +6,7 @@
 #include <memory>
 #include <unordered_set>
 
+#include "Asteroid.h"
 #include "Config.h"
 #include "EventManager.h"
 #include "GameObject.h"
@@ -35,4 +36,5 @@ private:
     void addGameObjects();
     void removeGameObject(GameObject* gameObject);
     void removeGameObjects();
+    void createAsteroid();
 };
