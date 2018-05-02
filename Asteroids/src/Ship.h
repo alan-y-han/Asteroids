@@ -50,6 +50,6 @@ private:
     // functions
     virtual void tickFunction();
     glm::vec3 rotate2D(float x, float y, float angle);
-    void generateEngineParticle();
+    void generateEngineParticle(bool accel);
     void fireLaser();
 };

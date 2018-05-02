@@ -109,9 +109,14 @@ void Ship::tickFunction()
 
     if (keymap.accel)
     {
-        generateEngineParticle();
-        generateEngineParticle();
-        generateEngineParticle();
+        generateEngineParticle(true);
+        generateEngineParticle(true);
+        generateEngineParticle(true);
+    }
+    else
+    {
+        //generateEngineParticle(false);
+        //generateEngineParticle(false);
     }
     if (keymap.fireLaser)
     {
@@ -130,14 +135,27 @@ glm::vec3 Ship::rotate2D(float x, float y, float angle)
     return glm::vec3(dx, dy, 0.0f);
 }
 
-void Ship::generateEngineParticle()
+void Ship::generateEngineParticle(bool accel)
 {
-    glm::vec3 particlePos = rotate2D(0 + shipRandFloat(-5, 5), -28 + shipRandFloat(-3, 3), angle);
+    glm::vec3 particlePos;
+    float dvx = 0.0f;
+    float dvy = 0.0f;
 
-    float dvx_abs = 2.0f;
-    float dvy_abs = 5.0f;
-    float dvx = shipRandFloat(-dvx_abs, dvx_abs);
-    float dvy = shipRandFloat(-dvy_abs, dvy_abs) - 15.0f;
+    if (accel)
+    {
+        particlePos = rotate2D(0 + shipRandFloat(-5, 5), -25 - shipRandFloat(0, 6), angle);
+        float dvx_abs = 2.0f;
+        float dvy_abs = 5.0f;
+        dvx = shipRandFloat(-dvx_abs, dvx_abs);
+        dvy = shipRandFloat(-dvy_abs, dvy_abs) - 15.0f;
+    }
+    else
+    {
+        particlePos = rotate2D(0 + shipRandFloat(-3.0f, 3.0f), -25 + shipRandFloat(0, 2), angle);
+        float dvx_abs = 1.0f;
+        dvx = shipRandFloat(-dvx_abs, dvx_abs);
+        dvy = -shipRandFloat(0.5f, 1.0f);
+    }
 
     glm::vec3 particleVelRand = rotate2D(dvx, dvy, angle);
     
