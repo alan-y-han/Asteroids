@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "Config.h"
-#include "EventManager.h"
 #include "GameObject.h"
 
 
@@ -15,7 +14,6 @@ class Particle : public GameObject
 public:
     Particle
     (
-        TickEventManager& tickEventManager,
         std::function<void(GameObject* gameObject)>& removeGOFunc,
         glm::vec3 position,
         glm::vec3 velocity,
@@ -25,10 +23,8 @@ public:
     ~Particle();
 
 private:
-    std::function<void()> tickFunc;
     const int lifetime;
     int lifetimeRemaining;
 
-    virtual void initialise();
     void tickFunction();
 };

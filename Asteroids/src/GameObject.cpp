@@ -1,7 +1,6 @@
 #include "GameObject.h"
 
 GameObject::GameObject(
-    TickEventManager& tickEventManager,
     std::function<void(GameObject* gameObject)>& removeGOFunc,
     glm::vec3 position,
     glm::vec3 velocity,
@@ -10,7 +9,6 @@ GameObject::GameObject(
     std::vector<glm::vec3> vertices,
     glm::vec3 color
 ) :
-    tickEventManager(tickEventManager),
     removeGOFunc(removeGOFunc),
     position(position),
     velocity(velocity),
@@ -63,6 +61,6 @@ GameObject::~GameObject()
     glDeleteBuffers(1, &VBO);
 }
 
-void GameObject::initialise()
+void GameObject::tickFunction()
 {
 }

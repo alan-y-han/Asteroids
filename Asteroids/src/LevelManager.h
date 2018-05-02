@@ -8,7 +8,6 @@
 
 #include "Asteroid.h"
 #include "Config.h"
-#include "EventManager.h"
 #include "GameObject.h"
 #include "Ship.h"
 #include "Particle.h"
@@ -17,7 +16,6 @@
 class LevelManager
 {
 public:
-    EventManager<GLFWwindow*> keyEventManager;
     std::unordered_set<GameObject*> gameObjects;
     
     LevelManager();
@@ -26,11 +24,13 @@ public:
     void tick();
 
 private:
-    TickEventManager tickEventManager;
     std::function<void(GameObject* gameObject)> addGOFunc;
     std::function<void(GameObject* gameObject)> removeGOFunc;
+
     std::vector<GameObject*> GOsToAdd;
     std::vector<GameObject*> GOsToRemove;
+
+    Ship* playerShip;
 
     void addGameObject(GameObject* gameObject);
     void addGameObjects();

@@ -23,8 +23,6 @@ float shipRandFloat(float min, float max)
 
 Ship::Ship
 (
-    TickEventManager& tickEventManager,
-    EventManager<GLFWwindow*>& keyEventManager,
     glm::vec3 position,
     glm::vec3 velocity,
     float angle,
@@ -32,25 +30,9 @@ Ship::Ship
     std::function<void(GameObject* gameObject)>& addGOFunc,
     std::function<void(GameObject* gameObject)>& removeGOFunc
 ) :
-    GameObject(tickEventManager, removeGOFunc, position, velocity, angle, rVelocity, shipVertices, shipColor),
-    keyEventManager(keyEventManager),
-    tickFunc(std::bind(&Ship::tickFunction, this)),
-    keyFunc(std::bind(&Ship::keyFunction, this, std::placeholders::_1)),
+    GameObject(removeGOFunc, position, velocity, angle, rVelocity, shipVertices, shipColor),
     addGOFunc(addGOFunc)
 {
-}
-
-Ship::~Ship()
-{
-    tickEventManager.unsubscribe(&tickFunc);
-    keyEventManager.unsubscribe(&keyFunc);
-}
-
-void Ship::initialise()
-{
-    tickEventManager.subscribe(&tickFunc);
-    keyEventManager.subscribe(&keyFunc);
-
     accel = 0.1f;
     frictionFactor = 0.995f;
     rSpeed = 3.0f;
@@ -59,15 +41,38 @@ void Ship::initialise()
     laserCooldownTimer = 0;
 }
 
+Ship::~Ship()
+{
+}
+
 void Ship::tickFunction()
 {
-    // cool down laser
-    if (laserCooldownTimer > 0)
+    // check inputs and modify velocities
+
+    // N.B. state is modified in the order defined below
+    // i.e. velocity depends on angle
+    // but angle (AD) is processed after velocity (WS)
+    if (keymap.accel)
     {
-        laserCooldownTimer--;
+        velocity.x -= sin(glm::radians(angle)) * accel; // TODO: fix reversed sin/cos due to vertex coords
+        velocity.y += cos(glm::radians(angle)) * accel;
+    }
+    if (keymap.decel)
+    {
+        velocity.x += sin(glm::radians(angle)) * accel;
+        velocity.y -= cos(glm::radians(angle)) * accel;
+    }
+    if (keymap.left)
+    {
+        angle += rSpeed;
+    }
+    if (keymap.right)
+    {
+        angle -= rSpeed;
     }
 
     // movement
+
     position += velocity;
     angle += rVelocity;
 
@@ -89,35 +94,26 @@ void Ship::tickFunction()
     {
         position.y += config::SCR_HEIGHT;
     }
-}
 
-void Ship::keyFunction(GLFWwindow* window)
-{
-    // N.B. state is modified in the order defined below
-    // Ship velocity depends on angle
-    // but angle (AD) is processed after velocity (WS)
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+    // other object state
+
+    if (laserCooldownTimer > 0)
     {
-        velocity.x -= sin(glm::radians(angle)) * accel;
-        velocity.y += cos(glm::radians(angle)) * accel;
+        laserCooldownTimer--;
+    }
+
+    // spawn new objects
+
+    // N.B. new GameObjects depend on ship position/velocity
+    // therefore only spawn after these have been calculated
+
+    if (keymap.accel)
+    {
         generateEngineParticle();
         generateEngineParticle();
         generateEngineParticle();
     }
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-    {
-        velocity.x += sin(glm::radians(angle)) * accel;
-        velocity.y -= cos(glm::radians(angle)) * accel;
-    }
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-    {
-        angle += rSpeed;
-    }
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-    {
-        angle -= rSpeed;
-    }
-    if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+    if (keymap.fireLaser)
     {
         if (laserCooldownTimer == 0)
         {
@@ -147,9 +143,8 @@ void Ship::generateEngineParticle()
     
     addGOFunc(new Particle
     (
-        tickEventManager,
         removeGOFunc,
-        position + velocity + particlePos, // N.B. need to add ship.velocity, because ship.position hasn't been updated yet
+        position + particlePos,
         velocity + particleVelRand,
         shipRandFloat(0, 360),
         shipRandFloat(-4, 4)
@@ -163,7 +158,6 @@ void Ship::fireLaser()
 
     addGOFunc(new Laser
     (
-        tickEventManager,
         removeGOFunc,
         position + laserPos,
         velocity + laserVel,

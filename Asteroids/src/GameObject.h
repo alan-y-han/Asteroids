@@ -7,15 +7,13 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <functional>
 #include <vector>
-
-#include "EventManager.h"
 
 
 class GameObject
 {
 public:
-    TickEventManager& tickEventManager;
     std::function<void(GameObject* gameObject)>& removeGOFunc;
     glm::vec3 position;
     glm::vec3 velocity;
@@ -29,7 +27,6 @@ public:
 
     GameObject
     (
-        TickEventManager& tickEventManager,
         std::function<void(GameObject* gameObject)>& removeGOFunc,
         glm::vec3 position,
         glm::vec3 velocity,
@@ -39,7 +36,9 @@ public:
         glm::vec3 color
     );
     virtual ~GameObject();
-    virtual void initialise(); // default does nothing by default, override in derived class
+
+    // public GameObject functions, to be overriden in derived classes
+    virtual void tickFunction();
 
 private:
     // OpenGL rendering

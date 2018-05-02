@@ -14,15 +14,13 @@ glm::vec3 particleColor(1.0f, 0.5f, 0.0f);
 
 Particle::Particle
 (
-    TickEventManager& tickEventManager,
     std::function<void(GameObject* gameObject)>& removeGOFunc,
     glm::vec3 position,
     glm::vec3 velocity,
     float angle,
     float rVelocity
 ) :
-    GameObject(tickEventManager, removeGOFunc, position, velocity, angle, rVelocity, particleVertices, particleColor),
-    tickFunc(std::bind(&Particle::tickFunction, this)),
+    GameObject(removeGOFunc, position, velocity, angle, rVelocity, particleVertices, particleColor),
     lifetime(10),
     lifetimeRemaining(lifetime)
 {
@@ -30,12 +28,6 @@ Particle::Particle
 
 Particle::~Particle()
 {
-    tickEventManager.unsubscribe(&tickFunc);
-}
-
-void Particle::initialise()
-{
-    tickEventManager.subscribe(&tickFunc);
 }
 
 void Particle::tickFunction()

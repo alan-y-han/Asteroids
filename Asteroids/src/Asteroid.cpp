@@ -19,25 +19,18 @@ glm::vec3 asteroidColor(1.0f, 1.0f, 0.0f);
 
 
 Asteroid::Asteroid(
-    TickEventManager& tickEventManager,
     std::function<void(GameObject* gameObject)>& removeGOFunc,
     glm::vec3 position,
     glm::vec3 velocity,
     float angle,
     float rVelocity
 ) :
-    GameObject(tickEventManager, removeGOFunc, position, velocity, angle, rVelocity, asteroidVertices, asteroidColor),
-    tickFunc(std::bind(&Asteroid::tickFunction, this))
+    GameObject(removeGOFunc, position, velocity, angle, rVelocity, asteroidVertices, asteroidColor)
 {
 }
 
 Asteroid::~Asteroid()
 {
-}
-
-void Asteroid::initialise()
-{
-    tickEventManager.subscribe(&tickFunc);
 }
 
 void Asteroid::tickFunction()

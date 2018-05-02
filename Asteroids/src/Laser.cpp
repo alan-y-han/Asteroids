@@ -11,27 +11,19 @@ glm::vec3 laserColor(0.3f, 0.8f, 1.0f);
 
 
 Laser::Laser(
-    TickEventManager& tickEventManager,
     std::function<void(GameObject*gameObject)>& removeGOFunc,
     glm::vec3 position,
     glm::vec3 velocity,
     float angle,
     float rVelocity
 ):
-    GameObject(tickEventManager, removeGOFunc, position, velocity, angle, rVelocity, laserVertices, laserColor),
-    tickFunc(std::bind(&Laser::tickFunction, this)),
+    GameObject(removeGOFunc, position, velocity, angle, rVelocity, laserVertices, laserColor),
     lifetimeRemaining(120)
 {
 }
 
 Laser::~Laser()
 {
-    tickEventManager.unsubscribe(&tickFunc);
-}
-
-void Laser::initialise()
-{
-    tickEventManager.subscribe(&tickFunc);
 }
 
 void Laser::tickFunction()
@@ -41,6 +33,8 @@ void Laser::tickFunction()
     {
         removeGOFunc(this);
     }
+
+    // movement
 
     position += velocity;
     angle += rVelocity;

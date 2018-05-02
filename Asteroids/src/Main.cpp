@@ -5,7 +5,6 @@
 #include <glm\gtc\type_ptr.hpp>
 
 #include "Config.h"
-#include "EventManager.h"
 #include "LevelManager.h"
 #include "Renderer.h"
 
