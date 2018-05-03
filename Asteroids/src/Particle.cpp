@@ -1,5 +1,7 @@
 #include "Particle.h"
 
+#include "LevelManager.h"
+
 // TODO: clean up
 std::vector<glm::vec3> particleVertices =
 {
@@ -14,13 +16,13 @@ glm::vec3 particleColor(1.0f, 0.5f, 0.0f);
 
 Particle::Particle
 (
-    std::function<void(GameObject* gameObject)>& removeGOFunc,
+    LevelManager& levelManager,
     glm::vec3 position,
     glm::vec3 velocity,
     float angle,
     float rVelocity
 ) :
-    GameObject(removeGOFunc, position, velocity, angle, rVelocity, particleVertices, particleColor),
+    GameObject(levelManager, position, velocity, angle, rVelocity, particleVertices, particleColor),
     lifetime(10),
     lifetimeRemaining(lifetime)
 {
@@ -30,13 +32,17 @@ Particle::~Particle()
 {
 }
 
+void Particle::initialise()
+{
+}
+
 void Particle::tickFunction()
 {
     lifetimeRemaining--;
     alpha = static_cast<float>(lifetimeRemaining) / static_cast<float>(lifetime);
     if (lifetimeRemaining < 0)
     {
-        removeGOFunc(this);
+        levelManager.removeGameObject(this);
     }
 
     position += velocity;

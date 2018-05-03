@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
 GameObject::GameObject(
-    std::function<void(GameObject* gameObject)>& removeGOFunc,
+    LevelManager& levelManager,
     glm::vec3 position,
     glm::vec3 velocity,
     float angle,
@@ -9,7 +9,7 @@ GameObject::GameObject(
     std::vector<glm::vec3> vertices,
     glm::vec3 color
 ) :
-    removeGOFunc(removeGOFunc),
+    levelManager(levelManager),
     position(position),
     velocity(velocity),
     angle(angle),
@@ -61,6 +61,15 @@ GameObject::~GameObject()
     glDeleteBuffers(1, &VBO);
 }
 
+// TODO: remove if unused
+void GameObject::initialise()
+{
+}
+
 void GameObject::tickFunction()
+{
+}
+
+void GameObject::collisionCheck()
 {
 }

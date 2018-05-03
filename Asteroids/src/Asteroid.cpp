@@ -1,5 +1,7 @@
 #include "Asteroid.h"
 
+#include "LevelManager.h"
+
 // TODO: clean up
 std::vector<glm::vec3> asteroidVertices =
 {
@@ -19,18 +21,24 @@ glm::vec3 asteroidColor(1.0f, 1.0f, 0.0f);
 
 
 Asteroid::Asteroid(
-    std::function<void(GameObject* gameObject)>& removeGOFunc,
+    LevelManager& levelManager,
     glm::vec3 position,
     glm::vec3 velocity,
     float angle,
     float rVelocity
 ) :
-    GameObject(removeGOFunc, position, velocity, angle, rVelocity, asteroidVertices, asteroidColor)
+    GameObject(levelManager, position, velocity, angle, rVelocity, asteroidVertices, asteroidColor)
 {
 }
 
 Asteroid::~Asteroid()
 {
+    levelManager.asteroids.erase(this);
+}
+
+void Asteroid::initialise()
+{
+    levelManager.asteroids.insert(this);
 }
 
 void Asteroid::tickFunction()

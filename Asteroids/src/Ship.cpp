@@ -1,5 +1,7 @@
 #include "Ship.h"
 
+#include "LevelManager.h"
+
 // TODO: clean up
 
 std::vector<glm::vec3> shipVertices =
@@ -23,26 +25,30 @@ float shipRandFloat(float min, float max)
 
 Ship::Ship
 (
+    LevelManager& levelManager,
     glm::vec3 position,
     glm::vec3 velocity,
     float angle,
-    float rVelocity,
-    std::function<void(GameObject* gameObject)>& addGOFunc,
-    std::function<void(GameObject* gameObject)>& removeGOFunc
+    float rVelocity
 ) :
-    GameObject(removeGOFunc, position, velocity, angle, rVelocity, shipVertices, shipColor),
-    addGOFunc(addGOFunc)
+    GameObject(levelManager, position, velocity, angle, rVelocity, shipVertices, shipColor)
 {
-    accel = 0.1f;
-    frictionFactor = 0.995f;
-    rSpeed = 3.0f;
-
-    laserCooldown = 7;
-    laserCooldownTimer = 0;
 }
 
 Ship::~Ship()
 {
+    levelManager.playerShip = NULL;
+}
+
+void Ship::initialise()
+{
+    levelManager.playerShip = this;
+
+    accel = 0.1f;
+    frictionFactor = 0.995f;
+    rSpeed = 3.0f;
+    laserCooldown = 7;
+    laserCooldownTimer = 0;
 }
 
 void Ship::tickFunction()
@@ -159,9 +165,9 @@ void Ship::generateEngineParticle(bool accel)
 
     glm::vec3 particleVelRand = rotate2D(dvx, dvy, angle);
     
-    addGOFunc(new Particle
+    levelManager.addGameObject(new Particle
     (
-        removeGOFunc,
+        levelManager,
         position + particlePos,
         velocity + particleVelRand,
         shipRandFloat(0, 360),
@@ -174,9 +180,9 @@ void Ship::fireLaser()
     glm::vec3 laserPos = rotate2D(0, 45, angle);
     glm::vec3 laserVel = rotate2D(0, 12, angle);
 
-    addGOFunc(new Laser
+    levelManager.addGameObject(new Laser
     (
-        removeGOFunc,
+        levelManager,
         position + laserPos,
         velocity + laserVel,
         angle,

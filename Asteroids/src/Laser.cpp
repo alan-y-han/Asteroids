@@ -1,5 +1,7 @@
 #include "Laser.h"
 
+#include "LevelManager.h"
+
 // TODO: clean up
 std::vector<glm::vec3> laserVertices =
 {
@@ -11,19 +13,25 @@ glm::vec3 laserColor(0.3f, 0.8f, 1.0f);
 
 
 Laser::Laser(
-    std::function<void(GameObject*gameObject)>& removeGOFunc,
+    LevelManager& levelManager,
     glm::vec3 position,
     glm::vec3 velocity,
     float angle,
     float rVelocity
 ):
-    GameObject(removeGOFunc, position, velocity, angle, rVelocity, laserVertices, laserColor),
+    GameObject(levelManager, position, velocity, angle, rVelocity, laserVertices, laserColor),
     lifetimeRemaining(120)
 {
 }
 
 Laser::~Laser()
 {
+    levelManager.lasers.erase(this);
+}
+
+void Laser::initialise()
+{
+    levelManager.lasers.insert(this);
 }
 
 void Laser::tickFunction()
@@ -31,7 +39,7 @@ void Laser::tickFunction()
     lifetimeRemaining--;
     if (lifetimeRemaining < 0)
     {
-        removeGOFunc(this);
+        levelManager.removeGameObject(this);
     }
 
     // movement

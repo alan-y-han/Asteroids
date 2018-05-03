@@ -2,19 +2,20 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-#include <functional>
 #include <vector>
 
 #include "Config.h"
 #include "GameObject.h"
 
 
+class LevelManager;
+
 class Particle : public GameObject
 {
 public:
     Particle
     (
-        std::function<void(GameObject* gameObject)>& removeGOFunc,
+        LevelManager& levelManager,
         glm::vec3 position,
         glm::vec3 velocity,
         float angle,
@@ -26,5 +27,6 @@ private:
     const int lifetime;
     int lifetimeRemaining;
 
-    void tickFunction();
+    virtual void initialise();
+    virtual void tickFunction();
 };

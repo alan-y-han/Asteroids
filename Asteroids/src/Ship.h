@@ -9,17 +9,18 @@
 #include "Particle.h"
 
 
+class LevelManager;
+
 class Ship : public GameObject
 {
 public:
     Ship
     (
+        LevelManager& levelManager,
         glm::vec3 position,
         glm::vec3 velocity,
         float angle,
-        float rVelocity,
-        std::function<void(GameObject* gameObject)>& addGOFunc,
-        std::function<void(GameObject* gameObject)>& removeGOFunc
+        float rVelocity
     );
     ~Ship();
 
@@ -32,11 +33,7 @@ public:
         bool fireLaser = false;
     } keymap;
 
-private:
-    // constructor-related things
-    std::function<void(GameObject* gameObject)>& addGOFunc;
-    
-    // other variables
+private:    
     std::vector<glm::vec3> vertices;
     glm::vec3 color;
 
@@ -48,7 +45,9 @@ private:
     int laserCooldownTimer;
 
     // functions
+    virtual void initialise();
     virtual void tickFunction();
+
     glm::vec3 rotate2D(float x, float y, float angle);
     void generateEngineParticle(bool accel);
     void fireLaser();

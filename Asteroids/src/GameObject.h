@@ -7,14 +7,15 @@
 
 #include <cstdlib>
 #include <iostream>
-#include <functional>
 #include <vector>
 
+// foward declarations
+class LevelManager;
 
 class GameObject
 {
 public:
-    std::function<void(GameObject* gameObject)>& removeGOFunc;
+    LevelManager& levelManager;
     glm::vec3 position;
     glm::vec3 velocity;
     float angle;
@@ -27,7 +28,7 @@ public:
 
     GameObject
     (
-        std::function<void(GameObject* gameObject)>& removeGOFunc,
+        LevelManager& levelManager,
         glm::vec3 position,
         glm::vec3 velocity,
         float angle,
@@ -38,7 +39,9 @@ public:
     virtual ~GameObject();
 
     // public GameObject functions, to be overriden in derived classes
+    virtual void initialise();
     virtual void tickFunction();
+    virtual void collisionCheck();
 
 private:
     // OpenGL rendering

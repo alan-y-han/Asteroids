@@ -1,21 +1,28 @@
 #include "LevelManager.h"
 
+#include "Asteroid.h"
 
-LevelManager::LevelManager() :
-    addGOFunc(std::bind(&LevelManager::addGameObject, this, std::placeholders::_1)),
-    removeGOFunc(std::bind(&LevelManager::removeGameObject, this, std::placeholders::_1))
+LevelManager::LevelManager()
 {
+}
+
+LevelManager::~LevelManager()
+{
+    for (GameObject* go : gameObjects)
+    {
+        removeGameObject(go);
+    }
+    removeGameObjects();
 }
 
 void LevelManager::initialiseLevel()
 {
     playerShip = new Ship(
+        *this,
         glm::vec3(config::SCR_WIDTH / 2, config::SCR_HEIGHT / 2, 1.0f),
         glm::vec3(0.0f, 0.0f, 0.0f),
         0.0f,
-        0.0f,
-        addGOFunc,
-        removeGOFunc
+        0.0f
     );
     addGameObject(playerShip);
     createAsteroid();
@@ -41,13 +48,14 @@ void LevelManager::processInput(GLFWwindow* window)
 
 void LevelManager::tick()
 {
-    // tell each GameObject to update its state
-    //tickEventManager.trigger();
+    // update each GameObject's state
 
     for (GameObject* go : gameObjects)
     {
         go->tickFunction();
     }
+
+    //for (;;);
 
     removeGameObjects();
 
@@ -57,6 +65,7 @@ void LevelManager::tick()
 void LevelManager::addGameObject(GameObject* gameObject)
 {
     GOsToAdd.push_back(gameObject);
+    gameObject->initialise();
 }
 
 void LevelManager::addGameObjects()
@@ -92,10 +101,30 @@ void LevelManager::removeGameObjects()
 void LevelManager::createAsteroid()
 {
     addGameObject(new Asteroid(
-        removeGOFunc,
+        *this,
         glm::vec3(100, 100, 0),
         glm::vec3(2, -0.5, 0),
         20,
         -2
     ));
+}
+
+bool LevelManager::testCollision(glm::vec3 a1, glm::vec3 a2, glm::vec3 b1, glm::vec3 b2)
+{
+    // check if either line is of length zero
+    if ((a1.x == a2.x && a1.y == a2.y) || (b1.x == b2.x && b1.y == b2.y))
+    {
+        return false;
+    }
+
+    float denominator = (((b2.y - b1.y) * (a2.x - a1.x)) - ((b2.x - b1.x) * (a2.y - a1.y)));
+    if (denominator == 0)
+    {
+        return false;
+    }
+
+    float ma = (((b2.x - b1.x) * (a1.y - b1.y)) - ((b2.y - b1.y) * (a1.x - b1.x))) / denominator;
+    float mb = (((a2.x - a1.x) * (a1.y - b1.y)) - ((a2.y - a1.y) * (a1.x - b1.x))) / denominator;
+    
+    return ((ma < 1) && (ma > 0)) && ((mb < 1) && (mb > 0));
 }

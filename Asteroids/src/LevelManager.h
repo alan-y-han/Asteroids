@@ -2,15 +2,12 @@
 #include <glad\glad.h>
 #include <GLFW\glfw3.h>
 
-#include <functional>
 #include <memory>
 #include <unordered_set>
 
-#include "Asteroid.h"
 #include "Config.h"
 #include "GameObject.h"
 #include "Ship.h"
-#include "Particle.h"
 
 
 class LevelManager
@@ -19,22 +16,29 @@ public:
     std::unordered_set<GameObject*> gameObjects;
     
     LevelManager();
+    ~LevelManager();
     void initialiseLevel();
     void processInput(GLFWwindow* window);
     void tick();
 
-private:
-    std::function<void(GameObject* gameObject)> addGOFunc;
-    std::function<void(GameObject* gameObject)> removeGOFunc;
+    Ship* playerShip;
+    std::unordered_set<GameObject*> lasers;
+    std::unordered_set<GameObject*> asteroids;
 
+    void addGameObject(GameObject* gameObject);
+    void removeGameObject(GameObject* gameObject);
+
+private:
     std::vector<GameObject*> GOsToAdd;
     std::vector<GameObject*> GOsToRemove;
 
-    Ship* playerShip;
+    // disable copying to prevent LevelManager class misuse
+    LevelManager(const LevelManager&) = delete;
+    LevelManager& operator=(const LevelManager&) = delete;
 
-    void addGameObject(GameObject* gameObject);
     void addGameObjects();
-    void removeGameObject(GameObject* gameObject);
     void removeGameObjects();
+
     void createAsteroid();
+    bool testCollision(glm::vec3 a1, glm::vec3 a2, glm::vec3 b1, glm::vec3 b2);
 };
