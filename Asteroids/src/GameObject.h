@@ -9,8 +9,8 @@
 #include <iostream>
 #include <vector>
 
-// foward declarations
-class LevelManager;
+#include "LevelManager.h"
+
 
 class GameObject
 {
@@ -40,7 +40,7 @@ public:
 
     // public GameObject functions, to be overriden in derived classes
     virtual void initialise();
-    virtual void tickFunction();
+    virtual void move();
     virtual void collisionCheck();
 
 private:

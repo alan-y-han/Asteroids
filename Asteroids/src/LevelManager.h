@@ -6,8 +6,11 @@
 #include <unordered_set>
 
 #include "Config.h"
-#include "GameObject.h"
-#include "Ship.h"
+
+
+// forward declarations
+class GameObject;
+class Ship;
 
 
 class LevelManager
@@ -40,5 +43,4 @@ private:
     void removeGameObjects();
 
     void createAsteroid();
-    bool testCollision(glm::vec3 a1, glm::vec3 a2, glm::vec3 b1, glm::vec3 b2);
 };

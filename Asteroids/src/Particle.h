@@ -6,9 +6,8 @@
 
 #include "Config.h"
 #include "GameObject.h"
+#include "LevelManager.h"
 
-
-class LevelManager;
 
 class Particle : public GameObject
 {
@@ -28,5 +27,5 @@ private:
     int lifetimeRemaining;
 
     virtual void initialise();
-    virtual void tickFunction();
+    virtual void move();
 };

@@ -6,9 +6,8 @@
 
 #include "Config.h"
 #include "GameObject.h"
+#include "LevelManager.h"
 
-
-class LevelManager;
 
 class Asteroid : public GameObject
 {
@@ -23,7 +22,6 @@ public:
     ~Asteroid();
 
 private:
-
     virtual void initialise();
-    virtual void tickFunction();
+    virtual void move();
 };

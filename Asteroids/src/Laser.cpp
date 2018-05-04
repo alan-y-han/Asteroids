@@ -1,15 +1,6 @@
 #include "Laser.h"
-
-#include "LevelManager.h"
-
-// TODO: clean up
-std::vector<glm::vec3> laserVertices =
-{
-    glm::vec3(0.0f, 0.0f, 0.0f),
-    glm::vec3(0.0f, 15.0f, 0.0f)
-};
-
-glm::vec3 laserColor(0.3f, 0.8f, 1.0f);
+#include "Collision.h"
+#include "Models.h"
 
 
 Laser::Laser(
@@ -19,7 +10,7 @@ Laser::Laser(
     float angle,
     float rVelocity
 ):
-    GameObject(levelManager, position, velocity, angle, rVelocity, laserVertices, laserColor),
+    GameObject(levelManager, position, velocity, angle, rVelocity, models::laserVertices, models::laserColor),
     lifetimeRemaining(120)
 {
 }
@@ -34,7 +25,7 @@ void Laser::initialise()
     levelManager.lasers.insert(this);
 }
 
-void Laser::tickFunction()
+void Laser::move()
 {
     lifetimeRemaining--;
     if (lifetimeRemaining < 0)
@@ -63,4 +54,9 @@ void Laser::tickFunction()
     {
         position.y += config::SCR_HEIGHT;
     }
+}
+
+void Laser::collisionCheck()
+{
+    //collision::testCollision()
 }

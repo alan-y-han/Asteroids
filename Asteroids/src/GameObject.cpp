@@ -1,5 +1,6 @@
 #include "GameObject.h"
 
+
 GameObject::GameObject(
     LevelManager& levelManager,
     glm::vec3 position,
@@ -66,7 +67,7 @@ void GameObject::initialise()
 {
 }
 
-void GameObject::tickFunction()
+void GameObject::move()
 {
 }
 

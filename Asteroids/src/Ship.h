@@ -6,10 +6,9 @@
 #include "Config.h"
 #include "GameObject.h"
 #include "Laser.h"
+#include "LevelManager.h"
 #include "Particle.h"
 
-
-class LevelManager;
 
 class Ship : public GameObject
 {
@@ -46,7 +45,7 @@ private:
 
     // functions
     virtual void initialise();
-    virtual void tickFunction();
+    virtual void move();
 
     glm::vec3 rotate2D(float x, float y, float angle);
     void generateEngineParticle(bool accel);

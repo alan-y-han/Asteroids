@@ -1,23 +1,5 @@
 #include "Asteroid.h"
-
-#include "LevelManager.h"
-
-// TODO: clean up
-std::vector<glm::vec3> asteroidVertices =
-{
-    glm::vec3(0, 20, 0),
-    glm::vec3(-20, 40, 0),
-    glm::vec3(-40, 20, 0),
-    glm::vec3(-40, -20, 0),
-    glm::vec3(-20, -40, 0),
-    glm::vec3(20, -40, 0),
-    glm::vec3(40, -20, 0),
-    glm::vec3(20, 0, 0),
-    glm::vec3(40, 20, 0),
-    glm::vec3(20, 40, 0)
-};
-
-glm::vec3 asteroidColor(1.0f, 1.0f, 0.0f);
+#include "Models.h"
 
 
 Asteroid::Asteroid(
@@ -27,7 +9,7 @@ Asteroid::Asteroid(
     float angle,
     float rVelocity
 ) :
-    GameObject(levelManager, position, velocity, angle, rVelocity, asteroidVertices, asteroidColor)
+    GameObject(levelManager, position, velocity, angle, rVelocity, models::asteroidVertices, models::asteroidColor)
 {
 }
 
@@ -41,7 +23,7 @@ void Asteroid::initialise()
     levelManager.asteroids.insert(this);
 }
 
-void Asteroid::tickFunction()
+void Asteroid::move()
 {
     // movement
     position += velocity;

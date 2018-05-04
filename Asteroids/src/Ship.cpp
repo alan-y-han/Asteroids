@@ -1,26 +1,13 @@
 #include "Ship.h"
-
-#include "LevelManager.h"
+#include "Models.h"
 
 // TODO: clean up
-
-std::vector<glm::vec3> shipVertices =
-{
-    glm::vec3(0.0f, 50.0f, 0.0f),
-    glm::vec3(-25.0f, -30.0f, 0.0f),
-    glm::vec3(0.0f, -15.0f, 0.0f),
-    glm::vec3(25.0f, -30.0f, 0.0f)
-};
-
-glm::vec3 shipColor(1.0f, 1.0f, 1.0f);
 
 float shipRandFloat(float min, float max)
 {
     float range = max - min;
     return min + (((float)rand() / RAND_MAX) * range);
 }
-
-// end TODO
 
 
 Ship::Ship
@@ -31,7 +18,7 @@ Ship::Ship
     float angle,
     float rVelocity
 ) :
-    GameObject(levelManager, position, velocity, angle, rVelocity, shipVertices, shipColor)
+    GameObject(levelManager, position, velocity, angle, rVelocity, models::shipVertices, models::shipColor)
 {
 }
 
@@ -51,7 +38,7 @@ void Ship::initialise()
     laserCooldownTimer = 0;
 }
 
-void Ship::tickFunction()
+void Ship::move()
 {
     // check inputs and modify velocities
 
