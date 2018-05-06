@@ -16,20 +16,20 @@ class Ship;
 class LevelManager
 {
 public:
-    std::unordered_set<GameObject*> gameObjects;
-    
     LevelManager();
     ~LevelManager();
+
     void initialiseLevel();
     void processInput(GLFWwindow* window);
     void tick();
 
+    void addGameObject(GameObject* gameObject);
+    void removeGameObject(GameObject* gameObject);
+
+    std::unordered_set<GameObject*> gameObjects;
     Ship* playerShip;
     std::unordered_set<GameObject*> lasers;
     std::unordered_set<GameObject*> asteroids;
-
-    void addGameObject(GameObject* gameObject);
-    void removeGameObject(GameObject* gameObject);
 
 private:
     std::vector<GameObject*> GOsToAdd;

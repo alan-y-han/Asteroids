@@ -9,7 +9,7 @@
 class Quadtree
 {
 public:
-    Quadtree(int level, Rectangle bounds);
+    Quadtree();
     ~Quadtree();
 
     void clear();
@@ -28,8 +28,10 @@ private:
     static const int MAX_LEVELS = 5;
     static const int MAX_OBJECTS = 1;
 
+    Quadtree(int level, iRectangle bounds);
+
     int level;
-    Rectangle bounds;
+    iRectangle bounds;
     const glm::ivec2 boundsCentre;
     std::vector<Line*> objects; // contains objects in the current node and all subtrees
 

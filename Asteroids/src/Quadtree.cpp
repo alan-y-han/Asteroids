@@ -1,9 +1,15 @@
 #include "Quadtree.h"
+#include "Config.h"
 #include <cstdlib>
 #include <iostream>
 
 
-Quadtree::Quadtree(int level, Rectangle bounds) :
+Quadtree::Quadtree() :
+    Quadtree(1, iRectangle(0, 0, config::SCR_WIDTH, config::SCR_HEIGHT))
+{
+}
+
+Quadtree::Quadtree(int level, iRectangle bounds) :
     level(level),
     bounds(bounds),
     boundsCentre((bounds.bl + bounds.tr) / 2),
@@ -11,10 +17,10 @@ Quadtree::Quadtree(int level, Rectangle bounds) :
 {
     if (level < MAX_LEVELS)
     {
-        subtrees[bottomLeft] = new Quadtree(level + 1, Rectangle(bounds.bl, boundsCentre));
-        subtrees[bottomRight] = new Quadtree(level + 1, Rectangle(boundsCentre.x, bounds.bl.y, bounds.tr.x, boundsCentre.y));
-        subtrees[topLeft] = new Quadtree(level + 1, Rectangle(bounds.bl.x, boundsCentre.y, boundsCentre.x, bounds.tr.y));
-        subtrees[topRight]  = new Quadtree(level + 1, Rectangle(boundsCentre, bounds.tr));
+        subtrees[bottomLeft] = new Quadtree(level + 1, iRectangle(bounds.bl, boundsCentre));
+        subtrees[bottomRight] = new Quadtree(level + 1, iRectangle(boundsCentre.x, bounds.bl.y, bounds.tr.x, boundsCentre.y));
+        subtrees[topLeft] = new Quadtree(level + 1, iRectangle(bounds.bl.x, boundsCentre.y, boundsCentre.x, bounds.tr.y));
+        subtrees[topRight]  = new Quadtree(level + 1, iRectangle(boundsCentre, bounds.tr));
     }
 }
 
@@ -31,12 +37,16 @@ Quadtree::~Quadtree()
 
 void Quadtree::clear()
 {
-    objects.clear();
+    if (objects.size())
+    {
+        objects.clear();
+    }
+    
+    // N.B. if level = MAX_LEVELS then subtreesEmpty = true
     if (!subtreesEmpty) 
     {
         // at least one of the subtrees of this node contains objects
 
-        // N.B. if level = MAX_LEVELS then subtreesEmpty = true
         // below for debugging
         if (level == MAX_LEVELS)
         {
@@ -48,6 +58,7 @@ void Quadtree::clear()
         {
             subtree->clear();
         }
+
         subtreesEmpty = true;
     }
 }
