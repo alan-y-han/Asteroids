@@ -11,6 +11,10 @@
 #include <cstdlib>
 #include <iostream>
 
+// debug
+#include <vector>
+#include "RenderObject.h"
+
 
 int main(int argc, char const *argv[])
 {
@@ -54,6 +58,11 @@ int main(int argc, char const *argv[])
         // render
         if (ticked)
         {
+            // debug
+            //std::vector<RenderObject*> boxList;
+            //levelManager.quadtree.getBoxes(boxList);
+            //renderer.draw(boxList);
+
             renderer.draw(levelManager.gameObjects);
         }
     }

@@ -5,6 +5,9 @@
 #include "Line.h"
 #include "Rectangle.h"
 
+// debug
+#include "RenderObject.h"
+
 
 class Quadtree
 {
@@ -17,6 +20,10 @@ public:
     std::vector<Line> retrieve(Line line);
 
 
+    // debug
+    void getBoxes(std::vector<RenderObject*>& boxList);
+
+
 private:
     enum Quadrant
     {
@@ -25,7 +32,7 @@ private:
         bottomLeft,
         bottomRight
     };
-    static const int MAX_LEVELS = 5;
+    static const int MAX_LEVELS = 7;
     static const int MAX_OBJECTS = 1;
 
 
@@ -42,4 +49,10 @@ private:
     std::vector<Line> objects; // contains objects in the current node and all subtrees
     bool subtreesEmpty; // N.B. also indicates whether the node has split into subtrees
     Quadtree* subtrees[4];
+
+
+    // debug
+
+    std::vector<glm::vec3> debugVertices;
+    RenderObject debugBox;
 };

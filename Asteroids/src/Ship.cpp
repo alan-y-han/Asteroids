@@ -168,7 +168,7 @@ void Ship::generateEngineParticle(bool accel)
 void Ship::fireLaser()
 {
     glm::vec3 laserPos = rotate2D(0, 45, angle);
-    glm::vec3 laserVel = rotate2D(0, 12, angle);
+    glm::vec3 laserVel = rotate2D(0, 2, angle);
 
     levelManager.addGameObject(new Laser
     (

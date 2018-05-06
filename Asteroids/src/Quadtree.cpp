@@ -19,7 +19,14 @@ Quadtree::Quadtree(int level, iRectangle bounds) :
     level(level),
     bounds(bounds),
     boundsCentre((bounds.bl + bounds.tr) / 2),
-    subtreesEmpty(true)
+    subtreesEmpty(true),
+    debugVertices{
+        glm::vec3(0, 0, 0),
+        glm::vec3(0, bounds.tr.y - bounds.bl.y, 0),
+        glm::vec3(bounds.tr.x - bounds.bl.x, bounds.tr.y - bounds.bl.y, 0),
+        glm::vec3(bounds.tr.x - bounds.bl.x, 0, 0)
+    },
+    debugBox(glm::vec3(bounds.bl.x, bounds.bl.y, 0), 0, debugVertices, glm::vec3(1.0f, 0.5f, 0.0f))
 {
     if (level < MAX_LEVELS)
     {
@@ -171,5 +178,22 @@ Quadtree::Quadrant Quadtree::getQuadrant(glm::vec2 point)
     else
     {
         return bottomLeft;
+    }
+}
+
+void Quadtree::getBoxes(std::vector<RenderObject*>& boxList)
+{
+    //if () // TODO: don't add to list if empty, and stop recursing
+    if (objects.size())
+    {
+        boxList.push_back(&debugBox);
+
+        if (!subtreesEmpty && level < MAX_LEVELS)
+        {
+            for (Quadtree* subtree : subtrees)
+            {
+                subtree->getBoxes(boxList);
+            }
+        }
     }
 }

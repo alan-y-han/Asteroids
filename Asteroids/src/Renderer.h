@@ -28,6 +28,9 @@ public:
     GLFWwindow* initialise();
     void draw(std::unordered_set<GameObject*>& gameObjects);
 
+    // debug
+    void draw(std::vector<RenderObject*> renderObjects);
+
 
 private:
     static void framebuffer_size_callback(GLFWwindow* window, int width, int height);

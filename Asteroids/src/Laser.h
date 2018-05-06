@@ -30,4 +30,5 @@ private:
 
 
     int lifetimeRemaining;
+    CollisionObject collisionObject;
 };

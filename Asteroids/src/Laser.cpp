@@ -11,7 +11,7 @@ Laser::Laser(
     float rVelocity
 ):
     GameObject(levelManager, position, velocity, angle, rVelocity, models::laserVertices, models::laserColor),
-    lifetimeRemaining(120)
+    lifetimeRemaining(360)
 {
 }
 
@@ -54,18 +54,21 @@ void Laser::move()
     {
         position.y += config::SCR_HEIGHT;
     }
+
+    // update collision mesh
+    collisionObject.generateMesh(vertices, position, angle, levelManager.quadtree);
 }
 
 void Laser::collisionCheck()
 {
-    for (GameObject* laser : levelManager.lasers)
-    {
-        bool hasCollided = collision::testGOcollision(*this, *laser);
-        if (hasCollided)
-        {
-            std::cout << "Collision!\n";
-        }
-    }
+    //for (GameObject* laser : levelManager.lasers)
+    //{
+    //    bool hasCollided = collision::testGOcollision(*this, *laser);
+    //    if (hasCollided)
+    //    {
+    //        std::cout << "Collision!\n";
+    //    }
+    //}
 
     //collision::testCollision()
 }

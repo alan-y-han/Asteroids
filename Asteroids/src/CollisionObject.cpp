@@ -58,7 +58,7 @@ CollisionObject::CollisionObject()
 // TODO: maybe generate model matrix once in gameObject, remove from Renderer.cpp
 void CollisionObject::generateMesh(std::vector<glm::vec3>& vertices, glm::vec3& position, float angle, Quadtree& quadtree)
 {
-    collisionMesh.clear();
+    //collisionMesh.clear();
 
     glm::mat4 model;
     // rotation
@@ -92,8 +92,8 @@ void CollisionObject::generateMesh(std::vector<glm::vec3>& vertices, glm::vec3& 
 
                 glm::vec3 offset(x * config::SCR_WIDTH, y * config::SCR_HEIGHT, 0.0f);
 
-                collisionMesh.emplace_back(glm::vec2(t1 + offset), glm::vec2(t2 + offset), this);
-                quadtree.insert(collisionMesh.back());
+                //collisionMesh.emplace_back();
+                quadtree.insert(Line(glm::vec2(t1 + offset), glm::vec2(t2 + offset), this));
             }
         }
     }

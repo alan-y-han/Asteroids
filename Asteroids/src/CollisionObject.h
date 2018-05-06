@@ -24,5 +24,5 @@ private:
     //bool testLineCollision(Line& a, Line& b);
 
 
-    std::vector<Line> collisionMesh;
+    //std::vector<Line> collisionMesh;
 };

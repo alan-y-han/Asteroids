@@ -30,7 +30,7 @@ void LevelManager::initialiseLevel()
         0.0f
     );
     addGameObject(playerShip);
-    createAsteroid();
+    //createAsteroid();
 
     addGameObjects();
 }
@@ -53,8 +53,6 @@ void LevelManager::processInput(GLFWwindow* window)
 
 void LevelManager::tick()
 {
-    std::cerr << "Levelmanager tick" << std::endl;
-
     // calculate movement
     quadtree.clear();
 
