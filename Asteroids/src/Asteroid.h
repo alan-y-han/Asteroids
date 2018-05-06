@@ -21,6 +21,7 @@ public:
     );
     ~Asteroid();
 
+
 private:
     virtual void initialise();
     virtual void move();

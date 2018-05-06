@@ -22,10 +22,12 @@ public:
     );
     ~Laser();
 
-private:
-    int lifetimeRemaining;
 
+private:
     virtual void initialise();
     virtual void move();
     virtual void collisionCheck();
+
+
+    int lifetimeRemaining;
 };

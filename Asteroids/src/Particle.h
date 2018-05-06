@@ -22,10 +22,12 @@ public:
     );
     ~Particle();
 
-private:
-    const int lifetime;
-    int lifetimeRemaining;
 
+private:
     virtual void initialise();
     virtual void move();
+
+
+    const int lifetime;
+    int lifetimeRemaining;
 };

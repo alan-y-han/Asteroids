@@ -54,20 +54,21 @@ void LevelManager::processInput(GLFWwindow* window)
 void LevelManager::tick()
 {
     // calculate movement
+    quadtree.clear();
+
     for (GameObject* go : gameObjects)
     {
         go->move();
     }
 
-    // calculate physics (i.e. collisions)
-
+    // calculate physics (i.e. collisions
     for (GameObject* go : gameObjects)
     {
         go->collisionCheck();
     }
 
+    // add/remove gameobjects
     removeGameObjects();
-
     addGameObjects();
 }
 

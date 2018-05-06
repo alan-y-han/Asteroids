@@ -24,9 +24,15 @@ class Renderer
 public:
     Renderer(std::string windowName, std::string vertexPath, std::string fragmentPath);
     ~Renderer();
+    
     GLFWwindow* initialise();
     void draw(std::unordered_set<GameObject*>& gameObjects);
+
+
 private:
+    static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+
     // constructor arguments
     std::string name;
     std::string vertexPath;
@@ -37,6 +43,4 @@ private:
     glm::mat4 projection;
 
     Shader shader;
-
-    static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 };

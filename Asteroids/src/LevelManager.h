@@ -6,6 +6,7 @@
 #include <unordered_set>
 
 #include "Config.h"
+#include "Quadtree.h"
 
 
 // forward declarations
@@ -26,15 +27,16 @@ public:
     void addGameObject(GameObject* gameObject);
     void removeGameObject(GameObject* gameObject);
 
+
     std::unordered_set<GameObject*> gameObjects;
     Ship* playerShip;
     std::unordered_set<GameObject*> lasers;
     std::unordered_set<GameObject*> asteroids;
 
-private:
-    std::vector<GameObject*> GOsToAdd;
-    std::vector<GameObject*> GOsToRemove;
+    Quadtree quadtree;
 
+
+private:
     // disable copying to prevent LevelManager class misuse
     LevelManager(const LevelManager&) = delete;
     LevelManager& operator=(const LevelManager&) = delete;
@@ -43,4 +45,8 @@ private:
     void removeGameObjects();
 
     void createAsteroid();
+
+
+    std::vector<GameObject*> GOsToAdd;
+    std::vector<GameObject*> GOsToRemove;
 };

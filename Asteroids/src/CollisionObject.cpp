@@ -1,9 +1,7 @@
 #include "CollisionObject.h"
 
-CollisionObject::CollisionObject(std::vector<glm::vec3>& collisionMesh) :
-    collisionMesh(collisionMesh)
+CollisionObject::CollisionObject()
 {
-
 }
 
 //bool CollisionObject::testObjectCollision(CollisionObject& b)
@@ -53,7 +51,7 @@ CollisionObject::CollisionObject(std::vector<glm::vec3>& collisionMesh) :
 //    return ((ma < 1) && (ma > 0)) && ((mb < 1) && (mb > 0));
 //}
 
-void CollisionObject::move(glm::vec3 position, float rotation)
+void CollisionObject::move(glm::vec3& vertices, glm::vec3& position, float rotation)
 {
     glm::mat4 model;
 

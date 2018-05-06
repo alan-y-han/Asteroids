@@ -32,22 +32,22 @@ public:
         bool fireLaser = false;
     } keymap;
 
+
 private:    
-    std::vector<glm::vec3> vertices;
-    glm::vec3 color;
-
-    float accel;
-    float frictionFactor;
-    float rSpeed;
-
-    int laserCooldown;
-    int laserCooldownTimer;
-
-    // functions
     virtual void initialise();
     virtual void move();
 
     glm::vec3 rotate2D(float x, float y, float angle);
     void generateEngineParticle(bool accel);
     void fireLaser();
+
+
+    std::vector<glm::vec3> vertices;
+    glm::vec3 color;
+
+    float accel;
+    float frictionFactor;
+    float rSpeed;
+    int laserCooldown;
+    int laserCooldownTimer;
 };

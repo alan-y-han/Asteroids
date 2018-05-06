@@ -15,17 +15,6 @@
 class GameObject
 {
 public:
-    LevelManager& levelManager;
-    glm::vec3 position;
-    glm::vec3 velocity;
-    float angle;
-    float rVelocity;
-    float alpha;
-    std::vector<glm::vec3> vertices;
-    glm::vec3 color;
-    // OpenGL rendering
-    unsigned int VAO;
-
     GameObject
     (
         LevelManager& levelManager,
@@ -43,7 +32,21 @@ public:
     virtual void move();
     virtual void collisionCheck();
 
+
+    LevelManager& levelManager;
+    glm::vec3 position;
+    glm::vec3 velocity;
+    float angle;
+    float rVelocity;
+    float alpha;
+    std::vector<glm::vec3> vertices;
+    glm::vec3 color;
+
+    // OpenGL
+    unsigned int VAO;
+
+
 private:
-    // OpenGL rendering
+    // OpenGL
     unsigned int VBO;
 };

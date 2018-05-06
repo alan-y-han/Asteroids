@@ -7,16 +7,20 @@
 #include "Line.h"
 
 
+// Collision mesh of lines is regenerated every frame, and then stuffed into a quadtree
 class CollisionObject
 {
 public:
-    CollisionObject(std::vector<glm::vec3>& collisionMesh);
+    CollisionObject();
 
-    void move(glm::vec3 position, float rotation);
+
+    void move(glm::vec3& vertices, glm::vec3& position, float rotation);
     bool testObjectCollision(CollisionObject& a);
 
-private:
-    std::vector<glm::vec3> collisionMesh;
 
+private:
     bool testLineCollision(Line& a, Line& b);
+
+
+    std::vector<Line> collisionMesh;
 };
