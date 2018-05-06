@@ -4,8 +4,14 @@
 #include <iostream>
 
 
+// N.B. a quadtree this size doesn't quite fit objects at the very edge of the virtual 3x3 screen.
+// Such objects will be added incorrectly into the quadtree nodes on the very edge,
+// but this shouldn't matter as they shouldn't ever be used for collision detection,
+// unless you have an object the length of a screen edge.
+// If this becomes a problem, simply increase the quadtree bounds
+
 Quadtree::Quadtree() :
-    Quadtree(1, iRectangle(0, 0, config::SCR_WIDTH, config::SCR_HEIGHT))
+    Quadtree(1, iRectangle(-config::SCR_WIDTH, -config::SCR_HEIGHT, config::SCR_WIDTH * 2, config::SCR_HEIGHT * 2))
 {
 }
 
@@ -37,6 +43,8 @@ Quadtree::~Quadtree()
 
 void Quadtree::clear()
 {
+    //std::cerr << "Clearing level: " << level << ", no. objects: " << objects.size() << std::endl;
+
     if (objects.size())
     {
         objects.clear();
@@ -63,8 +71,10 @@ void Quadtree::clear()
     }
 }
 
-void Quadtree::insert(Line* line)
+void Quadtree::insert(Line line)
 {
+    //std::cerr << "Adding at level " << level << std::endl;
+
     objects.push_back(line);
 
     // if the node is over max capacity to remain a leaf node
@@ -73,7 +83,7 @@ void Quadtree::insert(Line* line)
         Quadtree* target = getSubtree(line);
 
         // if object just added caused node to go over capacity
-        if (subtreesEmpty)
+        if (subtreesEmpty && level < MAX_LEVELS)
         {
             split();
         } // else the node has already split in the past, therefore add object to subtree
@@ -84,7 +94,7 @@ void Quadtree::insert(Line* line)
     }
 }
 
-std::vector<Line*> Quadtree::retrieve(Line* line)
+std::vector<Line> Quadtree::retrieve(Line line)
 {
     Quadtree* target = getSubtree(line);
 
@@ -98,7 +108,7 @@ std::vector<Line*> Quadtree::retrieve(Line* line)
     }
 }
 
-Quadtree* Quadtree::getSubtree(Line* line)
+Quadtree* Quadtree::getSubtree(Line line)
 {
     // if already deepest tree level, the node cannot be split
     if (level >= MAX_LEVELS)
@@ -112,8 +122,8 @@ Quadtree* Quadtree::getSubtree(Line* line)
     }
     else // find which quadrant line belongs in
     {
-        Quadrant p1Quadrant = getQuadrant(line->p1);
-        Quadrant p2Quadrant = getQuadrant(line->p2);
+        Quadrant p1Quadrant = getQuadrant(line.p1);
+        Quadrant p2Quadrant = getQuadrant(line.p2);
         if (p1Quadrant == p2Quadrant)
         {
             return subtrees[p1Quadrant];
@@ -129,7 +139,7 @@ void Quadtree::split()
 {
     subtreesEmpty = false;
 
-    for (Line* line : objects)
+    for (Line line : objects)
     {
         Quadtree* target = getSubtree(line);
         
@@ -140,7 +150,7 @@ void Quadtree::split()
     }
 }
 
-// TODO: optimise by bitshifting ints
+// TODO: optimise by bitshifting uints
 Quadtree::Quadrant Quadtree::getQuadrant(glm::vec2 point)
 {
     bool topHalf = point.y > boundsCentre.y;

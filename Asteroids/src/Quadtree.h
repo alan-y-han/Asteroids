@@ -13,8 +13,8 @@ public:
     ~Quadtree();
 
     void clear();
-    void insert(Line* line);
-    std::vector<Line*> retrieve(Line* line);
+    void insert(Line line);
+    std::vector<Line> retrieve(Line line);
 
 
 private:
@@ -31,7 +31,7 @@ private:
 
     Quadtree(int level, iRectangle bounds);
 
-    Quadtree* getSubtree(Line* line);
+    Quadtree* getSubtree(Line line);
     void split();
     Quadrant getQuadrant(glm::vec2 point);
 
@@ -39,7 +39,7 @@ private:
     int level;
     iRectangle bounds;
     const glm::ivec2 boundsCentre;
-    std::vector<Line*> objects; // contains objects in the current node and all subtrees
+    std::vector<Line> objects; // contains objects in the current node and all subtrees
     bool subtreesEmpty; // N.B. also indicates whether the node has split into subtrees
     Quadtree* subtrees[4];
 };

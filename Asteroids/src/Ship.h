@@ -3,6 +3,7 @@
 #include <functional>
 #include <vector>
 
+#include "CollisionObject.h"
 #include "Config.h"
 #include "GameObject.h"
 #include "Laser.h"
@@ -42,8 +43,8 @@ private:
     void fireLaser();
 
 
-    std::vector<glm::vec3> vertices;
     glm::vec3 color;
+    CollisionObject collisionObject;
 
     float accel;
     float frictionFactor;

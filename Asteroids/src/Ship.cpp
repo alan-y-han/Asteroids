@@ -88,6 +88,9 @@ void Ship::move()
         position.y += config::SCR_HEIGHT;
     }
 
+    // update collision mesh
+    collisionObject.generateMesh(vertices, position, angle, levelManager.quadtree);
+
     // other object state
 
     if (laserCooldownTimer > 0)

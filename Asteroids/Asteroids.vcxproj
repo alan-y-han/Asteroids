@@ -158,6 +158,7 @@
     <ClCompile Include="src\Asteroid.cpp" />
     <ClCompile Include="src\CollisionObject.cpp" />
     <ClCompile Include="src\Laser.cpp" />
+    <ClCompile Include="src\Line.cpp" />
     <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\Quadtree.cpp" />
     <ClCompile Include="src\Rectangle.cpp" />
