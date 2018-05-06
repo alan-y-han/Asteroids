@@ -58,5 +58,14 @@ void Laser::move()
 
 void Laser::collisionCheck()
 {
+    for (GameObject* laser : levelManager.lasers)
+    {
+        bool hasCollided = collision::testGOcollision(*this, *laser);
+        if (hasCollided)
+        {
+            std::cout << "Collision!\n";
+        }
+    }
+
     //collision::testCollision()
 }

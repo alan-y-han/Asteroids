@@ -156,8 +156,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Asteroid.cpp" />
+    <ClCompile Include="src\CollisionObject.cpp" />
     <ClCompile Include="src\Laser.cpp" />
     <ClCompile Include="src\Particle.cpp" />
+    <ClCompile Include="src\Quadtree.cpp" />
+    <ClCompile Include="src\Rectangle.cpp" />
     <ClCompile Include="src\Ship.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\LevelManager.cpp" />
@@ -169,10 +172,14 @@
   <ItemGroup>
     <ClInclude Include="src\Asteroid.h" />
     <ClInclude Include="src\Collision.h" />
+    <ClInclude Include="src\CollisionObject.h" />
     <ClInclude Include="src\Config.h" />
     <ClInclude Include="src\Laser.h" />
+    <ClInclude Include="src\Rectangle.h" />
+    <ClInclude Include="src\Line.h" />
     <ClInclude Include="src\Models.h" />
     <ClInclude Include="src\Particle.h" />
+    <ClInclude Include="src\Quadtree.h" />
     <ClInclude Include="src\Ship.h" />
     <ClInclude Include="src\LevelManager.h" />
     <ClInclude Include="src\Renderer.h" />

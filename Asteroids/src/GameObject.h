@@ -21,8 +21,8 @@ public:
     float angle;
     float rVelocity;
     float alpha;
-    const std::vector<glm::vec3> vertices;
-    const glm::vec3 color;
+    std::vector<glm::vec3> vertices;
+    glm::vec3 color;
     // OpenGL rendering
     unsigned int VAO;
 
