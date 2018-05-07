@@ -22,7 +22,8 @@ public:
 
 private:
     //bool testLineCollision(Line& a, Line& b);
+    void addToMesh(int x, int y, int i, std::vector<glm::vec3>& transformed);
 
 
-    //std::vector<Line> collisionMesh;
+    std::vector<Line> collisionMesh;
 };

@@ -58,12 +58,20 @@ int main(int argc, char const *argv[])
         // render
         if (ticked)
         {
-            // debug
-            //std::vector<RenderObject*> boxList;
-            //levelManager.quadtree.getBoxes(boxList);
-            //renderer.draw(boxList);
+            renderer.clear();
 
+            // draw debug
+            std::cout << levelManager.gameObjects.size() << std::endl;
+
+            std::vector<RenderObject*> boxList;
+            levelManager.quadtree.getBoxes(boxList);
+            renderer.draw(boxList);
+
+            // draw
             renderer.draw(levelManager.gameObjects);
+
+            // swap buffers
+            renderer.swapBuffers();
         }
     }
 

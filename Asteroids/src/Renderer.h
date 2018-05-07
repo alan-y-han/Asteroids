@@ -26,7 +26,9 @@ public:
     ~Renderer();
     
     GLFWwindow* initialise();
+    void clear();
     void draw(std::unordered_set<GameObject*>& gameObjects);
+    void swapBuffers();
 
     // debug
     void draw(std::vector<RenderObject*> renderObjects);

@@ -59,14 +59,15 @@ GLFWwindow* Renderer::initialise()
     return window;
 }
 
-void Renderer::draw(std::unordered_set<GameObject*>& gameObjects)
+void Renderer::clear()
 {
-    std::cout << gameObjects.size() << std::endl;
-
-    shader.use();
-
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void Renderer::draw(std::unordered_set<GameObject*>& gameObjects)
+{
+    shader.use();
 
     for (GameObject* go : gameObjects)
     {
@@ -96,17 +97,16 @@ void Renderer::draw(std::unordered_set<GameObject*>& gameObjects)
             }
         }
     }
+}
 
-    // swap buffers
+void Renderer::swapBuffers()
+{
     glfwSwapBuffers(window);
 }
 
 void Renderer::draw(std::vector<RenderObject*> renderObjects)
 {
     shader.use();
-
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     for (RenderObject* go : renderObjects)
     {
@@ -132,8 +132,6 @@ void Renderer::draw(std::vector<RenderObject*> renderObjects)
         glDrawArrays(GL_LINE_LOOP, 0, go->vertices.size());
 
     }
-
-    // don't swap buffers
 }
 
 void Renderer::framebuffer_size_callback(GLFWwindow* window, int width, int height)
