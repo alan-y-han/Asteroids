@@ -80,21 +80,28 @@ void Quadtree::clear()
 
 void Quadtree::insert(Line line)
 {
-    //std::cerr << "Adding at level " << level << std::endl;
-
-    objects.push_back(line);
-
-    // if the node is over max capacity to remain a leaf node
-    if (objects.size() > MAX_OBJECTS)
+    if (subtreesEmpty)
     {
-        Quadtree* target = getSubtree(line);
-
-        // if object just added caused node to go over capacity
-        if (subtreesEmpty && level < MAX_LEVELS)
+        // if need to split
+        if (objects.size() >= MAX_OBJECTS && level < MAX_LEVELS)
         {
             split();
-        } // else the node has already split in the past, therefore add object to subtree
-        else if (target != this)
+            Quadtree* target = getSubtree(line);
+            target->insert(line);
+        }
+        else
+        {
+            objects.push_back(line);
+        }
+    }
+    else
+    {
+        Quadtree* target = getSubtree(line);
+        if (target == this)
+        {
+            objects.push_back(line);
+        }
+        else
         {
             target->insert(line);
         }
@@ -107,11 +114,39 @@ std::vector<Line> Quadtree::retrieve(Line line)
 
     if (target == this)
     {
-        return objects;
+        std::vector<Line> objectList;
+        objectList.insert(std::end(objectList), std::begin(objects), std::end(objects));
+
+        if (!subtreesEmpty) // && level < MAX_LEVELS implied
+        {
+            for (Quadtree* subtree : subtrees)
+            {
+                retrieveAll(objectList);
+            }
+        }
+
+        return objectList;
     }
     else
     {
         return target->retrieve(line);
+    }
+}
+
+// helper function for retrieve()
+void Quadtree::retrieveAll(std::vector<Line>& objectList)
+{
+    if (objects.size())
+    {
+        objectList.insert(std::end(objectList), std::begin(objects), std::end(objects));
+
+        if (!subtreesEmpty && level < MAX_LEVELS)
+        {
+            for (Quadtree* subtree : subtrees)
+            {
+                subtree->retrieveAll(objectList);
+            }
+        }
     }
 }
 
@@ -188,7 +223,7 @@ void Quadtree::getBoxes(std::vector<RenderObject*>& boxList)
     {
         boxList.push_back(&debugBox);
 
-        if (!subtreesEmpty && level < MAX_LEVELS)
+        if (!subtreesEmpty) // && level < MAX_LEVELS implied
         {
             for (Quadtree* subtree : subtrees)
             {

@@ -32,8 +32,8 @@ private:
         bottomLeft,
         bottomRight
     };
-    static const int MAX_LEVELS = 7;
-    static const int MAX_OBJECTS = 1;
+    static const int MAX_LEVELS = 6;
+    static const int MAX_OBJECTS = 3;
 
 
     Quadtree(int level, iRectangle bounds);
@@ -41,6 +41,7 @@ private:
     Quadtree* getSubtree(Line line);
     void split();
     Quadrant getQuadrant(glm::vec2 point);
+    void retrieveAll(std::vector<Line>& objectList);
 
 
     int level;
