@@ -6,7 +6,7 @@
 #include "Rectangle.h"
 
 // debug
-#include "RenderObject.h"
+#include "RenderObjectOri.h"
 
 
 class Quadtree
@@ -21,7 +21,7 @@ public:
 
 
     // debug
-    void getBoxes(std::vector<RenderObject*>& boxList);
+    void getBoxes(std::vector<RenderObjectOri*>& boxList);
 
 
 private:
@@ -55,5 +55,5 @@ private:
     // debug
 
     std::vector<glm::vec3> debugVertices;
-    RenderObject debugBox;
+    RenderObjectOri debugBox;
 };

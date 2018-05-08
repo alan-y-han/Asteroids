@@ -216,7 +216,7 @@ Quadtree::Quadrant Quadtree::getQuadrant(glm::vec2 point)
     }
 }
 
-void Quadtree::getBoxes(std::vector<RenderObject*>& boxList)
+void Quadtree::getBoxes(std::vector<RenderObjectOri*>& boxList)
 {
     //if () // TODO: don't add to list if empty, and stop recursing
     if (objects.size())

@@ -1,7 +1,7 @@
-#include "RenderObject.h"
+#include "RenderObjectOri.h"
 #include <iostream>
 
-RenderObject::RenderObject(glm::vec3 position, float angle, std::vector<glm::vec3> vertices, glm::vec3 color) :
+RenderObjectOri::RenderObjectOri(glm::vec3 position, float angle, std::vector<glm::vec3> vertices, glm::vec3 color) :
     position(position),
     angle(angle),
     vertices(vertices),
@@ -15,7 +15,7 @@ RenderObject::RenderObject(glm::vec3 position, float angle, std::vector<glm::vec
     float* vertexData = (float*)malloc(vertexDataSize * sizeof(float)); // X, Y, Z, R, G, B
     if (vertexData == NULL)
     {
-        std::cerr << "malloc failed in GameObject" << std::endl;
+        std::cerr << "malloc failed in RenderObjectOri" << std::endl;
     }
 
     for (int i = 0; i < vertices.size(); i++)
@@ -45,7 +45,7 @@ RenderObject::RenderObject(glm::vec3 position, float angle, std::vector<glm::vec
     glEnableVertexAttribArray(1);
 }
 
-RenderObject::~RenderObject()
+RenderObjectOri::~RenderObjectOri()
 {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);

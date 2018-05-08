@@ -8,18 +8,17 @@
 #include <vector>
 
 
-class RenderObject
+class RenderObjectOri
 {
 public:
-    RenderObject
+    RenderObjectOri
     (
         glm::vec3 position,
         float angle,
-        //std::vector<glm::vec3> vertices,
         std::vector<glm::vec3> vertices,
         glm::vec3 color
     );
-    ~RenderObject();
+    ~RenderObjectOri();
 
 
 

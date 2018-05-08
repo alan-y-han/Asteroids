@@ -5,24 +5,21 @@
 #include <vector>
 
 #include "Config.h"
-#include "GameObject.h"
+#include "GameObjectNew.h"
+#include "GPUobject.h"
 #include "LevelManager.h"
+#include "Transform.h"
 
 
-class Asteroid : public GameObject
+class Asteroid : public GameObjectNew
 {
 public:
     Asteroid(
         LevelManager& levelManager,
-        glm::vec3 position,
-        glm::vec3 velocity,
-        float angle,
-        float rVelocity
+        Transform& transform
     );
     ~Asteroid();
 
-
-private:
     virtual void initialise();
     virtual void move();
 };

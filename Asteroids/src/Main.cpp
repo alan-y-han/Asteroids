@@ -5,6 +5,7 @@
 #include <glm\gtc\type_ptr.hpp>
 
 #include "Config.h"
+#include "GLinitialiser.h"
 #include "LevelManager.h"
 #include "Renderer.h"
 
@@ -13,21 +14,23 @@
 
 // debug
 #include <vector>
-#include "RenderObject.h"
+#include "RenderObjectOri.h"
 
 
 int main(int argc, char const *argv[])
 {
-    Renderer renderer("Asteroids", "src/vs.glsl", "src/fs.glsl");
+    GLinitialiser glInitialiser;
+    GLFWwindow* window = glInitialiser.createWindow("Asteroids");
 
-    GLFWwindow* window = renderer.initialise();
     if (!window)
     {
         std::cerr << "Failed to initialise GLFW window, exiting" << std::endl;
         return EXIT_FAILURE;
     }
 
-    LevelManager levelManager;
+    Renderer renderer(window, "src/renderer/vs.glsl", "src/renderer/fs.glsl");
+
+    LevelManager levelManager(renderer.gpuObjectManager);
     levelManager.initialiseLevel();
 
     double previous = glfwGetTime();
@@ -63,12 +66,14 @@ int main(int argc, char const *argv[])
             // draw debug
             std::cout << levelManager.gameObjects.size() << std::endl;
 
-            std::vector<RenderObject*> boxList;
+            std::vector<RenderObjectOri*> boxList;
             levelManager.quadtree.getBoxes(boxList);
             renderer.draw(boxList);
 
             // draw
             renderer.draw(levelManager.gameObjects);
+
+            renderer.draw();
 
             // swap buffers
             renderer.swapBuffers();

@@ -13,9 +13,9 @@ class Shader
 {
 public:
     Shader(); // call initialiseShader() before use
-    Shader(std::string& vertexPath, std::string& fragmentPath);
+    Shader(std::string vertexPath, std::string fragmentPath);
 
-    void initialiseShader(std::string& vertexPath, std::string& fragmentPath); // must call this after class construction
+    void initialiseShader(std::string vertexPath, std::string fragmentPath); // must call this after class construction
     void use(); // use/activate the shader
 
     // functions for setting uniforms

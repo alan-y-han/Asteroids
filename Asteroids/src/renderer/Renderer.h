@@ -13,39 +13,40 @@
 #include <unordered_set>
 
 #include "Config.h"
-#include "GameObject.h"
+#include "GameObject.h" // soon to be removed
+#include "GPUobjectManager.h"
 #include "Shader.h"
 
 #include <functional>
+
+// debug
+#include "RenderObjectOri.h"
 
 
 class Renderer
 {
 public:
-    Renderer(std::string windowName, std::string vertexPath, std::string fragmentPath);
+    Renderer(GLFWwindow* window, std::string vertexPath, std::string fragmentPath);
     ~Renderer();
     
-    GLFWwindow* initialise();
     void clear();
     void draw(std::unordered_set<GameObject*>& gameObjects);
+    void draw();
     void swapBuffers();
 
     // debug
-    void draw(std::vector<RenderObject*> renderObjects);
+    void draw(std::vector<RenderObjectOri*> renderObjects);
+
+
+    GPUobjectManager gpuObjectManager;
 
 
 private:
-    static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-
-
-    // constructor arguments
-    std::string name;
-    std::string vertexPath;
-    std::string fragmentPath;
-
     GLFWwindow* window;
+
     glm::mat4 view;
     glm::mat4 projection;
 
     Shader shader;
+    Shader shaderNew;
 };

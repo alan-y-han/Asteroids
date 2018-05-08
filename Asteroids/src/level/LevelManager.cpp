@@ -3,11 +3,11 @@
 #include "Asteroid.h"
 #include "GameObject.h"
 #include "Ship.h"
+#include "Transform.h"
 
-//#include "Collision.h"
 
-
-LevelManager::LevelManager()
+LevelManager::LevelManager(GPUobjectManager& gpuObjectManager) :
+    gpuObjectManager(gpuObjectManager)
 {
 }
 
@@ -30,7 +30,16 @@ void LevelManager::initialiseLevel()
         0.0f
     );
     addGameObject(playerShip);
-    //createAsteroid();
+    
+    testAsteroid = new Asteroid(
+        *this,
+        Transform(
+            glm::vec3(100, 100, 0),
+            20,
+            glm::vec3(2, -0.5, 0),
+            -2
+        )
+    );  
 
     addGameObjects();
 }
@@ -60,6 +69,8 @@ void LevelManager::tick()
     {
         go->move();
     }
+
+    testAsteroid->move();
 
     // calculate physics (i.e. collisions
     for (GameObject* go : gameObjects)
@@ -110,11 +121,20 @@ void LevelManager::removeGameObjects()
 
 void LevelManager::createAsteroid()
 {
-    addGameObject(new Asteroid(
-        *this,
-        glm::vec3(100, 100, 0),
-        glm::vec3(2, -0.5, 0),
-        20,
-        -2
-    ));
+    //addGameObject(new Asteroid(
+    //    *this,
+    //    glm::vec3(100, 100, 0),
+    //    glm::vec3(2, -0.5, 0),
+    //    20,
+    //    -2
+    //));
+    //new Asteroid(
+    //    *this,
+    //    Transform(
+    //        glm::vec3(100, 100, 0),
+    //        20,
+    //        glm::vec3(2, -0.5, 0),
+    //        -2
+    //    )
+    //);
 }

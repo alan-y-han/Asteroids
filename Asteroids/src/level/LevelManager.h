@@ -8,16 +8,21 @@
 #include "Config.h"
 #include "Quadtree.h"
 
+// debug
+class Asteroid;
+
 
 // forward declarations
 class GameObject;
+class GameObjectNew;
+class GPUobjectManager;
 class Ship;
 
 
 class LevelManager
 {
 public:
-    LevelManager();
+    LevelManager(GPUobjectManager& gpuObjectManager);
     ~LevelManager();
 
     void initialiseLevel();
@@ -27,17 +32,18 @@ public:
     void addGameObject(GameObject* gameObject);
     void removeGameObject(GameObject* gameObject);
 
+    GPUobjectManager& gpuObjectManager;
 
     std::unordered_set<GameObject*> gameObjects;
     Ship* playerShip;
     std::unordered_set<GameObject*> lasers;
-    std::unordered_set<GameObject*> asteroids;
+    std::unordered_set<GameObjectNew*> asteroids;
 
     Quadtree quadtree;
 
 
 private:
-    // disable copying to prevent LevelManager class misuse
+    // disable copying class
     LevelManager(const LevelManager&) = delete;
     LevelManager& operator=(const LevelManager&) = delete;
 
@@ -46,6 +52,7 @@ private:
 
     void createAsteroid();
 
+    Asteroid* testAsteroid;
 
     std::vector<GameObject*> GOsToAdd;
     std::vector<GameObject*> GOsToRemove;

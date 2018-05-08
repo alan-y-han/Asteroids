@@ -4,12 +4,12 @@ Shader::Shader()
 {
 }
 
-Shader::Shader(std::string& vertexPath, std::string& fragmentPath)
+Shader::Shader(std::string vertexPath, std::string fragmentPath)
 {
     initialiseShader(vertexPath, fragmentPath);
 }
 
-void Shader::initialiseShader(std::string& vertexPath, std::string& fragmentPath)
+void Shader::initialiseShader(std::string vertexPath, std::string fragmentPath)
 {
     // 1. retrieve the vertex/fragment source code from filepath
     std::string vShaderStr = readShaderFile(vertexPath).c_str();

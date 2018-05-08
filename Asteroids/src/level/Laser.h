@@ -4,9 +4,11 @@
 
 #include <vector>
 
+#include "CollisionObject.h"
 #include "Config.h"
 #include "GameObject.h"
 #include "LevelManager.h"
+#include "RenderObject.h"
 
 
 class Laser : public GameObject
@@ -28,6 +30,8 @@ private:
     virtual void move();
     virtual void collisionCheck();
 
+
+    //RenderObject renderObject;
 
     int lifetimeRemaining;
     CollisionObject collisionObject;

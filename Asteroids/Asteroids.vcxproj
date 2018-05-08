@@ -71,7 +71,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\Alan\Documents\git\Asteroids\Asteroids\include;$(IncludePath)</IncludePath>
+    <IncludePath>include/;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\Alan\Documents\git\Asteroids\Asteroids\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -79,7 +79,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Users\Alan\Documents\git\Asteroids\Asteroids\include;$(IncludePath)</IncludePath>
+    <IncludePath>include/;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\Alan\Documents\git\Asteroids\Asteroids\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -93,6 +93,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>src/level;src/physics;src/renderer;src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -127,6 +128,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>src/level;src/physics;src/renderer;src/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,39 +157,54 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Asteroid.cpp" />
-    <ClCompile Include="src\CollisionObject.cpp" />
-    <ClCompile Include="src\Laser.cpp" />
-    <ClCompile Include="src\Line.cpp" />
-    <ClCompile Include="src\Particle.cpp" />
-    <ClCompile Include="src\Quadtree.cpp" />
-    <ClCompile Include="src\Rectangle.cpp" />
-    <ClCompile Include="src\RenderObject.cpp" />
-    <ClCompile Include="src\Ship.cpp" />
-    <ClCompile Include="src\glad.c" />
-    <ClCompile Include="src\LevelManager.cpp" />
+    <ClCompile Include="src\level\GameObjectNew.cpp" />
+    <ClCompile Include="src\level\Asteroid.cpp" />
+    <ClCompile Include="src\physics\CollisionObject.cpp" />
+    <ClCompile Include="src\renderer\glad.c" />
+    <ClCompile Include="src\Renderer\GPUobject.cpp" />
+    <ClCompile Include="src\Renderer\GPUobjectManager.cpp" />
+    <ClCompile Include="src\level\Laser.cpp" />
+    <ClCompile Include="src\physics\Line.cpp" />
+    <ClCompile Include="src\Renderer\RenderObject.cpp" />
+    <ClCompile Include="src\level\Transform.cpp" />
+    <ClCompile Include="src\level\Particle.cpp" />
+    <ClCompile Include="src\physics\Quadtree.cpp" />
+    <ClCompile Include="src\physics\Rectangle.cpp" />
+    <ClCompile Include="src\Renderer\RenderObjectOri.cpp" />
+    <ClCompile Include="src\level\Ship.cpp" />
+    <ClCompile Include="src\level\LevelManager.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\Renderer.cpp" />
-    <ClCompile Include="src\GameObject.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\level\GameObject.cpp" />
+    <ClCompile Include="src\Renderer\Shader.cpp" />
+    <ClCompile Include="src\renderer\GLinitialiser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Asteroid.h" />
-    <ClInclude Include="src\Collision.h" />
-    <ClInclude Include="src\CollisionObject.h" />
+    <ClInclude Include="src\level\GameObjectNew.h" />
+    <ClInclude Include="src\level\Asteroid.h" />
+    <ClInclude Include="src\physics\Collision.h" />
+    <ClInclude Include="src\physics\CollisionObject.h" />
     <ClInclude Include="src\Config.h" />
-    <ClInclude Include="src\Laser.h" />
-    <ClInclude Include="src\Rectangle.h" />
-    <ClInclude Include="src\Line.h" />
+    <ClInclude Include="src\Renderer\GPUobject.h" />
+    <ClInclude Include="src\Renderer\GPUobjectManager.h" />
+    <ClInclude Include="src\level\Laser.h" />
+    <ClInclude Include="src\physics\Rectangle.h" />
+    <ClInclude Include="src\physics\Line.h" />
     <ClInclude Include="src\Models.h" />
-    <ClInclude Include="src\Particle.h" />
-    <ClInclude Include="src\Quadtree.h" />
-    <ClInclude Include="src\RenderObject.h" />
-    <ClInclude Include="src\Ship.h" />
-    <ClInclude Include="src\LevelManager.h" />
-    <ClInclude Include="src\Renderer.h" />
-    <ClInclude Include="src\GameObject.h" />
-    <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\level\Particle.h" />
+    <ClInclude Include="src\physics\Quadtree.h" />
+    <ClInclude Include="src\Renderer\RenderObject.h" />
+    <ClInclude Include="src\Renderer\RenderObjectOri.h" />
+    <ClInclude Include="src\Renderer\InstanceVertexAttributes.h" />
+    <ClInclude Include="src\level\Ship.h" />
+    <ClInclude Include="src\level\LevelManager.h" />
+    <ClInclude Include="src\Renderer\Renderer.h" />
+    <ClInclude Include="src\level\GameObject.h" />
+    <ClInclude Include="src\Renderer\Shader.h" />
+    <ClInclude Include="src\renderer\GLinitialiser.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\level\Transform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

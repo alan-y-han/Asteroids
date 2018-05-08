@@ -1,45 +1,9 @@
 #include "Renderer.h"
 
 
-Renderer::Renderer(std::string windowName, std::string vertexPath, std::string fragmentPath) :
-    name(windowName),
-    vertexPath(vertexPath),
-    fragmentPath(fragmentPath)
+Renderer::Renderer(GLFWwindow* window, std::string vertexPath, std::string fragmentPath) :
+    window(window)
 {
-}
-
-Renderer::~Renderer()
-{
-    glfwTerminate();
-}
-
-GLFWwindow* Renderer::initialise()
-{
-    // Initialise GLFW
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
-    window = glfwCreateWindow(config::SCR_WIDTH, config::SCR_HEIGHT, name.c_str(), NULL, NULL);
-    if (window == NULL)
-    {
-        std::cerr << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return nullptr;
-    }
-    glfwMakeContextCurrent(window);
-
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
-    // Initialise GLAD
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return nullptr;
-    }
-
     // OpenGL options
     glEnable(GL_DEPTH_TEST);
     glfwSwapInterval(1);
@@ -48,7 +12,7 @@ GLFWwindow* Renderer::initialise()
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, -32.0f));
 
     //projection = glm::ortho(0.0f, config::SCR_WIDTH, 0.0f, config::SCR_HEIGHT, 0.1f, 100.0f);
-    projection = glm::ortho(-config::SCR_WIDTH, config::SCR_WIDTH * 2, -config::SCR_HEIGHT, config::SCR_HEIGHT * 2, 0.1f, 100.0f);
+    projection = glm::ortho(-config::SCR_WIDTH * 2, config::SCR_WIDTH * 3, -config::SCR_HEIGHT * 2, config::SCR_HEIGHT * 3, 0.1f, 100.0f);
 
     // Initialise shader
     shader.initialiseShader(vertexPath, fragmentPath);
@@ -56,7 +20,17 @@ GLFWwindow* Renderer::initialise()
     shader.setViewMatrix(view);
     shader.setProjectionMatrix(projection);
 
-    return window;
+    // Initialise shader
+    shaderNew.initialiseShader("src/renderer/vsInstanced.glsl", "src/renderer/fsInstanced.glsl");
+    shaderNew.use();
+    //shaderNew.setViewMatrix(view);
+    //shaderNew.setProjectionMatrix(projection);
+    glUniformMatrix4fv(glGetUniformLocation(shaderNew.ID, "view"), 1, GL_FALSE, &view[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(shaderNew.ID, "projection"), 1, GL_FALSE, &projection[0][0]);
+}
+
+Renderer::~Renderer()
+{
 }
 
 void Renderer::clear()
@@ -99,16 +73,22 @@ void Renderer::draw(std::unordered_set<GameObject*>& gameObjects)
     }
 }
 
+void Renderer::draw()
+{
+    shaderNew.use();
+    gpuObjectManager.drawAllObjects();
+}
+
 void Renderer::swapBuffers()
 {
     glfwSwapBuffers(window);
 }
 
-void Renderer::draw(std::vector<RenderObject*> renderObjects)
+void Renderer::draw(std::vector<RenderObjectOri*> renderObjects)
 {
     shader.use();
 
-    for (RenderObject* go : renderObjects)
+    for (RenderObjectOri* go : renderObjects)
     {
         glBindVertexArray(go->VAO);
 
@@ -132,9 +112,4 @@ void Renderer::draw(std::vector<RenderObject*> renderObjects)
         glDrawArrays(GL_LINE_LOOP, 0, go->vertices.size());
 
     }
-}
-
-void Renderer::framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-    glViewport(0, 0, width, height);
 }
