@@ -1,30 +1,15 @@
 #pragma once
 
-#include <glad\glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-#include <cstdlib>
-#include <iostream>
-#include <vector>
-
+#include "GPUobject.h"
 #include "LevelManager.h"
+#include "RenderObject.h"
+#include "Transform.h"
 
 
 class GameObject
 {
 public:
-    GameObject
-    (
-        LevelManager& levelManager,
-        glm::vec3 position,
-        glm::vec3 velocity,
-        float angle,
-        float rVelocity,
-        std::vector<glm::vec3> vertices,
-        glm::vec3 color
-    );
+    GameObject(LevelManager& levelManager, GPUobject* gpuObject, Transform transform);
     virtual ~GameObject();
 
     // public GameObject functions, to be overriden in derived classes
@@ -33,20 +18,13 @@ public:
     virtual void collisionCheck();
 
 
+protected:
+    void updateInstanceVAsModelMatrix();
+
+
     LevelManager& levelManager;
-    glm::vec3 position;
-    glm::vec3 velocity;
-    float angle;
-    float rVelocity;
-    float alpha;
-    std::vector<glm::vec3> vertices;
-    glm::vec3 color;
+    RenderObject renderObjects[9];
 
-    // OpenGL
-    unsigned int VAO;
-
-
-private:
-    // OpenGL
-    unsigned int VBO;
+    Transform transform;
 };
+

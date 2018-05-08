@@ -63,7 +63,7 @@ int main(int argc, char const *argv[])
         {
             renderer.clear();
 
-            // draw debug
+            // debug
             std::cout << levelManager.gameObjects.size() << std::endl;
 
             std::vector<RenderObjectOri*> boxList;
@@ -71,8 +71,6 @@ int main(int argc, char const *argv[])
             renderer.draw(boxList);
 
             // draw
-            renderer.draw(levelManager.gameObjects);
-
             renderer.draw();
 
             // swap buffers

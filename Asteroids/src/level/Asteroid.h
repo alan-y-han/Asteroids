@@ -5,19 +5,16 @@
 #include <vector>
 
 #include "Config.h"
-#include "GameObjectNew.h"
+#include "GameObject.h"
 #include "GPUobject.h"
 #include "LevelManager.h"
 #include "Transform.h"
 
 
-class Asteroid : public GameObjectNew
+class Asteroid : public GameObject
 {
 public:
-    Asteroid(
-        LevelManager& levelManager,
-        Transform& transform
-    );
+    Asteroid(LevelManager& levelManager, Transform& transform);
     ~Asteroid();
 
     virtual void initialise();

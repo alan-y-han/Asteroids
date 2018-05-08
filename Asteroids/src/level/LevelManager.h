@@ -8,13 +8,9 @@
 #include "Config.h"
 #include "Quadtree.h"
 
-// debug
-class Asteroid;
-
 
 // forward declarations
 class GameObject;
-class GameObjectNew;
 class GPUobjectManager;
 class Ship;
 
@@ -37,7 +33,7 @@ public:
     std::unordered_set<GameObject*> gameObjects;
     Ship* playerShip;
     std::unordered_set<GameObject*> lasers;
-    std::unordered_set<GameObjectNew*> asteroids;
+    std::unordered_set<GameObject*> asteroids;
 
     Quadtree quadtree;
 
@@ -51,8 +47,6 @@ private:
     void removeGameObjects();
 
     void createAsteroid();
-
-    Asteroid* testAsteroid;
 
     std::vector<GameObject*> GOsToAdd;
     std::vector<GameObject*> GOsToRemove;

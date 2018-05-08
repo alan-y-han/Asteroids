@@ -24,22 +24,16 @@ void LevelManager::initialiseLevel()
 {
     playerShip = new Ship(
         *this,
-        glm::vec3(config::SCR_WIDTH / 2, config::SCR_HEIGHT / 2, 1.0f),
-        glm::vec3(0.0f, 0.0f, 0.0f),
-        0.0f,
-        0.0f
+        Transform(
+            glm::vec3(config::SCR_WIDTH / 2, config::SCR_HEIGHT / 2, 1.0f),
+            0.0f,
+            glm::vec3(0.0f, 0.0f, 0.0f),
+            0.0f
+        )
     );
     addGameObject(playerShip);
     
-    testAsteroid = new Asteroid(
-        *this,
-        Transform(
-            glm::vec3(100, 100, 0),
-            20,
-            glm::vec3(2, -0.5, 0),
-            -2
-        )
-    );  
+    createAsteroid();
 
     addGameObjects();
 }
@@ -70,8 +64,6 @@ void LevelManager::tick()
         go->move();
     }
 
-    testAsteroid->move();
-
     // calculate physics (i.e. collisions
     for (GameObject* go : gameObjects)
     {
@@ -101,7 +93,7 @@ void LevelManager::addGameObjects()
     }
 }
 
-void LevelManager::removeGameObject(GameObject * gameObject)
+void LevelManager::removeGameObject(GameObject* gameObject)
 {
     GOsToRemove.push_back(gameObject);
 }
@@ -121,20 +113,13 @@ void LevelManager::removeGameObjects()
 
 void LevelManager::createAsteroid()
 {
-    //addGameObject(new Asteroid(
-    //    *this,
-    //    glm::vec3(100, 100, 0),
-    //    glm::vec3(2, -0.5, 0),
-    //    20,
-    //    -2
-    //));
-    //new Asteroid(
-    //    *this,
-    //    Transform(
-    //        glm::vec3(100, 100, 0),
-    //        20,
-    //        glm::vec3(2, -0.5, 0),
-    //        -2
-    //    )
-    //);
+    addGameObject(new Asteroid(
+        *this,
+        Transform(
+            glm::vec3(100, 100, 0),
+            20,
+            glm::vec3(2, -0.5, 0),
+            -2
+        )
+    ));
 }

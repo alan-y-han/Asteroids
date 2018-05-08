@@ -16,7 +16,7 @@ class CollisionObject
 public:
     CollisionObject();
 
-    void generateMesh(std::vector<glm::vec3>& vertices, glm::vec3& position, float angle, Quadtree& quadtree);
+    void generateMesh(const std::vector<glm::vec3>& vertices, glm::vec3& position, float angle, Quadtree& quadtree);
     //bool testObjectCollision(CollisionObject& a);
 
 

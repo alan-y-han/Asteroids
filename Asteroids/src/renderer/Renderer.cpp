@@ -11,8 +11,8 @@ Renderer::Renderer(GLFWwindow* window, std::string vertexPath, std::string fragm
     // Initialise camera
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, -32.0f));
 
-    //projection = glm::ortho(0.0f, config::SCR_WIDTH, 0.0f, config::SCR_HEIGHT, 0.1f, 100.0f);
-    projection = glm::ortho(-config::SCR_WIDTH * 2, config::SCR_WIDTH * 3, -config::SCR_HEIGHT * 2, config::SCR_HEIGHT * 3, 0.1f, 100.0f);
+    projection = glm::ortho(0.0f, config::SCR_WIDTH, 0.0f, config::SCR_HEIGHT, 0.1f, 100.0f);
+    //projection = glm::ortho(-config::SCR_WIDTH, config::SCR_WIDTH * 2, -config::SCR_HEIGHT, config::SCR_HEIGHT * 2, 0.1f, 100.0f);
 
     // Initialise shader
     shader.initialiseShader(vertexPath, fragmentPath);
@@ -20,7 +20,7 @@ Renderer::Renderer(GLFWwindow* window, std::string vertexPath, std::string fragm
     shader.setViewMatrix(view);
     shader.setProjectionMatrix(projection);
 
-    // Initialise shader
+    // Initialise shaderNew
     shaderNew.initialiseShader("src/renderer/vsInstanced.glsl", "src/renderer/fsInstanced.glsl");
     shaderNew.use();
     //shaderNew.setViewMatrix(view);
@@ -37,40 +37,6 @@ void Renderer::clear()
 {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
-
-void Renderer::draw(std::unordered_set<GameObject*>& gameObjects)
-{
-    shader.use();
-
-    for (GameObject* go : gameObjects)
-    {
-        glBindVertexArray(go->VAO);
-
-        // create model matrix and pass to shader
-        glm::mat4 model;
-        // rotation
-        float rad = glm::radians(go->angle);
-        model[0][0] = cos(rad);
-        model[1][0] = -sin(rad);
-        model[0][1] = sin(rad);
-        model[1][1] = cos(rad);
-
-        shader.setAlpha(go->alpha);
-
-        for (int x = -1; x <= 1; x++)
-        {
-            for (int y = -1; y <= 1; y++)
-            {
-                // translation
-                model[3][0] = go->position.x + (x * config::SCR_WIDTH);
-                model[3][1] = go->position.y + (y * config::SCR_HEIGHT);
-                model[3][2] = go->position.z;
-                shader.setModelMatrix(model);
-                glDrawArrays(GL_LINE_LOOP, 0, go->vertices.size());
-            }
-        }
-    }
 }
 
 void Renderer::draw()

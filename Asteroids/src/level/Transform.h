@@ -17,14 +17,13 @@ public:
     glm::mat4 getModelMatrix(int x, int y);
 
 
+    glm::vec3 position;
+    float angle;
+
     glm::vec3 velocity;
     float aVelocity;
 
-
 private:
-    glm::vec3 position;
-    float angle;
-    
     bool needsNewMatrix;
     glm::mat4 modelMatrix;
 };

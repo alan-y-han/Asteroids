@@ -9,7 +9,7 @@ CollisionObject::CollisionObject()
 
 
 // TODO: maybe generate model matrix once in gameObject, remove from Renderer.cpp
-void CollisionObject::generateMesh(std::vector<glm::vec3>& vertices, glm::vec3& position, float angle, Quadtree& quadtree)
+void CollisionObject::generateMesh(const std::vector<glm::vec3>& vertices, glm::vec3& position, float angle, Quadtree& quadtree)
 {
     collisionMesh.clear();
 
@@ -26,7 +26,7 @@ void CollisionObject::generateMesh(std::vector<glm::vec3>& vertices, glm::vec3& 
     model[3][2] = position.z;
 
     std::vector<glm::vec3> transformed;
-    for (glm::vec3& v : vertices)
+    for (const glm::vec3& v : vertices)
     {
         transformed.push_back(model * glm::vec4(v, 1.0));
     }

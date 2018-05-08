@@ -9,19 +9,13 @@
 #include "Laser.h"
 #include "LevelManager.h"
 #include "Particle.h"
+#include "Transform.h"
 
 
 class Ship : public GameObject
 {
 public:
-    Ship
-    (
-        LevelManager& levelManager,
-        glm::vec3 position,
-        glm::vec3 velocity,
-        float angle,
-        float rVelocity
-    );
+    Ship(LevelManager& levelManager, Transform& transform);
     ~Ship();
 
     struct keymap_type

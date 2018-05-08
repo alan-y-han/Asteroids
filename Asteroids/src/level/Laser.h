@@ -9,19 +9,13 @@
 #include "GameObject.h"
 #include "LevelManager.h"
 #include "RenderObject.h"
+#include "Transform.h"
 
 
 class Laser : public GameObject
 {
 public:
-    Laser
-    (
-        LevelManager& levelManager,
-        glm::vec3 position,
-        glm::vec3 velocity,
-        float angle,
-        float rVelocity
-    );
+    Laser(LevelManager& levelManager, Transform& transform);
     ~Laser();
 
 

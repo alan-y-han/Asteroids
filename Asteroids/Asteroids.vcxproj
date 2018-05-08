@@ -157,7 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\level\GameObjectNew.cpp" />
+    <ClCompile Include="src\level\GameObject.cpp" />
     <ClCompile Include="src\level\Asteroid.cpp" />
     <ClCompile Include="src\physics\CollisionObject.cpp" />
     <ClCompile Include="src\renderer\glad.c" />
@@ -175,12 +175,11 @@
     <ClCompile Include="src\level\LevelManager.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
-    <ClCompile Include="src\level\GameObject.cpp" />
     <ClCompile Include="src\Renderer\Shader.cpp" />
     <ClCompile Include="src\renderer\GLinitialiser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\level\GameObjectNew.h" />
+    <ClInclude Include="src\level\GameObject.h" />
     <ClInclude Include="src\level\Asteroid.h" />
     <ClInclude Include="src\physics\Collision.h" />
     <ClInclude Include="src\physics\CollisionObject.h" />
@@ -199,7 +198,6 @@
     <ClInclude Include="src\level\Ship.h" />
     <ClInclude Include="src\level\LevelManager.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
-    <ClInclude Include="src\level\GameObject.h" />
     <ClInclude Include="src\Renderer\Shader.h" />
     <ClInclude Include="src\renderer\GLinitialiser.h" />
   </ItemGroup>

@@ -1,16 +1,11 @@
 #include "Laser.h"
 #include "Collision.h"
+#include "GPUobjectManager.h"
 #include "Models.h"
 
 
-Laser::Laser(
-    LevelManager& levelManager,
-    glm::vec3 position,
-    glm::vec3 velocity,
-    float angle,
-    float rVelocity
-):
-    GameObject(levelManager, position, velocity, angle, rVelocity, models::laserVertices, models::laserColor),
+Laser::Laser(LevelManager& levelManager, Transform& transform) :
+    GameObject(levelManager, levelManager.gpuObjectManager.laser, transform),
     lifetimeRemaining(360)
 {
 }
@@ -34,29 +29,12 @@ void Laser::move()
     }
 
     // movement
+    transform.applyVelocities();
 
-    position += velocity;
-    angle += rVelocity;
-
-    if (position.x > config::SCR_WIDTH)
-    {
-        position.x -= config::SCR_WIDTH;
-    }
-    else if (position.x < 0)
-    {
-        position.x += config::SCR_WIDTH;
-    }
-    if (position.y > config::SCR_HEIGHT)
-    {
-        position.y -= config::SCR_HEIGHT;
-    }
-    else if (position.y < 0)
-    {
-        position.y += config::SCR_HEIGHT;
-    }
+    updateInstanceVAsModelMatrix();
 
     // update collision mesh
-    collisionObject.generateMesh(vertices, position, angle, levelManager.quadtree);
+    collisionObject.generateMesh(models::laserVertices, transform.position, transform.angle, levelManager.quadtree);
 }
 
 void Laser::collisionCheck()

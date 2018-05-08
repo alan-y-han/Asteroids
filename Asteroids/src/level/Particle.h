@@ -7,19 +7,13 @@
 #include "Config.h"
 #include "GameObject.h"
 #include "LevelManager.h"
+#include "Transform.h"
 
 
 class Particle : public GameObject
 {
 public:
-    Particle
-    (
-        LevelManager& levelManager,
-        glm::vec3 position,
-        glm::vec3 velocity,
-        float angle,
-        float rVelocity
-    );
+    Particle(LevelManager& levelManager, Transform& transform);
     ~Particle();
 
 

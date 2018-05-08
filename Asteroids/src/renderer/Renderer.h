@@ -13,7 +13,6 @@
 #include <unordered_set>
 
 #include "Config.h"
-#include "GameObject.h" // soon to be removed
 #include "GPUobjectManager.h"
 #include "Shader.h"
 
@@ -30,7 +29,6 @@ public:
     ~Renderer();
     
     void clear();
-    void draw(std::unordered_set<GameObject*>& gameObjects);
     void draw();
     void swapBuffers();
 

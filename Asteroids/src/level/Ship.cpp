@@ -1,5 +1,6 @@
 #include "Ship.h"
 #include "Models.h"
+#include "GPUobjectManager.h"
 
 // TODO: clean up
 
@@ -10,15 +11,8 @@ float shipRandFloat(float min, float max)
 }
 
 
-Ship::Ship
-(
-    LevelManager& levelManager,
-    glm::vec3 position,
-    glm::vec3 velocity,
-    float angle,
-    float rVelocity
-) :
-    GameObject(levelManager, position, velocity, angle, rVelocity, models::shipVertices, models::shipColor)
+Ship::Ship(LevelManager& levelManager, Transform& transform) :
+    GameObject(levelManager, levelManager.gpuObjectManager.ship, transform)
 {
 }
 
@@ -47,49 +41,31 @@ void Ship::move()
     // but angle (AD) is processed after velocity (WS)
     if (keymap.accel)
     {
-        velocity.x -= sin(glm::radians(angle)) * accel; // TODO: fix reversed sin/cos due to vertex coords
-        velocity.y += cos(glm::radians(angle)) * accel;
+        transform.velocity.x -= sin(glm::radians(transform.angle)) * accel; // TODO: fix reversed sin/cos due to vertex coords
+        transform.velocity.y += cos(glm::radians(transform.angle)) * accel;
     }
     if (keymap.decel)
     {
-        velocity.x += sin(glm::radians(angle)) * accel;
-        velocity.y -= cos(glm::radians(angle)) * accel;
+        transform.velocity.x += sin(glm::radians(transform.angle)) * accel;
+        transform.velocity.y -= cos(glm::radians(transform.angle)) * accel;
     }
     if (keymap.left)
     {
-        angle += rSpeed;
+        transform.angle += rSpeed;
     }
     if (keymap.right)
     {
-        angle -= rSpeed;
+        transform.angle -= rSpeed;
     }
 
     // movement
+    transform.velocity *= frictionFactor;
+    transform.applyVelocities();
 
-    position += velocity;
-    angle += rVelocity;
-
-    velocity *= frictionFactor;
-
-    if (position.x > config::SCR_WIDTH)
-    {
-        position.x -= config::SCR_WIDTH;
-    }
-    else if (position.x < 0)
-    {
-        position.x += config::SCR_WIDTH;
-    }
-    if (position.y > config::SCR_HEIGHT)
-    {
-        position.y -= config::SCR_HEIGHT;
-    }
-    else if (position.y < 0)
-    {
-        position.y += config::SCR_HEIGHT;
-    }
+    updateInstanceVAsModelMatrix();
 
     // update collision mesh
-    collisionObject.generateMesh(vertices, position, angle, levelManager.quadtree);
+    collisionObject.generateMesh(models::shipVertices, transform.position, transform.angle, levelManager.quadtree);
 
     // other object state
 
@@ -139,7 +115,7 @@ void Ship::generateEngineParticle(bool accel)
 
     if (accel)
     {
-        particlePos = rotate2D(0 + shipRandFloat(-5, 5), -25 - shipRandFloat(0, 6), angle);
+        particlePos = rotate2D(0 + shipRandFloat(-5, 5), -25 - shipRandFloat(0, 6), transform.angle);
         float dvx_abs = 2.0f;
         float dvy_abs = 5.0f;
         dvx = shipRandFloat(-dvx_abs, dvx_abs);
@@ -147,35 +123,39 @@ void Ship::generateEngineParticle(bool accel)
     }
     else
     {
-        particlePos = rotate2D(0 + shipRandFloat(-3.0f, 3.0f), -25 + shipRandFloat(0, 2), angle);
+        particlePos = rotate2D(0 + shipRandFloat(-3.0f, 3.0f), -25 + shipRandFloat(0, 2), transform.angle);
         float dvx_abs = 1.0f;
         dvx = shipRandFloat(-dvx_abs, dvx_abs);
         dvy = -shipRandFloat(0.5f, 1.0f);
     }
 
-    glm::vec3 particleVelRand = rotate2D(dvx, dvy, angle);
+    glm::vec3 particleVelRand = rotate2D(dvx, dvy, transform.angle);
     
     levelManager.addGameObject(new Particle
     (
         levelManager,
-        position + particlePos,
-        velocity + particleVelRand,
-        shipRandFloat(0, 360),
-        shipRandFloat(-4, 4)
+        Transform(
+            transform.position + particlePos,
+            shipRandFloat(0, 360),
+            transform.velocity + particleVelRand,
+            shipRandFloat(-4, 4)
+        )
     ));
 }
 
 void Ship::fireLaser()
 {
-    glm::vec3 laserPos = rotate2D(0, 45, angle);
-    glm::vec3 laserVel = rotate2D(0, 2, angle);
+    glm::vec3 laserPos = rotate2D(0, 45, transform.angle);
+    glm::vec3 laserVel = rotate2D(0, 2, transform.angle);
 
     levelManager.addGameObject(new Laser
     (
         levelManager,
-        position + laserPos,
-        velocity + laserVel,
-        angle,
-        0
+        Transform(
+            transform.position + laserPos,
+            transform.angle,
+            transform.velocity + laserVel,
+            0
+        )
     ));
 }

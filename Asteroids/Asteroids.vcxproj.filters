@@ -30,9 +30,6 @@
     <ClCompile Include="src\level\Asteroid.cpp">
       <Filter>Source Files\level</Filter>
     </ClCompile>
-    <ClCompile Include="src\level\GameObject.cpp">
-      <Filter>Source Files\level</Filter>
-    </ClCompile>
     <ClCompile Include="src\level\Laser.cpp">
       <Filter>Source Files\level</Filter>
     </ClCompile>
@@ -81,10 +78,10 @@
     <ClCompile Include="src\renderer\GLinitialiser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\level\GameObjectNew.cpp">
+    <ClCompile Include="src\level\Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\level\Transform.cpp">
+    <ClCompile Include="src\level\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -119,9 +116,6 @@
     <ClInclude Include="src\level\Asteroid.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\level\GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\level\Laser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -152,7 +146,7 @@
     <ClInclude Include="src\renderer\GLinitialiser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\level\GameObjectNew.h">
+    <ClInclude Include="src\level\GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
