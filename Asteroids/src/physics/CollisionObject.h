@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Line.h"
+#include "Transform.h"
 
 
 // forward declarations
@@ -16,12 +17,10 @@ class CollisionObject
 public:
     CollisionObject();
 
-    void generateMesh(const std::vector<glm::vec3>& vertices, glm::vec3& position, float angle, Quadtree& quadtree);
-    //bool testObjectCollision(CollisionObject& a);
+    void generateMesh(const std::vector<glm::vec3>& vertices, Transform& transform, Quadtree& quadtree);
 
 
 private:
-    //bool testLineCollision(Line& a, Line& b);
     void addToMesh(int x, int y, int i, std::vector<glm::vec3>& transformed);
 
 

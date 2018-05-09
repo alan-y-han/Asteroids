@@ -64,9 +64,6 @@ void Ship::move()
 
     updateInstanceVAsModelMatrix();
 
-    // update collision mesh
-    collisionObject.generateMesh(models::shipVertices, transform.position, transform.angle, levelManager.quadtree);
-
     // other object state
 
     if (laserCooldownTimer > 0)

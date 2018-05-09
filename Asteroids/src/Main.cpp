@@ -66,9 +66,7 @@ int main(int argc, char const *argv[])
             // debug
             std::cout << levelManager.gameObjects.size() << std::endl;
 
-            std::vector<GPUobject*> boxList;
-            levelManager.quadtree.getBoxes(boxList);
-            renderer.draw(boxList);
+            levelManager.quadtree.draw();
 
             // draw
             renderer.draw();

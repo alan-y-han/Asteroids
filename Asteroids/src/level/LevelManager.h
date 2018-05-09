@@ -35,6 +35,11 @@ public:
     std::unordered_set<GameObject*> lasers;
     std::unordered_set<GameObject*> asteroids;
 
+    // N.B. a quadtree this size doesn't quite fit objects at the very edge of the virtual 3x3 screen.
+    // Such objects will be added incorrectly into the quadtree nodes on the very edge,
+    // but this shouldn't matter as they shouldn't ever be used for collision detection,
+    // unless you have an object the length of a screen edge.
+    // If this becomes a problem, simply increase the quadtree bounds
     Quadtree quadtree;
 
 

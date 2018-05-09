@@ -34,7 +34,7 @@ void Laser::move()
     updateInstanceVAsModelMatrix();
 
     // update collision mesh
-    collisionObject.generateMesh(models::laserVertices, transform.position, transform.angle, levelManager.quadtree);
+    collisionObject.generateMesh(models::laserVertices, transform, levelManager.quadtree);
 }
 
 void Laser::collisionCheck()

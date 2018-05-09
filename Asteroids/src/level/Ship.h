@@ -38,7 +38,6 @@ private:
 
 
     glm::vec3 color;
-    CollisionObject collisionObject;
 
     float accel;
     float frictionFactor;
