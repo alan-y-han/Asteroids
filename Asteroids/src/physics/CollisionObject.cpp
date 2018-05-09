@@ -72,7 +72,7 @@ void CollisionObject::addLineToMesh(int x, int y, int i, std::vector<glm::vec3>&
 // add interpolated motion lines for each vertex (to prevent high speed objects going through each other)
 void CollisionObject::addMotionLineToMesh(int x, int y, glm::vec2 vertex, Transform& transform)
 {
-    //glm::vec3 offset(x * config::SCR_WIDTH, y * config::SCR_HEIGHT, 0.0f);
+    glm::vec2 offset(x * config::SCR_WIDTH, y * config::SCR_HEIGHT);
 
-    //collisionMesh.emplace_back(vertex, vertex - glm::vec2(transform.velocity), this);
+    collisionMesh.emplace_back(vertex + offset, vertex + offset - glm::vec2(transform.velocity), this);
 }

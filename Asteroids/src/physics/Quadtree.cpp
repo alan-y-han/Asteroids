@@ -83,7 +83,7 @@ void Quadtree::insert(Line* line)
     if (level == 1)
     {
         std::cerr << "Quadtree: insert called" << std::endl;
-        std::cerr << line->p1.x << ", " << line->p1.y << std::endl;
+        std::cerr << line->p1.x << ", " << line->p1.y << "  ||  " << line->p2.x << ", " << line->p2.y << std::endl;
         objs.push_back(line);
     }
 
@@ -122,15 +122,8 @@ std::vector<Line*> Quadtree::retrieve(Line* line)
     if (target == this)
     {
         std::vector<Line*> objectList;
-        objectList.insert(std::end(objectList), std::begin(objects), std::end(objects));
 
-        if (!subtreesEmpty) // && level < MAX_LEVELS implied
-        {
-            for (Quadtree* subtree : subtrees)
-            {
-                retrieveAll(objectList);
-            }
-        }
+        retrieveAll(objectList);
 
         return objectList;
     }
@@ -140,19 +133,15 @@ std::vector<Line*> Quadtree::retrieve(Line* line)
     }
 }
 
-// helper function for retrieve()
 void Quadtree::retrieveAll(std::vector<Line*>& objectList)
 {
-    if (objects.size())
-    {
-        objectList.insert(std::end(objectList), std::begin(objects), std::end(objects));
+    objectList.insert(std::end(objectList), std::begin(objects), std::end(objects));
 
-        if (!subtreesEmpty && level < MAX_LEVELS)
+    if (!subtreesEmpty) // && level < MAX_LEVELS implied
+    {
+        for (Quadtree* subtree : subtrees)
         {
-            for (Quadtree* subtree : subtrees)
-            {
-                subtree->retrieveAll(objectList);
-            }
+            subtree->retrieveAll(objectList);
         }
     }
 }

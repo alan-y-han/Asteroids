@@ -78,6 +78,12 @@ GPUobject::~GPUobject()
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &instanceVBO);
+
+    // debug
+    if (instances.size())
+    {
+        std::cerr << "Warning: deleting GPUobject which still has instances" << std::endl;
+    }
 }
 
 void GPUobject::addInstance(InstanceVAs* renderObject)

@@ -26,8 +26,8 @@ void LevelManager::initialiseLevel()
         *this,
         Transform(
             glm::vec3(config::SCR_WIDTH / 2, config::SCR_HEIGHT / 2, 1.0f),
-            -28.0f,
-            glm::vec3(0.0f, 0.0f, 0.0f),
+            -2.0f,
+            glm::vec3(100.0f, 0.0f, 0.0f),
             0.0f
         )
     );

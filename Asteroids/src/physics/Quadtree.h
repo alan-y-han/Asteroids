@@ -21,6 +21,7 @@ public:
     void clear();
     void insert(Line* line);
     std::vector<Line*> retrieve(Line* line);
+    void retrieveAll(std::vector<Line*>& objectList);
 
 
     // debug
@@ -46,7 +47,6 @@ private:
     Quadtree* getSubtree(Line* line);
     void split();
     Quadrant getQuadrant(glm::vec2 point);
-    void retrieveAll(std::vector<Line*>& objectList);
 
 
     int level;

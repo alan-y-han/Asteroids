@@ -14,6 +14,7 @@
 
 // debug
 #include <vector>
+#include "DebugLine.h"
 #include "GPUobject.h"
 
 
@@ -38,6 +39,10 @@ int main(int argc, char const *argv[])
 
     // debug
     int frame(0);
+    bool drawQuadtrees(false);
+
+    DebugLine dLine;
+
 
     while (!glfwWindowShouldClose(window))
     {
@@ -56,6 +61,14 @@ int main(int argc, char const *argv[])
             levelManager.quadtree.objs.clear();
             frame++;
 
+            glfwPollEvents();
+            if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+            {
+                drawQuadtrees = !drawQuadtrees;
+            }
+
+            // end debug
+
             // process input
             levelManager.processInput(window);
 
@@ -67,7 +80,7 @@ int main(int argc, char const *argv[])
             std::cerr << "Main: quadtree insertions: " << lobjs.size() << std::endl;
             for (Line* line : lobjs)
             {
-                std::cerr << line->p1.x << ", " << line->p1.y << std::endl;
+                std::cerr << line->p1.x << ", " << line->p1.y << "  ||  " << line->p2.x << ", " << line->p2.y << std::endl;
             }
 
             ticked = true;
@@ -82,10 +95,23 @@ int main(int argc, char const *argv[])
             // debug
             std::cerr << levelManager.gameObjects.size() << std::endl;
 
-            levelManager.quadtree.draw();
+            if (drawQuadtrees)
+            {
+                levelManager.quadtree.draw();
+            }
+
+            std::vector<Line*> quadtreeLines;
+            levelManager.quadtree.retrieveAll(quadtreeLines);
+
+            
 
             // draw
             renderer.draw();
+
+            for (Line* line : quadtreeLines)
+            {
+                dLine.draw(glm::vec3(line->p1, 2), glm::vec3(line->p2, 2), glm::vec3(1, 0, 0));
+            }
 
             // swap buffers
             renderer.swapBuffers();
