@@ -1,6 +1,8 @@
 #pragma once
 #include <glm\gtc\type_ptr.hpp>
 
+#include <vector>
+
 #include "CollisionObject.h"
 #include "Line.h"
 #include "Rectangle.h"
@@ -24,17 +26,19 @@ public:
     // debug
     void draw();
 
+    std::vector<Line*> objs;
+
 
 private:
     enum Quadrant
     {
-        topRight,
-        topLeft,
-        bottomLeft,
-        bottomRight
+        topRight = 0,
+        topLeft = 1,
+        bottomLeft = 2,
+        bottomRight = 3
     };
     static const int MAX_LEVELS = 6;
-    static const int MAX_OBJECTS = 3;
+    static const int MAX_OBJECTS = 1;
 
 
     Quadtree(int level, iRectangle bounds);

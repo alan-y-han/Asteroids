@@ -80,10 +80,17 @@ void Quadtree::clear()
 
 void Quadtree::insert(Line* line)
 {
+    if (level == 1)
+    {
+        std::cerr << "Quadtree: insert called" << std::endl;
+        std::cerr << line->p1.x << ", " << line->p1.y << std::endl;
+        objs.push_back(line);
+    }
+
     if (subtreesEmpty)
     {
         // if need to split
-        if (objects.size() >= MAX_OBJECTS && level < MAX_LEVELS)
+        if ((objects.size() >= MAX_OBJECTS) && (level < MAX_LEVELS))
         {
             split();
             Quadtree* target = getSubtree(line);
@@ -180,14 +187,20 @@ Quadtree* Quadtree::getSubtree(Line* line)
 void Quadtree::split()
 {
     subtreesEmpty = false;
+    std::vector<Line*> tempObjects(objects);
+    objects.clear();
 
-    for (Line* line : objects)
+    for (Line* line : tempObjects)
     {
         Quadtree* target = getSubtree(line);
         
         if (target != this)
         {
             target->insert(line);
+        }
+        else
+        {
+            objects.push_back(line);
         }
     }
 }
@@ -220,17 +233,16 @@ Quadtree::Quadrant Quadtree::getQuadrant(glm::vec2 point)
 
 void Quadtree::draw()
 {
-    if (objects.size())
+    if (objects.size() || !subtreesEmpty)
     {
         gpuDebugBox.draw();
-
-        if (!subtreesEmpty) // && level < MAX_LEVELS implied
-        {
-            for (Quadtree* subtree : subtrees)
-            {
-                subtree->draw();
-            }
-        }
     }
 
+    if (!subtreesEmpty) // && level < MAX_LEVELS implied
+    {
+        for (Quadtree* subtree : subtrees)
+        {
+            subtree->draw();
+        }
+    }
 }

@@ -7,7 +7,6 @@ CollisionObject::CollisionObject()
 {
 }
 
-
 void CollisionObject::generateMesh(const std::vector<glm::vec3>& vertices, Transform& transform, Quadtree& quadtree)
 {
     collisionMesh.clear();
@@ -27,7 +26,10 @@ void CollisionObject::generateMesh(const std::vector<glm::vec3>& vertices, Trans
         {
             for (int y = -1; y <= 1; y++)
             {
-                addToMesh(x, y, 0, transformed);
+                addLineToMesh(x, y, 0, transformed);
+                addMotionLineToMesh(x, y, transformed[0], transform);
+                addMotionLineToMesh(x, y, transformed[1], transform);
+
             }
         }
     }
@@ -39,28 +41,38 @@ void CollisionObject::generateMesh(const std::vector<glm::vec3>& vertices, Trans
             {
                 for (unsigned int i = 0; i < transformed.size(); i++)
                 {
-                    addToMesh(x, y, 0, transformed);
+                    addLineToMesh(x, y, i, transformed);
+                    addMotionLineToMesh(x, y, transformed[i], transform);
                 }
             }
         }
     }
 
-
-    for (Line l : collisionMesh)
+    for (Line& l : collisionMesh)
     {
         quadtree.insert(&l);
     }
 }
 
-void CollisionObject::addToMesh(int x, int y, int i, std::vector<glm::vec3>& transformed)
+void CollisionObject::addLineToMesh(int x, int y, int i, std::vector<glm::vec3>& transformed)
 {
     unsigned int i1 = i;
     unsigned int i2 = (i + 1) % transformed.size();
 
-    glm::vec3& t1 = transformed[i1];
-    glm::vec3& t2 = transformed[i2];
+    glm::vec2 t1(transformed[i1]);
+    glm::vec2 t2(transformed[i2]);
 
-    glm::vec3 offset(x * config::SCR_WIDTH, y * config::SCR_HEIGHT, 0.0f);
+    glm::vec2 offset(x * config::SCR_WIDTH, y * config::SCR_HEIGHT);
 
-    collisionMesh.emplace_back(glm::vec2(t1 + offset), glm::vec2(t2 + offset), this);
+    // emplace actual line
+    collisionMesh.emplace_back(t1 + offset, t2 + offset, this);
+
+}
+
+// add interpolated motion lines for each vertex (to prevent high speed objects going through each other)
+void CollisionObject::addMotionLineToMesh(int x, int y, glm::vec2 vertex, Transform& transform)
+{
+    //glm::vec3 offset(x * config::SCR_WIDTH, y * config::SCR_HEIGHT, 0.0f);
+
+    //collisionMesh.emplace_back(vertex, vertex - glm::vec2(transform.velocity), this);
 }

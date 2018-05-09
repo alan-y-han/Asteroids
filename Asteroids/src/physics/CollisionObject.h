@@ -21,8 +21,9 @@ public:
 
 
 private:
-    void addToMesh(int x, int y, int i, std::vector<glm::vec3>& transformed);
+    void addLineToMesh(int x, int y, int i, std::vector<glm::vec3>& transformed);
 
+    void addMotionLineToMesh(int x, int y, glm::vec2 vertex, Transform& transform);
 
     std::vector<Line> collisionMesh;
 };
