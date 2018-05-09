@@ -30,6 +30,7 @@ public:
     
     void clear();
     void draw();
+    void draw(std::vector<GPUobject*> gpuObjects);
     void swapBuffers();
 
     // debug

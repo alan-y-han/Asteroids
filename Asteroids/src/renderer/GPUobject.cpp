@@ -51,18 +51,21 @@ GPUobject::GPUobject(std::vector<glm::vec3> vertices, glm::vec3 color) :
     glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(InstanceVAs), (void*)(offsetof(struct InstanceVAs, alpha)));
     glVertexAttribDivisor(2, 1);
     // model matrix attribute (instanced) (N.B. using offsetof() in case of struct padding)
-    GLsizei vec4Size = sizeof(glm::vec4);
+    // column 1
     glEnableVertexAttribArray(3);
     glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceVAs), (void*)(offsetof(struct InstanceVAs, modelMatrix)));
-    glEnableVertexAttribArray(4);
-    glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceVAs), (void*)(offsetof(struct InstanceVAs, modelMatrix) + vec4Size));
-    glEnableVertexAttribArray(5);
-    glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceVAs), (void*)(offsetof(struct InstanceVAs, modelMatrix) + (2 * vec4Size)));
-    glEnableVertexAttribArray(6);
-    glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceVAs), (void*)(offsetof(struct InstanceVAs, modelMatrix) + (3 * vec4Size)));
     glVertexAttribDivisor(3, 1);
+    // column 2
+    glEnableVertexAttribArray(4);
+    glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceVAs), (void*)(offsetof(struct InstanceVAs, modelMatrix) + sizeof(glm::vec4)));
     glVertexAttribDivisor(4, 1);
+    // column 3
+    glEnableVertexAttribArray(5);
+    glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceVAs), (void*)(offsetof(struct InstanceVAs, modelMatrix) + (2 * sizeof(glm::vec4))));
     glVertexAttribDivisor(5, 1);
+    // column 4
+    glEnableVertexAttribArray(6);
+    glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(InstanceVAs), (void*)(offsetof(struct InstanceVAs, modelMatrix) + (3 * sizeof(glm::vec4))));
     glVertexAttribDivisor(6, 1);
 
     // unbind buffers

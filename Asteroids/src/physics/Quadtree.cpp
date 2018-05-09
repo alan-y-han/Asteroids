@@ -50,8 +50,6 @@ Quadtree::~Quadtree()
 
 void Quadtree::clear()
 {
-    //std::cerr << "Clearing level: " << level << ", no. objects: " << objects.size() << std::endl;
-
     if (objects.size())
     {
         objects.clear();
@@ -218,7 +216,6 @@ Quadtree::Quadrant Quadtree::getQuadrant(glm::vec2 point)
 
 void Quadtree::getBoxes(std::vector<RenderObjectOri*>& boxList)
 {
-    //if () // TODO: don't add to list if empty, and stop recursing
     if (objects.size())
     {
         boxList.push_back(&debugBox);
