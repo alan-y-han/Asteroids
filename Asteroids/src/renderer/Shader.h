@@ -12,17 +12,14 @@
 class Shader
 {
 public:
-    Shader(); // call initialiseShader() before use
     Shader(std::string vertexPath, std::string fragmentPath);
+    ~Shader();
 
-    void initialiseShader(std::string vertexPath, std::string fragmentPath); // must call this after class construction
     void use(); // use/activate the shader
 
     // functions for setting uniforms
-    void setModelMatrix(const glm::mat4& mat);
     void setViewMatrix(const glm::mat4& mat);
     void setProjectionMatrix(const glm::mat4& mat);
-    void setAlpha(const float alpha);
 
 
     unsigned int ID; // program ID

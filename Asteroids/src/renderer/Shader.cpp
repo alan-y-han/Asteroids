@@ -1,15 +1,7 @@
 #include "Shader.h"
 
-Shader::Shader()
-{
-}
 
 Shader::Shader(std::string vertexPath, std::string fragmentPath)
-{
-    initialiseShader(vertexPath, fragmentPath);
-}
-
-void Shader::initialiseShader(std::string vertexPath, std::string fragmentPath)
 {
     // 1. retrieve the vertex/fragment source code from filepath
     std::string vShaderStr = readShaderFile(vertexPath).c_str();
@@ -36,6 +28,11 @@ void Shader::initialiseShader(std::string vertexPath, std::string fragmentPath)
     // cache uniform locations
     viewLocation = glGetUniformLocation(ID, "view");
     projectionLocation = glGetUniformLocation(ID, "projection");
+}
+
+Shader::~Shader()
+{
+    glDeleteProgram(ID);
 }
 
 void Shader::use()

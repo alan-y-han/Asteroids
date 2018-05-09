@@ -2,7 +2,8 @@
 
 
 Renderer::Renderer(GLFWwindow* window, std::string vertexPath, std::string fragmentPath) :
-    window(window)
+    window(window),
+    shader("src/renderer/vsInstanced.glsl", "src/renderer/fsInstanced.glsl")
 {
     // OpenGL options
     glEnable(GL_DEPTH_TEST);
@@ -17,8 +18,7 @@ Renderer::Renderer(GLFWwindow* window, std::string vertexPath, std::string fragm
     //projection = glm::ortho(0.0f, scrWidth, 0.0f, scrHeight, 0.1f, 100.0f);
     projection = glm::ortho(-scrWidth, scrWidth * 2, -scrHeight, scrHeight * 2, 0.1f, 100.0f);
 
-    // Initialise shader
-    shader.initialiseShader("src/renderer/vsInstanced.glsl", "src/renderer/fsInstanced.glsl");
+    // Send matrices to shader
     shader.use();
     shader.setViewMatrix(view);
     shader.setProjectionMatrix(projection);
