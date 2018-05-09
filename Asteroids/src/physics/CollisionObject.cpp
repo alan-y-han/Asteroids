@@ -48,7 +48,7 @@ void CollisionObject::generateMesh(const std::vector<glm::vec3>& vertices, glm::
         {
             for (int y = -1; y <= 1; y++)
             {
-                for (int i = 0; i < transformed.size(); i++)
+                for (unsigned int i = 0; i < transformed.size(); i++)
                 {
                     addToMesh(x, y, 0, transformed);
                 }

@@ -18,7 +18,7 @@ RenderObjectOri::RenderObjectOri(glm::vec3 position, float angle, std::vector<gl
         std::cerr << "malloc failed in RenderObjectOri" << std::endl;
     }
 
-    for (int i = 0; i < vertices.size(); i++)
+    for (unsigned int i = 0; i < vertices.size(); i++)
     {
         vertexData[(i * 6) + 0] = vertices[i].x;
         vertexData[(i * 6) + 1] = vertices[i].y;

@@ -14,7 +14,7 @@ GPUobject::GPUobject(std::vector<glm::vec3> vertices, glm::vec3 color) :
         std::cerr << "malloc failed in GPUobject class" << std::endl;
     }
 
-    for (int i = 0; i < vertices.size(); i++)
+    for (unsigned int i = 0; i < vertices.size(); i++)
     {
         vertexData[(i * 6) + 0] = vertices[i].x;
         vertexData[(i * 6) + 1] = vertices[i].y;
@@ -94,6 +94,7 @@ void GPUobject::draw()
         // pull all instance vertex attributes from their RenderObjects
         // and stuff them into a temporary array
         instanceVAsTemp.clear();
+
         for (InstanceVAs* instance : instances)
         {
             instanceVAsTemp.push_back(*instance);
