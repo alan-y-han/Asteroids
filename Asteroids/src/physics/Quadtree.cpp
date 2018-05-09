@@ -20,13 +20,15 @@ Quadtree::Quadtree(int level, iRectangle bounds) :
     bounds(bounds),
     boundsCentre((bounds.bl + bounds.tr) / 2),
     subtreesEmpty(true),
+    // debug
     debugVertices{
         glm::vec3(0, 0, 0),
         glm::vec3(0, bounds.tr.y - bounds.bl.y, 0),
         glm::vec3(bounds.tr.x - bounds.bl.x, bounds.tr.y - bounds.bl.y, 0),
         glm::vec3(bounds.tr.x - bounds.bl.x, 0, 0)
     },
-    debugBox(glm::vec3(bounds.bl.x, bounds.bl.y, 0), 0, debugVertices, glm::vec3(1.0f, 0.5f, 0.0f))
+    gpuDebugBox(debugVertices, glm::vec3(1.0f, 0.5f, 0.0f)),
+    renderObject(&gpuDebugBox)
 {
     if (level < MAX_LEVELS)
     {
@@ -35,6 +37,12 @@ Quadtree::Quadtree(int level, iRectangle bounds) :
         subtrees[topLeft] = new Quadtree(level + 1, iRectangle(bounds.bl.x, boundsCentre.y, boundsCentre.x, bounds.tr.y));
         subtrees[topRight]  = new Quadtree(level + 1, iRectangle(boundsCentre, bounds.tr));
     }
+
+    // debug
+    glm::mat4& modelMatrix = renderObject.instanceVAs.modelMatrix;
+    // translation
+    modelMatrix[3][0] = bounds.bl.x;
+    modelMatrix[3][1] = bounds.bl.y;
 }
 
 Quadtree::~Quadtree()
@@ -214,11 +222,11 @@ Quadtree::Quadrant Quadtree::getQuadrant(glm::vec2 point)
     }
 }
 
-void Quadtree::getBoxes(std::vector<RenderObjectOri*>& boxList)
+void Quadtree::getBoxes(std::vector<GPUobject*>& boxList)
 {
     if (objects.size())
     {
-        boxList.push_back(&debugBox);
+        boxList.push_back(&gpuDebugBox);
 
         if (!subtreesEmpty) // && level < MAX_LEVELS implied
         {

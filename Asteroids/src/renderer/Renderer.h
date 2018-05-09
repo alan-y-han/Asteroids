@@ -13,13 +13,9 @@
 #include <unordered_set>
 
 #include "Config.h"
+#include "GPUobject.h"
 #include "GPUobjectManager.h"
 #include "Shader.h"
-
-#include <functional>
-
-// debug
-#include "RenderObjectOri.h"
 
 
 class Renderer
@@ -33,9 +29,6 @@ public:
     void draw(std::vector<GPUobject*> gpuObjects);
     void swapBuffers();
 
-    // debug
-    void draw(std::vector<RenderObjectOri*> renderObjects);
-
 
     GPUobjectManager gpuObjectManager;
 
@@ -47,5 +40,4 @@ private:
     glm::mat4 projection;
 
     Shader shader;
-    Shader shaderNew;
 };

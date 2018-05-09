@@ -14,7 +14,7 @@
 
 // debug
 #include <vector>
-#include "RenderObjectOri.h"
+#include "GPUobject.h"
 
 
 int main(int argc, char const *argv[])
@@ -28,7 +28,7 @@ int main(int argc, char const *argv[])
         return EXIT_FAILURE;
     }
 
-    Renderer renderer(window, "src/renderer/vs.glsl", "src/renderer/fs.glsl");
+    Renderer renderer(window, "src/renderer/vsInstanced.glsl", "src/renderer/fsInstanced.glsl");
 
     LevelManager levelManager(renderer.gpuObjectManager);
     levelManager.initialiseLevel();
@@ -66,7 +66,7 @@ int main(int argc, char const *argv[])
             // debug
             std::cout << levelManager.gameObjects.size() << std::endl;
 
-            std::vector<RenderObjectOri*> boxList;
+            std::vector<GPUobject*> boxList;
             levelManager.quadtree.getBoxes(boxList);
             renderer.draw(boxList);
 

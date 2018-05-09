@@ -174,7 +174,6 @@
     <ClCompile Include="src\level\Particle.cpp" />
     <ClCompile Include="src\physics\Quadtree.cpp" />
     <ClCompile Include="src\physics\Rectangle.cpp" />
-    <ClCompile Include="src\Renderer\RenderObjectOri.cpp" />
     <ClCompile Include="src\level\Ship.cpp" />
     <ClCompile Include="src\level\LevelManager.cpp" />
     <ClCompile Include="src\Main.cpp" />
@@ -197,7 +196,6 @@
     <ClInclude Include="src\level\Particle.h" />
     <ClInclude Include="src\physics\Quadtree.h" />
     <ClInclude Include="src\Renderer\RenderObject.h" />
-    <ClInclude Include="src\Renderer\RenderObjectOri.h" />
     <ClInclude Include="src\Renderer\InstanceVertexAttributes.h" />
     <ClInclude Include="src\level\Ship.h" />
     <ClInclude Include="src\level\LevelManager.h" />

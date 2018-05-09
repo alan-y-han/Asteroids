@@ -34,8 +34,6 @@ private:
     void checkCompileErrors(GLuint shader, std::string type);
 
 
-    GLint modelLocation;
     GLint viewLocation;
     GLint projectionLocation;
-    GLint alphaLocation;
 };
