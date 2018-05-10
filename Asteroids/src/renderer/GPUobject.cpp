@@ -6,22 +6,15 @@ GPUobject::GPUobject(std::vector<glm::vec3> vertices, glm::vec3 color) :
     noOfVertices(vertices.size())
 {
     // Assemble vertex data and color
+    std::vector<glm::vec3> VBOtemp;
+
     int vertexDataSize = vertices.size() * 3 * 2; // 6 floats per vertex
+    VBOtemp.reserve(vertexDataSize);
 
-    float* vertexData = (float*)malloc(vertexDataSize * sizeof(float)); // X, Y, Z, R, G, B
-    if (vertexData == NULL)
+    for (glm::vec3& vertex : vertices)
     {
-        std::cerr << "malloc failed in GPUobject class" << std::endl;
-    }
-
-    for (unsigned int i = 0; i < vertices.size(); i++)
-    {
-        vertexData[(i * 6) + 0] = vertices[i].x;
-        vertexData[(i * 6) + 1] = vertices[i].y;
-        vertexData[(i * 6) + 2] = vertices[i].z;
-        vertexData[(i * 6) + 3] = color.r;
-        vertexData[(i * 6) + 4] = color.g;
-        vertexData[(i * 6) + 5] = color.b;
+        VBOtemp.push_back(vertex);
+        VBOtemp.push_back(color);
     }
 
     // Create VAO
@@ -32,8 +25,7 @@ GPUobject::GPUobject(std::vector<glm::vec3> vertices, glm::vec3 color) :
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     // Upload data
-    glBufferData(GL_ARRAY_BUFFER, vertexDataSize * sizeof(float), vertexData, GL_STATIC_DRAW);
-    free(vertexData);
+    glBufferData(GL_ARRAY_BUFFER, VBOtemp.size() * sizeof(glm::vec3), VBOtemp.data(), GL_STATIC_DRAW);
 
     // position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);

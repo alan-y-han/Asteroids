@@ -72,17 +72,17 @@
     <ClCompile Include="src\Renderer\Shader.cpp">
       <Filter>Source Files\renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderer\GLinitialiser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\level\Transform.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\renderer\DebugLine.cpp">
+      <Filter>Source Files\renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\level\GameObject.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\level</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderer\DebugLine.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\renderer\GLinitialiser.cpp">
+      <Filter>Source Files\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\level\Transform.cpp">
+      <Filter>Source Files\level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
