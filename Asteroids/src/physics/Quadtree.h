@@ -15,7 +15,7 @@
 class Quadtree
 {
 public:
-    Quadtree();
+    Quadtree(iRectangle bounds);
     ~Quadtree();
 
     void clear();
@@ -26,8 +26,6 @@ public:
 
     // debug
     void draw();
-
-    std::vector<Line*> objs;
 
 
 private:

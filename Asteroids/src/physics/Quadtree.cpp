@@ -4,8 +4,8 @@
 #include <iostream>
 
 
-Quadtree::Quadtree() :
-    Quadtree(1, iRectangle(-config::SCR_WIDTH, -config::SCR_HEIGHT, config::SCR_WIDTH * 2, config::SCR_HEIGHT * 2))
+Quadtree::Quadtree(iRectangle bounds) :
+    Quadtree(1, bounds)
 {
 }
 
@@ -34,7 +34,6 @@ Quadtree::Quadtree(int level, iRectangle bounds) :
 
     // debug
     glm::mat4& modelMatrix = renderObject.instanceVAs.modelMatrix;
-    // translation
     modelMatrix[3][0] = bounds.bl.x;
     modelMatrix[3][1] = bounds.bl.y;
 }
@@ -80,13 +79,6 @@ void Quadtree::clear()
 
 void Quadtree::insert(Line* line)
 {
-    if (level == 1)
-    {
-        std::cerr << "Quadtree: insert called" << std::endl;
-        std::cerr << line->p1.x << ", " << line->p1.y << "  ||  " << line->p2.x << ", " << line->p2.y << std::endl;
-        objs.push_back(line);
-    }
-
     if (subtreesEmpty)
     {
         // if need to split
@@ -173,6 +165,7 @@ Quadtree* Quadtree::getSubtree(Line* line)
     }
 }
 
+// TODO: possibly optimise
 void Quadtree::split()
 {
     subtreesEmpty = false;

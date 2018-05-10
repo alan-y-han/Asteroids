@@ -38,7 +38,6 @@ int main(int argc, char const *argv[])
     double lag = 0.0;
 
     // debug
-    int frame(0);
     bool drawQuadtrees(false);
 
     DebugLine dLine;
@@ -57,16 +56,11 @@ int main(int argc, char const *argv[])
         while (lag >= config::SPF)
         {
             // debug
-            std::cerr << "Begin tick" << std::endl;
-            levelManager.quadtree.objs.clear();
-            frame++;
-
             glfwPollEvents();
             if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
             {
                 drawQuadtrees = !drawQuadtrees;
             }
-
             // end debug
 
             // process input
@@ -74,14 +68,6 @@ int main(int argc, char const *argv[])
 
             // update game state
             levelManager.tick();
-
-            // debug
-            std::vector<Line*>& lobjs = levelManager.quadtree.objs;
-            std::cerr << "Main: quadtree insertions: " << lobjs.size() << std::endl;
-            for (Line* line : lobjs)
-            {
-                std::cerr << line->p1.x << ", " << line->p1.y << "  ||  " << line->p2.x << ", " << line->p2.y << std::endl;
-            }
 
             ticked = true;
             lag -= config::SPF;
@@ -92,25 +78,23 @@ int main(int argc, char const *argv[])
         {
             renderer.clear();
 
+            // draw
+            renderer.draw();
+
             // debug
             std::cerr << levelManager.gameObjects.size() << std::endl;
 
             if (drawQuadtrees)
             {
                 levelManager.quadtree.draw();
-            }
 
-            std::vector<Line*> quadtreeLines;
-            levelManager.quadtree.retrieveAll(quadtreeLines);
+                std::vector<Line*> quadtreeLines;
+                levelManager.quadtree.retrieveAll(quadtreeLines);
 
-            
-
-            // draw
-            renderer.draw();
-
-            for (Line* line : quadtreeLines)
-            {
-                dLine.draw(glm::vec3(line->p1, 2), glm::vec3(line->p2, 2), glm::vec3(1, 0, 0));
+                for (Line* line : quadtreeLines)
+                {
+                    dLine.draw(glm::vec3(line->p1, 2), glm::vec3(line->p2, 2), glm::vec3(1, 0, 0));
+                }
             }
 
             // swap buffers
