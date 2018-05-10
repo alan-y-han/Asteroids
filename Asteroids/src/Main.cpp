@@ -38,7 +38,7 @@ int main(int argc, char const *argv[])
     double lag = 0.0;
 
     // debug
-    bool drawQuadtrees(false);
+    bool drawQuadtrees(true);
 
     DebugLine dLine;
 

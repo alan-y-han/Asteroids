@@ -6,7 +6,7 @@
 
 Laser::Laser(LevelManager& levelManager, Transform& transform) :
     GameObject(levelManager, levelManager.gpuObjectManager.laser, transform),
-    lifetimeRemaining(360)
+    lifetimeRemaining(36000)
 {
 }
 

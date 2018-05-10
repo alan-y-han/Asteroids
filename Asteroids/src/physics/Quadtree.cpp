@@ -165,7 +165,7 @@ Quadtree* Quadtree::getSubtree(Line* line)
     }
 }
 
-// TODO: possibly optimise
+// TODO: optimise by removing tempObjects (faster to erase from existing vector than calling malloc again)
 void Quadtree::split()
 {
     subtreesEmpty = false;

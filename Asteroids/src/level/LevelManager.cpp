@@ -8,7 +8,8 @@
 
 LevelManager::LevelManager(GPUobjectManager& gpuObjectManager) :
     gpuObjectManager(gpuObjectManager),
-    quadtree(iRectangle(-config::SCR_WIDTH, -config::SCR_HEIGHT, config::SCR_WIDTH * 2, config::SCR_HEIGHT * 2))
+    //quadtree(iRectangle(-config::SCR_WIDTH, -config::SCR_HEIGHT, config::SCR_WIDTH * 2, config::SCR_HEIGHT * 2))
+    quadtree(iRectangle(0, 0, config::SCR_WIDTH, config::SCR_HEIGHT))
 {
 }
 

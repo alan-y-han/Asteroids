@@ -21,9 +21,17 @@ public:
 
 
 private:
-    void addLineToMesh(int x, int y, int i, std::vector<glm::vec3>& transformed);
+    void addLineToMesh(int i);
+    void addMotionLineToMesh(glm::vec2 vertex, Transform& transform);
+    
+    void splitLines(std::vector<Line>& unsplitLines);
+    void splitLineX(const Line& inputLine);
+    void splitLineY(const Line& inputLine);
 
-    void addMotionLineToMesh(int x, int y, glm::vec2 vertex, Transform& transform);
+    glm::vec2 getX(const Line& line, const float x);
+    glm::vec2 getY(const Line& line, const float y);
 
-    std::vector<Line> collisionMesh;
+    std::vector<glm::vec2> worldVertices; // persistent memory for vertices transformed to world space
+    std::vector<Line> unsplitCollisionMesh; // persistent memory for temporary unsplit lines
+    std::vector<Line> collisionMesh; // lines used for collision detection
 };

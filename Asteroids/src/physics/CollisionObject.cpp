@@ -2,6 +2,9 @@
 #include "Config.h"
 #include "Quadtree.h"
 
+// debug
+#include <iostream>
+
 
 CollisionObject::CollisionObject()
 {
@@ -9,44 +12,42 @@ CollisionObject::CollisionObject()
 
 void CollisionObject::generateMesh(const std::vector<glm::vec3>& vertices, Transform& transform, Quadtree& quadtree)
 {
+    worldVertices.clear();
+    unsplitCollisionMesh.clear();
     collisionMesh.clear();
 
-    glm::mat4 model = transform.getModelMatrix(0, 0);
 
-    std::vector<glm::vec3> transformed;
+    // debug
+    if (vertices.size() < 2)
+    {
+        std::cerr << "CollisionObject: generateMesh supplied with <2 vertices, no mesh generated" << std::endl;
+        return;
+    }
+    // end debug
+
+
+    glm::mat4 model = transform.getModelMatrix(0, 0);
     for (const glm::vec3& v : vertices)
     {
-        transformed.push_back(model * glm::vec4(v, 1.0));
+        worldVertices.push_back(model * glm::vec4(v, 1.0));
+        addMotionLineToMesh(worldVertices.back(), transform); // safe as unsplitCollisionMesh creates new objects
     }
 
-    // put branch outside of double loop
-    if (transformed.size() == 2)
+    // special case to prevent doubling a line
+    if (worldVertices.size() == 2)
     {
-        for (int x = -1; x <= 1; x++)
-        {
-            for (int y = -1; y <= 1; y++)
-            {
-                addLineToMesh(x, y, 0, transformed);
-                addMotionLineToMesh(x, y, transformed[0], transform);
-                addMotionLineToMesh(x, y, transformed[1], transform);
-
-            }
-        }
+        addLineToMesh(0);
     }
     else
     {
-        for (int x = -1; x <= 1; x++)
+        for (unsigned int i = 0; i < worldVertices.size(); i++)
         {
-            for (int y = -1; y <= 1; y++)
-            {
-                for (unsigned int i = 0; i < transformed.size(); i++)
-                {
-                    addLineToMesh(x, y, i, transformed);
-                    addMotionLineToMesh(x, y, transformed[i], transform);
-                }
-            }
+            addLineToMesh(i);
         }
     }
+
+
+    splitLines(unsplitCollisionMesh); // fn adds split lines to collisionMesh
 
     for (Line& l : collisionMesh)
     {
@@ -54,25 +55,146 @@ void CollisionObject::generateMesh(const std::vector<glm::vec3>& vertices, Trans
     }
 }
 
-void CollisionObject::addLineToMesh(int x, int y, int i, std::vector<glm::vec3>& transformed)
+void CollisionObject::addLineToMesh(int i)
 {
     unsigned int i1 = i;
-    unsigned int i2 = (i + 1) % transformed.size();
+    unsigned int i2 = (i + 1) % worldVertices.size();
 
-    glm::vec2 t1(transformed[i1]);
-    glm::vec2 t2(transformed[i2]);
-
-    glm::vec2 offset(x * config::SCR_WIDTH, y * config::SCR_HEIGHT);
-
-    // emplace actual line
-    collisionMesh.emplace_back(t1 + offset, t2 + offset, this);
-
+    // create new line and add to vector
+    unsplitCollisionMesh.emplace_back(worldVertices[i1], worldVertices[i2], this);
 }
 
 // add interpolated motion lines for each vertex (to prevent high speed objects going through each other)
-void CollisionObject::addMotionLineToMesh(int x, int y, glm::vec2 vertex, Transform& transform)
+void CollisionObject::addMotionLineToMesh(glm::vec2 vertex, Transform& transform)
 {
-    glm::vec2 offset(x * config::SCR_WIDTH, y * config::SCR_HEIGHT);
+    unsplitCollisionMesh.emplace_back(vertex, vertex - glm::vec2(transform.velocity), this);
+}
 
-    collisionMesh.emplace_back(vertex + offset, vertex + offset - glm::vec2(transform.velocity), this);
+void CollisionObject::splitLines(std::vector<Line>& unsplitLines)
+{
+    for (const Line& line : unsplitLines)
+    {
+        splitLineX(line);
+    }
+}
+
+void CollisionObject::splitLineX(const Line& inputLine)
+{
+    Line line(inputLine);
+
+    if (line.p1.x > config::SCR_WIDTH)
+    {
+        line.p1.x -= config::SCR_WIDTH;
+        line.p2.x -= config::SCR_WIDTH;
+    }
+    else if (line.p1.x < 0)
+    {
+        line.p1.x += config::SCR_WIDTH;
+        line.p2.x += config::SCR_WIDTH;
+    }
+    
+    // TODO: remove duplication
+    if (line.p2.x > config::SCR_WIDTH)
+    {
+        glm::vec2 intersectPoint = getX(line, config::SCR_WIDTH);
+
+        Line line2(intersectPoint, line.p2, line.parent);
+        line.p2 = intersectPoint;
+
+        line2.p1.x -= config::SCR_WIDTH;
+        line2.p2.x -= config::SCR_WIDTH;
+
+        splitLineY(line);
+        splitLineY(line2);
+    }
+    else if (line.p2.x < 0)
+    {
+        glm::vec2 intersectPoint = getX(line, 0);
+
+        Line line2(intersectPoint, line.p2, line.parent);
+        line.p2 = intersectPoint;
+
+        line2.p1.x += config::SCR_WIDTH;
+        line2.p2.x += config::SCR_WIDTH;
+
+        splitLineY(line);
+        splitLineY(line2);
+    }
+    else
+    {
+        splitLineY(line);
+    }
+}
+
+// TODO: somehow remove duplication?
+void CollisionObject::splitLineY(const Line& inputLine)
+{
+    Line line(inputLine);
+
+    if (line.p1.y > config::SCR_HEIGHT)
+    {
+        line.p1.y -= config::SCR_HEIGHT;
+        line.p2.y -= config::SCR_HEIGHT;
+    }
+    else if (line.p1.y < 0)
+    {
+        line.p1.y += config::SCR_HEIGHT;
+        line.p2.y += config::SCR_HEIGHT;
+    }
+
+    // TODO: remove duplication
+    if (line.p2.y > config::SCR_HEIGHT)
+    {
+        glm::vec2 intersectPoint = getY(line, config::SCR_HEIGHT);
+
+        Line line2(intersectPoint, line.p2, line.parent);
+        line.p2 = intersectPoint;
+
+        line2.p1.y -= config::SCR_HEIGHT;
+        line2.p2.y -= config::SCR_HEIGHT;
+
+        collisionMesh.push_back(line);
+        collisionMesh.push_back(line2);
+    }
+    else if (line.p2.y < 0)
+    {
+        glm::vec2 intersectPoint = getY(line, 0);
+
+        Line line2(intersectPoint, line.p2, line.parent);
+        line.p2 = intersectPoint;
+
+        line2.p1.y += config::SCR_HEIGHT;
+        line2.p2.y += config::SCR_HEIGHT;
+
+        collisionMesh.push_back(line);
+        collisionMesh.push_back(line2);
+    }
+    else
+    {
+        collisionMesh.push_back(line);
+    }
+}
+
+glm::vec2 CollisionObject::getX(const Line& line, const float x)
+{
+    glm::vec2 s = line.p1;
+    glm::vec2 d = line.p2 - line.p1;
+
+    // N.B. d.x == 0 should be impossible, since (from splitLineX which calls this function):
+    // it is impossible for (p1.x >= 0 && p2.x < 0) && p1.x == p2.x
+    // and same reasoning for SCR_WIDTH
+
+    float y = s.y + ((x - s.x) / d.x) * d.y;
+
+    return glm::vec2(x, y);
+}
+
+glm::vec2 CollisionObject::getY(const Line& line, const float y)
+{
+    glm::vec2 s = line.p1;
+    glm::vec2 d = line.p2 - line.p1;
+
+    float x = s.x + ((y - s.y) / d.y) * d.x;
+
+    return glm::vec2(x, y);
 }
