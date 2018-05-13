@@ -27,10 +27,7 @@ void LevelManager::initialiseLevel()
     playerShip = new Ship(
         *this,
         Transform(
-            //glm::vec3(config::SCR_WIDTH / 2, config::SCR_HEIGHT / 2, 1.0f),
-            //glm::vec3(115, 115 / 2, 1.0f), // causes problems 1
-            glm::vec3(115, 57, 1.0f), // causes problems 2
-            //126.8f,// causes problems 1
+            glm::vec3(config::SCR_WIDTH / 2, config::SCR_HEIGHT / 2, 1.0f),
             117.8f,
             glm::vec3(0.0f, 0.0f, 0.0f),
             0.0f
@@ -123,9 +120,7 @@ void LevelManager::createAsteroid()
         *this,
         Transform(
             glm::vec3(100, 100, 0),
-            //20,
             0,
-            //glm::vec3(2, -0.5, 0),
             glm::vec3(0, 0, 0),
             -2
         )

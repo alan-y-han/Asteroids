@@ -2,9 +2,6 @@
 #include "Models.h"
 #include "GPUobjectManager.h"
 
-// debug
-#include <iostream>
-
 
 // TODO: clean up
 
@@ -68,7 +65,6 @@ void Ship::move()
 
     updateInstanceVAsModelMatrix();
     collisionObject.generateMesh(models::shipVertices, transform);
-    //collisionObject.addMeshToQuadtree(levelManager.laserQuadtree);
 
     // other object state
 
@@ -108,15 +104,12 @@ void Ship::collisionCheck()
 {
     std::unordered_map<CollisionObject*, std::vector<glm::vec2>> collisions = collisionObject.checkCollisions(levelManager.asteroidQuadtree);
 
-    int noCollisions = 0;
-
     for (std::pair<CollisionObject*, std::vector<glm::vec2>> objectCollisionList : collisions)
     {
         std::vector<glm::vec2>& collisionPoints = objectCollisionList.second;
 
         for (glm::vec2& collisionPoint : collisionPoints)
         {
-            noCollisions += 1;
             levelManager.addGameObject(new Particle
             (
                 levelManager,
@@ -129,9 +122,6 @@ void Ship::collisionCheck()
             ));
         }
     }
-
-    std::cerr << "No. collisions: " << noCollisions << std::endl;
-
 }
 
 glm::vec3 Ship::rotate2D(float x, float y, float angle)

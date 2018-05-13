@@ -97,8 +97,7 @@ int main(int argc, char const *argv[])
             {
                 levelManager.asteroidQuadtree.draw();
 
-                std::vector<Line*> quadtreeLines;
-                levelManager.asteroidQuadtree.retrieveAll(quadtreeLines);
+                std::vector<Line*> quadtreeLines(levelManager.asteroidQuadtree.retrieveAll());
 
                 for (Line* line : quadtreeLines)
                 {

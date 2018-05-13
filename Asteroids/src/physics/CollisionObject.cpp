@@ -30,7 +30,8 @@ void CollisionObject::generateMesh(const std::vector<glm::vec3>& vertices, Trans
     for (const glm::vec3& v : vertices)
     {
         worldVertices.push_back(model * glm::vec4(v, 1.0));
-        //addMotionLineToMesh(worldVertices.back(), transform); // safe as unsplitCollisionMesh creates new objects
+        // unsplitCollisionMesh creates new objects so safe to use .back() pointers
+        addMotionLineToMesh(worldVertices.back(), transform);
     }
 
     // special case to prevent doubling a line
@@ -62,16 +63,11 @@ std::unordered_map<CollisionObject*, std::vector<glm::vec2>> CollisionObject::ch
     std::unordered_map<CollisionObject*, std::vector<glm::vec2>> collisions;
     glm::vec2 collisionPoint;
 
-    //int noNearbyLines(0);
-
     // for each line
     for (Line& line : collisionMesh)
-    //Line line = collisionMesh[2];
     {
         // get nearby lines from quadtree
         std::vector<Line*> nearbyLines = quadtree.retrieve(&line);
-
-        //noNearbyLines += nearbyLines.size();
 
         // test each nearby line for collision
         for (Line* nearbyLine : nearbyLines)
@@ -82,8 +78,6 @@ std::unordered_map<CollisionObject*, std::vector<glm::vec2>> CollisionObject::ch
             }
         }
     }
-
-    //std::cerr << "No. of nearby lines: " << noNearbyLines << std::endl;
 
     return collisions;
 }

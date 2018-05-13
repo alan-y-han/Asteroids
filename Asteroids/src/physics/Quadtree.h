@@ -21,7 +21,7 @@ public:
     void clear();
     void insert(Line* line);
     std::vector<Line*> retrieve(Line* line);
-    void retrieveAll(std::vector<Line*>& objectList);
+    std::vector<Line*> retrieveAll();
 
     // debug
     void draw();
@@ -46,6 +46,7 @@ private:
     Quadrant getQuadrant(glm::vec2 point);
 
     void retrieveHelper(Line* line, std::vector<Line*>& retrievedObjects);
+    void retrieveAllHelper(std::vector<Line*>& allObjects);
 
 
     int level;

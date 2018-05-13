@@ -34,24 +34,24 @@ void Asteroid::move()
 
 void Asteroid::collisionCheck()
 {
-    //std::unordered_map<CollisionObject*, std::vector<glm::vec2>> collisions = collisionObject.checkCollisions(levelManager.laserQuadtree);
+    std::unordered_map<CollisionObject*, std::vector<glm::vec2>> collisions = collisionObject.checkCollisions(levelManager.laserQuadtree);
 
-    //for (std::pair<CollisionObject*, std::vector<glm::vec2>> objectCollisionList : collisions)
-    //{
-    //    std::vector<glm::vec2>& collisionPoints = objectCollisionList.second;
+    for (std::pair<CollisionObject*, std::vector<glm::vec2>> objectCollisionList : collisions)
+    {
+        std::vector<glm::vec2>& collisionPoints = objectCollisionList.second;
 
-    //    for (glm::vec2& collisionPoint : collisionPoints)
-    //    {
-    //        levelManager.addGameObject(new Particle
-    //        (
-    //            levelManager,
-    //            Transform(
-    //                glm::vec3(collisionPoint, 0.0f),
-    //                0.0f,
-    //                glm::vec3(0),
-    //                0.0f
-    //            )
-    //        ));
-    //    }
-    //}
+        for (glm::vec2& collisionPoint : collisionPoints)
+        {
+            levelManager.addGameObject(new Particle
+            (
+                levelManager,
+                Transform(
+                    glm::vec3(collisionPoint, 12.0f),
+                    0.0f,
+                    glm::vec3(0),
+                    0.0f
+                )
+            ));
+        }
+    }
 }
