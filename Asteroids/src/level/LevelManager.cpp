@@ -80,7 +80,7 @@ void LevelManager::tick()
 
 void LevelManager::addGameObject(GameObject* gameObject)
 {
-    GOsToAdd.push_back(gameObject);
+    GOsToAdd.insert(gameObject);
 }
 
 void LevelManager::addGameObjects()
@@ -98,7 +98,7 @@ void LevelManager::addGameObjects()
 
 void LevelManager::removeGameObject(GameObject* gameObject)
 {
-    GOsToRemove.push_back(gameObject);
+    GOsToRemove.insert(gameObject);
 }
 
 void LevelManager::removeGameObjects()
@@ -119,7 +119,7 @@ void LevelManager::createAsteroid()
     addGameObject(new Asteroid(
         *this,
         Transform(
-            glm::vec3(100, 100, 0),
+            glm::vec3(500, 400, 0),
             0,
             glm::vec3(0, 0, 0),
             -2

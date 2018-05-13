@@ -2,9 +2,9 @@
 #include "GPUobjectManager.h"
 #include "Models.h"
 
-Particle::Particle(LevelManager& levelManager, Transform& transform) :
+Particle::Particle(LevelManager & levelManager, Transform & transform, int lifetime) :
     GameObject(levelManager, levelManager.gpuObjectManager.particle, transform),
-    lifetime(0),
+    lifetime(lifetime),
     lifetimeRemaining(lifetime)
 {
 }

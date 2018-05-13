@@ -5,6 +5,7 @@
 
 Laser::Laser(LevelManager& levelManager, Transform& transform) :
     GameObject(levelManager, levelManager.gpuObjectManager.laser, transform),
+    collisionObject(*this),
     lifetimeRemaining(360)
 {
 }

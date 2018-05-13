@@ -6,7 +6,8 @@
 #include <iostream>
 
 
-CollisionObject::CollisionObject()
+CollisionObject::CollisionObject(GameObject& gameObject) :
+    gameObject(gameObject)
 {
 }
 

@@ -10,6 +10,7 @@
 
 
 // forward declarations
+class GameObject;
 class Quadtree;
 
 // Collision mesh of lines is regenerated every frame with generateMesh()
@@ -17,10 +18,13 @@ class Quadtree;
 class CollisionObject
 {
 public:
-    CollisionObject();
+    CollisionObject(GameObject& gameObject);
 
     void generateMesh(const std::vector<glm::vec3>& vertices, Transform& transform);
     void addMeshToQuadtree(Quadtree& quadtree);
+
+
+    GameObject& gameObject;
 
     std::unordered_map<CollisionObject*, std::vector<glm::vec2>> checkCollisions(Quadtree& quadtree);
 

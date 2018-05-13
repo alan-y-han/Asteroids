@@ -37,21 +37,16 @@ namespace models
 
     static const std::vector<glm::vec3> asteroidVertices =
     {
-        //glm::vec3(0, 20, 0),
-        glm::vec3(0, 40, 0),
-
-        glm::vec3(-20, 40, 0),
-        glm::vec3(-40, 20, 0),
-        glm::vec3(-40, -20, 0),
-        glm::vec3(-20, -40, 0),
-        glm::vec3(20, -40, 0),
-        glm::vec3(40, -20, 0),
-
-        //glm::vec3(20, 0, 0),
-        glm::vec3(40, 0, 0),
-
-        glm::vec3(40, 20, 0),
-        glm::vec3(20, 40, 0)
+        glm::vec3(0, 80, 0),
+        glm::vec3(-40, 80, 0),
+        glm::vec3(-80, 40, 0),
+        glm::vec3(-80, -40, 0),
+        glm::vec3(-40, -80, 0),
+        glm::vec3(40, -80, 0),
+        glm::vec3(80, -40, 0),
+        glm::vec3(80, 0, 0),
+        glm::vec3(80, 40, 0),
+        glm::vec3(40, 80, 0)
     };
     static const glm::vec3 asteroidColor(1.0f, 1.0f, 0.0f);
 }

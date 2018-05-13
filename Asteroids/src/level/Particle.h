@@ -13,7 +13,7 @@
 class Particle : public GameObject
 {
 public:
-    Particle(LevelManager& levelManager, Transform& transform);
+    Particle(LevelManager& levelManager, Transform& transform, int lifetime);
     ~Particle();
 
 

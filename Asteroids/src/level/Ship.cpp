@@ -5,7 +5,7 @@
 
 // TODO: clean up
 
-float shipRandFloat(float min, float max)
+static float randFloat(float min, float max)
 {
     float range = max - min;
     return min + (((float)rand() / RAND_MAX) * range);
@@ -13,7 +13,8 @@ float shipRandFloat(float min, float max)
 
 
 Ship::Ship(LevelManager& levelManager, Transform& transform) :
-    GameObject(levelManager, levelManager.gpuObjectManager.ship, transform)
+    GameObject(levelManager, levelManager.gpuObjectManager.ship, transform),
+    collisionObject(*this)
 {
 }
 
@@ -118,7 +119,8 @@ void Ship::collisionCheck()
                     0.0f,
                     glm::vec3(0),
                     0.0f
-                )
+                ),
+                0
             ));
         }
     }
@@ -139,18 +141,18 @@ void Ship::generateEngineParticle(bool accel)
 
     if (accel)
     {
-        particlePos = rotate2D(0 + shipRandFloat(-5, 5), -25 - shipRandFloat(0, 6), transform.angle);
+        particlePos = rotate2D(0 + randFloat(-5, 5), -25 - randFloat(0, 6), transform.angle);
         float dvx_abs = 2.0f;
         float dvy_abs = 5.0f;
-        dvx = shipRandFloat(-dvx_abs, dvx_abs);
-        dvy = shipRandFloat(-dvy_abs, dvy_abs) - 15.0f;
+        dvx = randFloat(-dvx_abs, dvx_abs);
+        dvy = randFloat(-dvy_abs, dvy_abs) - 15.0f;
     }
     else
     {
-        particlePos = rotate2D(0 + shipRandFloat(-3.0f, 3.0f), -25 + shipRandFloat(0, 2), transform.angle);
+        particlePos = rotate2D(0 + randFloat(-3.0f, 3.0f), -25 + randFloat(0, 2), transform.angle);
         float dvx_abs = 1.0f;
-        dvx = shipRandFloat(-dvx_abs, dvx_abs);
-        dvy = -shipRandFloat(0.5f, 1.0f);
+        dvx = randFloat(-dvx_abs, dvx_abs);
+        dvy = -randFloat(0.5f, 1.0f);
     }
 
     glm::vec3 particleVelRand = rotate2D(dvx, dvy, transform.angle);
@@ -160,10 +162,11 @@ void Ship::generateEngineParticle(bool accel)
         levelManager,
         Transform(
             transform.position + particlePos,
-            shipRandFloat(0, 360),
+            randFloat(0, 360),
             transform.velocity + particleVelRand,
-            shipRandFloat(-4, 4)
-        )
+            randFloat(-4, 4)
+        ),
+        10
     ));
 }
 

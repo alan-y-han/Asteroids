@@ -24,5 +24,8 @@ public:
 
 
 private:
+    void generateHitParticle(glm::vec3 hitPosition, glm::vec3 velocity);
+
+
     CollisionObject collisionObject;
 };

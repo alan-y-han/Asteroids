@@ -25,8 +25,7 @@ private:
     virtual void collisionCheck();
 
 
-    //RenderObject renderObject;
+    CollisionObject collisionObject;
 
     int lifetimeRemaining;
-    CollisionObject collisionObject;
 };

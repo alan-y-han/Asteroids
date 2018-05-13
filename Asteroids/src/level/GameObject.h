@@ -17,6 +17,9 @@ public:
     virtual void move();
     virtual void collisionCheck();
 
+    
+    Transform transform;
+
 
 protected:
     void updateInstanceVAsModelMatrix();
@@ -24,7 +27,5 @@ protected:
 
     LevelManager& levelManager;
     RenderObject renderObjects[9];
-
-    Transform transform;
 };
 

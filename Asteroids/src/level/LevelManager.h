@@ -49,6 +49,6 @@ private:
 
     void createAsteroid();
 
-    std::vector<GameObject*> GOsToAdd;
-    std::vector<GameObject*> GOsToRemove;
+    std::unordered_set<GameObject*> GOsToAdd;
+    std::unordered_set<GameObject*> GOsToRemove;
 };

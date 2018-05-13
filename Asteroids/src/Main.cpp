@@ -95,14 +95,14 @@ int main(int argc, char const *argv[])
 
             if (drawQuadtrees)
             {
-                levelManager.asteroidQuadtree.draw();
+                levelManager.laserQuadtree.draw();
 
-                std::vector<Line*> quadtreeLines(levelManager.asteroidQuadtree.retrieveAll());
+                //std::vector<Line*> quadtreeLines(levelManager.laserQuadtree.retrieveAll());
 
-                for (Line* line : quadtreeLines)
-                {
-                    dLine.draw(glm::vec3(line->p1, 2), glm::vec3(line->p2, 2), glm::vec3(1, 0, 0));
-                }
+                //for (Line* line : quadtreeLines)
+                //{
+                //    dLine.draw(glm::vec3(line->p1, 2), glm::vec3(line->p2, 2), glm::vec3(1, 0, 0));
+                //}
             }
 
             // swap buffers
