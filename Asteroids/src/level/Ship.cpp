@@ -2,6 +2,10 @@
 #include "Models.h"
 #include "GPUobjectManager.h"
 
+// debug
+#include <iostream>
+
+
 // TODO: clean up
 
 float shipRandFloat(float min, float max)
@@ -63,6 +67,8 @@ void Ship::move()
     transform.applyVelocities();
 
     updateInstanceVAsModelMatrix();
+    collisionObject.generateMesh(models::shipVertices, transform);
+    //collisionObject.addMeshToQuadtree(levelManager.laserQuadtree);
 
     // other object state
 
@@ -78,9 +84,10 @@ void Ship::move()
 
     if (keymap.accel)
     {
-        generateEngineParticle(true);
-        generateEngineParticle(true);
-        generateEngineParticle(true);
+        for (int i = 0; i < 3; i++)
+        {
+            generateEngineParticle(true);
+        }
     }
     else
     {
@@ -95,6 +102,36 @@ void Ship::move()
             laserCooldownTimer += laserCooldown;
         }
     }
+}
+
+void Ship::collisionCheck()
+{
+    std::unordered_map<CollisionObject*, std::vector<glm::vec2>> collisions = collisionObject.checkCollisions(levelManager.asteroidQuadtree);
+
+    int noCollisions = 0;
+
+    for (std::pair<CollisionObject*, std::vector<glm::vec2>> objectCollisionList : collisions)
+    {
+        std::vector<glm::vec2>& collisionPoints = objectCollisionList.second;
+
+        for (glm::vec2& collisionPoint : collisionPoints)
+        {
+            noCollisions += 1;
+            levelManager.addGameObject(new Particle
+            (
+                levelManager,
+                Transform(
+                    glm::vec3(collisionPoint, 12.0f),
+                    0.0f,
+                    glm::vec3(0),
+                    0.0f
+                )
+            ));
+        }
+    }
+
+    std::cerr << "No. collisions: " << noCollisions << std::endl;
+
 }
 
 glm::vec3 Ship::rotate2D(float x, float y, float angle)
@@ -143,7 +180,7 @@ void Ship::generateEngineParticle(bool accel)
 void Ship::fireLaser()
 {
     glm::vec3 laserPos = rotate2D(0, 45, transform.angle);
-    glm::vec3 laserVel = rotate2D(0, 1, transform.angle);
+    glm::vec3 laserVel = rotate2D(0, 12, transform.angle);
 
     levelManager.addGameObject(new Laser
     (

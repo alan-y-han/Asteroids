@@ -4,6 +4,7 @@
 
 #include <vector>
 
+#include "CollisionObject.h"
 #include "Config.h"
 #include "GameObject.h"
 #include "GPUobject.h"
@@ -19,4 +20,9 @@ public:
 
     virtual void initialise();
     virtual void move();
+    virtual void collisionCheck();
+
+
+private:
+    CollisionObject collisionObject;
 };

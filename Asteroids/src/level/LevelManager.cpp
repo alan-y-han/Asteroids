@@ -8,8 +8,8 @@
 
 LevelManager::LevelManager(GPUobjectManager& gpuObjectManager) :
     gpuObjectManager(gpuObjectManager),
-    //quadtree(iRectangle(-config::SCR_WIDTH, -config::SCR_HEIGHT, config::SCR_WIDTH * 2, config::SCR_HEIGHT * 2))
-    quadtree(iRectangle(0, 0, config::SCR_WIDTH, config::SCR_HEIGHT))
+    laserQuadtree(iRectangle(0, 0, config::SCR_WIDTH, config::SCR_HEIGHT)),
+    asteroidQuadtree(iRectangle(0, 0, config::SCR_WIDTH, config::SCR_HEIGHT))
 {
 }
 
@@ -27,8 +27,11 @@ void LevelManager::initialiseLevel()
     playerShip = new Ship(
         *this,
         Transform(
-            glm::vec3(config::SCR_WIDTH / 2, config::SCR_HEIGHT / 2, 1.0f),
-            -2.0f,
+            //glm::vec3(config::SCR_WIDTH / 2, config::SCR_HEIGHT / 2, 1.0f),
+            //glm::vec3(115, 115 / 2, 1.0f), // causes problems 1
+            glm::vec3(115, 57, 1.0f), // causes problems 2
+            //126.8f,// causes problems 1
+            117.8f,
             glm::vec3(0.0f, 0.0f, 0.0f),
             0.0f
         )
@@ -59,14 +62,15 @@ void LevelManager::processInput(GLFWwindow* window)
 void LevelManager::tick()
 {
     // calculate movement
-    quadtree.clear();
+    laserQuadtree.clear();
+    asteroidQuadtree.clear();
 
     for (GameObject* go : gameObjects)
     {
         go->move();
     }
 
-    // calculate physics (i.e. collisions
+    // calculate physics (i.e. collisions)
     for (GameObject* go : gameObjects)
     {
         go->collisionCheck();
@@ -80,7 +84,6 @@ void LevelManager::tick()
 void LevelManager::addGameObject(GameObject* gameObject)
 {
     GOsToAdd.push_back(gameObject);
-    gameObject->initialise();
 }
 
 void LevelManager::addGameObjects()
@@ -90,6 +93,7 @@ void LevelManager::addGameObjects()
         for (GameObject* go : GOsToAdd)
         {
             gameObjects.insert(go);
+            go->initialise();
         }
         GOsToAdd.clear();
     }
@@ -119,8 +123,10 @@ void LevelManager::createAsteroid()
         *this,
         Transform(
             glm::vec3(100, 100, 0),
-            20,
-            glm::vec3(2, -0.5, 0),
+            //20,
+            0,
+            //glm::vec3(2, -0.5, 0),
+            glm::vec3(0, 0, 0),
             -2
         )
     ));

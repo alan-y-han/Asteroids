@@ -1,12 +1,11 @@
 #include "Laser.h"
-#include "Collision.h"
 #include "GPUobjectManager.h"
 #include "Models.h"
 
 
 Laser::Laser(LevelManager& levelManager, Transform& transform) :
     GameObject(levelManager, levelManager.gpuObjectManager.laser, transform),
-    lifetimeRemaining(36000)
+    lifetimeRemaining(360)
 {
 }
 
@@ -33,20 +32,11 @@ void Laser::move()
 
     updateInstanceVAsModelMatrix();
 
-    // update collision mesh
-    collisionObject.generateMesh(models::laserVertices, transform, levelManager.quadtree);
+    // update collision mesh, add to quadtree
+    collisionObject.generateMesh(models::laserVertices, transform);
+    collisionObject.addMeshToQuadtree(levelManager.laserQuadtree);
 }
 
 void Laser::collisionCheck()
 {
-    //for (GameObject* laser : levelManager.lasers)
-    //{
-    //    bool hasCollided = collision::testGOcollision(*this, *laser);
-    //    if (hasCollided)
-    //    {
-    //        std::cout << "Collision!\n";
-    //    }
-    //}
-
-    //collision::testCollision()
 }

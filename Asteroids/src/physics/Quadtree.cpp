@@ -109,19 +109,28 @@ void Quadtree::insert(Line* line)
 
 std::vector<Line*> Quadtree::retrieve(Line* line)
 {
+    std::vector<Line*> objectList;
+    retrieveHelper(line, objectList);
+    return objectList;
+}
+
+void Quadtree::retrieveHelper(Line* line, std::vector<Line*>& retrievedObjects)
+{
+    retrievedObjects.insert(std::end(retrievedObjects), std::begin(objects), std::end(objects));
+
     Quadtree* target = getSubtree(line);
 
-    if (target == this)
+    if ((target == this) || subtreesEmpty)
     {
         std::vector<Line*> objectList;
-
         retrieveAll(objectList);
 
-        return objectList;
+        retrievedObjects.insert(std::end(retrievedObjects), std::begin(objectList), std::end(objectList));
+        return;
     }
     else
     {
-        return target->retrieve(line);
+        target->retrieveHelper(line, retrievedObjects);
     }
 }
 

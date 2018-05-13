@@ -4,7 +4,7 @@
 
 Particle::Particle(LevelManager& levelManager, Transform& transform) :
     GameObject(levelManager, levelManager.gpuObjectManager.particle, transform),
-    lifetime(10),
+    lifetime(0),
     lifetimeRemaining(lifetime)
 {
 }

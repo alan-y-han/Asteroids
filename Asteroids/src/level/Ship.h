@@ -31,13 +31,14 @@ public:
 private:    
     virtual void initialise();
     virtual void move();
+    virtual void collisionCheck();
 
     glm::vec3 rotate2D(float x, float y, float angle);
     void generateEngineParticle(bool accel);
     void fireLaser();
 
 
-    glm::vec3 color;
+    CollisionObject collisionObject;
 
     float accel;
     float frictionFactor;

@@ -10,7 +10,7 @@ CollisionObject::CollisionObject()
 {
 }
 
-void CollisionObject::generateMesh(const std::vector<glm::vec3>& vertices, Transform& transform, Quadtree& quadtree)
+void CollisionObject::generateMesh(const std::vector<glm::vec3>& vertices, Transform& transform)
 {
     worldVertices.clear();
     unsplitCollisionMesh.clear();
@@ -30,7 +30,7 @@ void CollisionObject::generateMesh(const std::vector<glm::vec3>& vertices, Trans
     for (const glm::vec3& v : vertices)
     {
         worldVertices.push_back(model * glm::vec4(v, 1.0));
-        addMotionLineToMesh(worldVertices.back(), transform); // safe as unsplitCollisionMesh creates new objects
+        //addMotionLineToMesh(worldVertices.back(), transform); // safe as unsplitCollisionMesh creates new objects
     }
 
     // special case to prevent doubling a line
@@ -46,13 +46,46 @@ void CollisionObject::generateMesh(const std::vector<glm::vec3>& vertices, Trans
         }
     }
 
+    splitLines(unsplitCollisionMesh); // split lines and add to collisionMesh
+}
 
-    splitLines(unsplitCollisionMesh); // fn adds split lines to collisionMesh
-
+void CollisionObject::addMeshToQuadtree(Quadtree& quadtree)
+{
     for (Line& l : collisionMesh)
     {
         quadtree.insert(&l);
     }
+}
+
+std::unordered_map<CollisionObject*, std::vector<glm::vec2>> CollisionObject::checkCollisions(Quadtree& quadtree)
+{
+    std::unordered_map<CollisionObject*, std::vector<glm::vec2>> collisions;
+    glm::vec2 collisionPoint;
+
+    //int noNearbyLines(0);
+
+    // for each line
+    for (Line& line : collisionMesh)
+    //Line line = collisionMesh[2];
+    {
+        // get nearby lines from quadtree
+        std::vector<Line*> nearbyLines = quadtree.retrieve(&line);
+
+        //noNearbyLines += nearbyLines.size();
+
+        // test each nearby line for collision
+        for (Line* nearbyLine : nearbyLines)
+        {
+            if (checkLineLineCollision(line, *nearbyLine, collisionPoint))
+            {
+                collisions[nearbyLine->parent].push_back(collisionPoint);
+            }
+        }
+    }
+
+    //std::cerr << "No. of nearby lines: " << noNearbyLines << std::endl;
+
+    return collisions;
 }
 
 void CollisionObject::addLineToMesh(int i)
@@ -70,7 +103,7 @@ void CollisionObject::addMotionLineToMesh(glm::vec2 vertex, Transform& transform
     unsplitCollisionMesh.emplace_back(vertex, vertex - glm::vec2(transform.velocity), this);
 }
 
-void CollisionObject::splitLines(std::vector<Line>& unsplitLines)
+void CollisionObject::splitLines(const std::vector<Line>& unsplitLines)
 {
     for (const Line& line : unsplitLines)
     {
@@ -197,4 +230,31 @@ glm::vec2 CollisionObject::getY(const Line& line, const float y)
     float x = s.x + ((y - s.y) / d.y) * d.x;
 
     return glm::vec2(x, y);
+}
+
+bool CollisionObject::checkLineLineCollision(Line& a, Line& b, glm::vec2& inCollisionPoint)
+{
+    glm::vec2& a1 = a.p1;
+    glm::vec2& a2 = a.p2;
+    glm::vec2& b1 = b.p1;
+    glm::vec2& b2 = b.p2;
+
+    // check if either line is of length zero
+    if ((a1.x == a2.x && a1.y == a2.y) || (b1.x == b2.x && b1.y == b2.y))
+    {
+        return false;
+    }
+
+    float denominator = (((b2.y - b1.y) * (a2.x - a1.x)) - ((b2.x - b1.x) * (a2.y - a1.y)));
+    if (denominator == 0)
+    {
+        return false;
+    }
+
+    float ma = (((b2.x - b1.x) * (a1.y - b1.y)) - ((b2.y - b1.y) * (a1.x - b1.x))) / denominator;
+    float mb = (((a2.x - a1.x) * (a1.y - b1.y)) - ((a2.y - a1.y) * (a1.x - b1.x))) / denominator;
+
+    inCollisionPoint = a1 + ((a2 - a1) * ma);
+
+    return ((ma < 1) && (ma > 0)) && ((mb < 1) && (mb > 0));
 }

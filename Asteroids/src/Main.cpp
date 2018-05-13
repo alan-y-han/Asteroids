@@ -38,7 +38,8 @@ int main(int argc, char const *argv[])
     double lag = 0.0;
 
     // debug
-    bool drawQuadtrees(true);
+    bool qReleased(true);
+    bool drawQuadtrees(false);
 
     DebugLine dLine;
 
@@ -59,7 +60,15 @@ int main(int argc, char const *argv[])
             glfwPollEvents();
             if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
             {
-                drawQuadtrees = !drawQuadtrees;
+                if (qReleased)
+                {
+                    drawQuadtrees = !drawQuadtrees;
+                    qReleased = false;
+                }
+            }
+            else
+            {
+                qReleased = true;
             }
             // end debug
 
@@ -82,14 +91,14 @@ int main(int argc, char const *argv[])
             renderer.draw();
 
             // debug
-            std::cerr << levelManager.gameObjects.size() << std::endl;
+            //std::cerr << levelManager.gameObjects.size() << std::endl;
 
             if (drawQuadtrees)
             {
-                levelManager.quadtree.draw();
+                levelManager.asteroidQuadtree.draw();
 
                 std::vector<Line*> quadtreeLines;
-                levelManager.quadtree.retrieveAll(quadtreeLines);
+                levelManager.asteroidQuadtree.retrieveAll(quadtreeLines);
 
                 for (Line* line : quadtreeLines)
                 {

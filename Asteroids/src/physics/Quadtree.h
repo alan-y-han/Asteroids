@@ -23,7 +23,6 @@ public:
     std::vector<Line*> retrieve(Line* line);
     void retrieveAll(std::vector<Line*>& objectList);
 
-
     // debug
     void draw();
 
@@ -45,6 +44,8 @@ private:
     Quadtree* getSubtree(Line* line);
     void split();
     Quadrant getQuadrant(glm::vec2 point);
+
+    void retrieveHelper(Line* line, std::vector<Line*>& retrievedObjects);
 
 
     int level;
