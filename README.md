@@ -8,4 +8,7 @@ Asteroids game, written in C++11/OpenGL 3.3. Currently developed using Visual St
 - GLM
 
 # How to compile
-All dependencies and .lib files are included in the repo under /include and /lib - just add the folders in Visual Studio's configuration properties. Detailed instructions for how to do this are [here](https://learnopengl.com/Getting-started/Creating-a-window).
+Just open in Visual Studio and compile for x86. All dependencies are under /include and /lib - these folders should already be configured with relative paths in Visual Studio's configuration properties. More details about how to setup these dependencies with Visual Studio can be found [here](https://learnopengl.com/Getting-started/Creating-a-window).
+
+# Special thanks
+Special thanks to [LearnOpenGL](https://learnopengl.com/)!
