@@ -1,15 +1,7 @@
 #include "Ship.h"
 #include "Models.h"
 #include "GPUobjectManager.h"
-
-
-// TODO: clean up
-
-static float randFloat(float min, float max)
-{
-    float range = max - min;
-    return min + (((float)rand() / RAND_MAX) * range);
-}
+#include "RNG.h"
 
 
 Ship::Ship(LevelManager& levelManager, Transform& transform) :
@@ -141,18 +133,18 @@ void Ship::generateEngineParticle(bool accel)
 
     if (accel)
     {
-        particlePos = rotate2D(0 + randFloat(-5, 5), -25 - randFloat(0, 6), transform.angle);
+        particlePos = rotate2D(0 + RNG::randFloat(-5, 5), -25 - RNG::randFloat(0, 6), transform.angle);
         float dvx_abs = 2.0f;
         float dvy_abs = 5.0f;
-        dvx = randFloat(-dvx_abs, dvx_abs);
-        dvy = randFloat(-dvy_abs, dvy_abs) - 15.0f;
+        dvx = RNG::randFloat(-dvx_abs, dvx_abs);
+        dvy = RNG::randFloat(-dvy_abs, dvy_abs) - 15.0f;
     }
     else
     {
-        particlePos = rotate2D(0 + randFloat(-3.0f, 3.0f), -25 + randFloat(0, 2), transform.angle);
+        particlePos = rotate2D(0 + RNG::randFloat(-3.0f, 3.0f), -25 + RNG::randFloat(0, 2), transform.angle);
         float dvx_abs = 1.0f;
-        dvx = randFloat(-dvx_abs, dvx_abs);
-        dvy = -randFloat(0.5f, 1.0f);
+        dvx = RNG::randFloat(-dvx_abs, dvx_abs);
+        dvy = -RNG::randFloat(0.5f, 1.0f);
     }
 
     glm::vec3 particleVelRand = rotate2D(dvx, dvy, transform.angle);
@@ -162,9 +154,9 @@ void Ship::generateEngineParticle(bool accel)
         levelManager,
         Transform(
             transform.position + particlePos,
-            randFloat(0, 360),
+            RNG::randFloat(0, 360),
             transform.velocity + particleVelRand,
-            randFloat(-4, 4)
+            RNG::randFloat(-4, 4)
         ),
         10
     ));

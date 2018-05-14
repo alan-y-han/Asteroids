@@ -23,6 +23,7 @@ private:
     virtual void initialise();
     virtual void move();
     virtual void collisionCheck();
+    void hit(CollisionObject* collisionObject, glm::vec2 point);
 
 
     CollisionObject collisionObject;

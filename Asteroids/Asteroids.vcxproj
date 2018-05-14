@@ -181,6 +181,7 @@
     <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Renderer\Shader.cpp" />
     <ClCompile Include="src\renderer\GLinitialiser.cpp" />
+    <ClCompile Include="src\RNG.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\level\GameObject.h" />
@@ -203,6 +204,7 @@
     <ClInclude Include="src\Renderer\Renderer.h" />
     <ClInclude Include="src\Renderer\Shader.h" />
     <ClInclude Include="src\renderer\GLinitialiser.h" />
+    <ClInclude Include="src\RNG.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\level\Transform.h" />

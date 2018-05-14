@@ -84,6 +84,9 @@
     <ClCompile Include="src\level\Transform.cpp">
       <Filter>Source Files\level</Filter>
     </ClCompile>
+    <ClCompile Include="src\RNG.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Config.h">
@@ -144,6 +147,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\renderer\DebugLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RNG.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

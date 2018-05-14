@@ -28,6 +28,10 @@ void GameObject::collisionCheck()
 {
 }
 
+void GameObject::hit(CollisionObject* collisionObject, glm::vec2 point)
+{
+}
+
 void GameObject::updateInstanceVAsModelMatrix()
 {
     int count = 0;

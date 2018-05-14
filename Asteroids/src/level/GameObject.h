@@ -5,6 +5,9 @@
 #include "RenderObject.h"
 #include "Transform.h"
 
+// forward declarations
+class CollisionObject;
+
 
 class GameObject
 {
@@ -16,6 +19,7 @@ public:
     virtual void initialise();
     virtual void move();
     virtual void collisionCheck();
+    virtual void hit(CollisionObject* collisionObject, glm::vec2 point);
 
     
     Transform transform;

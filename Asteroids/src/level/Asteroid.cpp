@@ -2,18 +2,8 @@
 #include "Models.h"
 #include "Particle.h"
 #include "GPUobjectManager.h"
+#include "RNG.h"
 #include <unordered_set>
-
-// debug
-#include <iostream>
-
-
-// TODO: clean up
-static float randFloat(float min, float max)
-{
-    float range = max - min;
-    return min + (((float)rand() / RAND_MAX) * range);
-}
 
 
 Asteroid::Asteroid(LevelManager& levelManager, Transform& transform) :
@@ -51,21 +41,18 @@ void Asteroid::collisionCheck()
 
         for (glm::vec2& collisionPoint : collisionPoints)
         {
-            generateHitParticle(glm::vec3(collisionPoint, 0.0f), - (objectCollisionList.first->gameObject.transform.velocity * glm::vec3(0.2)));
+            generateHitParticle(glm::vec3(collisionPoint, 0.0f), -(objectCollisionList.first->gameObject.transform.velocity * glm::vec3(0.2)));
+            objectCollisionList.first->gameObject.hit(&collisionObject, collisionPoint);
+            break; // only hit object once
         }
-
-        // N.B. this can occasionally remove the same object twice
-        // this is ok because the object removal queue is a set (enforces uniqueness)
-        // TODO: this is kinda hacky, maybe stop doing this?
-        levelManager.removeGameObject(&objectCollisionList.first->gameObject);
     }
 }
 
 void Asteroid::generateHitParticle(glm::vec3 hitPosition, glm::vec3 velocity)
 {
-    glm::vec3 particlePos(randFloat(-1.0f, 1.0f), randFloat(-1.0f, 1.0f), 0.0f);
-    float dvx = randFloat(-2, 2);
-    float dvy = -randFloat(-2, 2);
+    glm::vec3 particlePos(RNG::randFloat(-1.0f, 1.0f), RNG::randFloat(-1.0f, 1.0f), 0.0f);
+    float dvx = RNG::randFloat(-2, 2);
+    float dvy = -RNG::randFloat(-2, 2);
 
     glm::vec3 particleVelRand(dvx, dvy, 0.0f);
 
@@ -74,9 +61,9 @@ void Asteroid::generateHitParticle(glm::vec3 hitPosition, glm::vec3 velocity)
         levelManager,
         Transform(
             hitPosition + particlePos,
-            randFloat(0, 360),
+            RNG::randFloat(0, 360),
             transform.velocity + velocity + particleVelRand,
-            randFloat(-2, 2)
+            RNG::randFloat(-2, 2)
         ),
         15
     ));

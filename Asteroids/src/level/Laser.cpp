@@ -41,3 +41,8 @@ void Laser::move()
 void Laser::collisionCheck()
 {
 }
+
+void Laser::hit(CollisionObject* collisionObject, glm::vec2 point)
+{
+    levelManager.removeGameObject(this);
+}

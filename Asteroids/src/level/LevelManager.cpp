@@ -96,6 +96,9 @@ void LevelManager::addGameObjects()
     }
 }
 
+//// N.B. this allows removing the same object twice
+//// this is ok because the object removal queue is a set (which enforces uniqueness)
+//// TODO: this is kinda hacky, maybe stop doing this?
 void LevelManager::removeGameObject(GameObject* gameObject)
 {
     GOsToRemove.insert(gameObject);
