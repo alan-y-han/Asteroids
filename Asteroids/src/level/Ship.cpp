@@ -35,13 +35,13 @@ void Ship::move()
     // but angle (AD) is processed after velocity (WS)
     if (keymap.accel)
     {
-        transform.velocity.x -= sin(glm::radians(transform.angle)) * accel; // TODO: fix reversed sin/cos due to vertex coords
-        transform.velocity.y += cos(glm::radians(transform.angle)) * accel;
+        transform.velocity.x += cos(glm::radians(transform.angle)) * accel;
+        transform.velocity.y += sin(glm::radians(transform.angle)) * accel;
     }
     if (keymap.decel)
     {
-        transform.velocity.x += sin(glm::radians(transform.angle)) * accel;
-        transform.velocity.y -= cos(glm::radians(transform.angle)) * accel;
+        transform.velocity.x -= cos(glm::radians(transform.angle)) * accel;
+        transform.velocity.y -= sin(glm::radians(transform.angle)) * accel;
     }
     if (keymap.left)
     {
@@ -127,24 +127,23 @@ glm::vec3 Ship::rotate2D(float x, float y, float angle)
 
 void Ship::generateEngineParticle(bool accel)
 {
+    const glm::vec2 enginePos(-28.0f, 0.0f);
+
     glm::vec3 particlePos;
     float dvx = 0.0f;
     float dvy = 0.0f;
 
     if (accel)
     {
-        particlePos = rotate2D(0 + RNG::randFloat(-5, 5), -25 - RNG::randFloat(0, 6), transform.angle);
-        float dvx_abs = 2.0f;
-        float dvy_abs = 5.0f;
-        dvx = RNG::randFloat(-dvx_abs, dvx_abs);
-        dvy = RNG::randFloat(-dvy_abs, dvy_abs) - 15.0f;
+        particlePos = rotate2D(enginePos.x + RNG::randFloat(0, 6), enginePos.y - RNG::randFloat(-5, 5), transform.angle);
+        dvx = RNG::randFloat(-20.0f, -10.0f);
+        dvy = RNG::randFloat(-2.0f, 2.0f);
     }
     else
     {
-        particlePos = rotate2D(0 + RNG::randFloat(-3.0f, 3.0f), -25 + RNG::randFloat(0, 2), transform.angle);
-        float dvx_abs = 1.0f;
-        dvx = RNG::randFloat(-dvx_abs, dvx_abs);
-        dvy = -RNG::randFloat(0.5f, 1.0f);
+        particlePos = rotate2D(enginePos.x + RNG::randFloat(0, 2), enginePos.y + RNG::randFloat(-3.0f, 3.0f), transform.angle);
+        dvx = -RNG::randFloat(0.5f, 1.0f);
+        dvy = RNG::randFloat(-1.0f, 1.0f);
     }
 
     glm::vec3 particleVelRand = rotate2D(dvx, dvy, transform.angle);
@@ -164,8 +163,8 @@ void Ship::generateEngineParticle(bool accel)
 
 void Ship::fireLaser()
 {
-    glm::vec3 laserPos = rotate2D(0, 45, transform.angle);
-    glm::vec3 laserVel = rotate2D(0, 12, transform.angle);
+    glm::vec3 laserPos = rotate2D(50, 0, transform.angle);
+    glm::vec3 laserVel = rotate2D(12, 0, transform.angle);
 
     levelManager.addGameObject(new Laser
     (
