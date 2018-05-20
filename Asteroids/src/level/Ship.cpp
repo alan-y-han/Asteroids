@@ -22,7 +22,7 @@ void Ship::initialise()
     accel = 0.1f;
     frictionFactor = 0.995f;
     rSpeed = 3.0f;
-    laserCooldown = 7;
+    laserCooldown = 5;
     laserCooldownTimer = 0;
 }
 
@@ -46,10 +46,12 @@ void Ship::move()
     if (keymap.left)
     {
         transform.angle += rSpeed;
+        //transform.aVelocity += 0.1f;
     }
     if (keymap.right)
     {
         transform.angle -= rSpeed;
+        //transform.aVelocity -= 0.1f;
     }
 
     // movement

@@ -16,8 +16,8 @@ Renderer::Renderer(GLFWwindow* window, std::string vertexPath, std::string fragm
     float scrHeight = static_cast<float>(config::SCR_HEIGHT);
 
     projection = glm::ortho(0.0f, scrWidth, 0.0f, scrHeight, 0.1f, 100.0f);
-    //projection = glm::ortho(-scrWidth, scrWidth * 2, -scrHeight, scrHeight * 2, 0.1f, 100.0f);
     //projection = glm::ortho((-scrWidth) * 0.1f, scrWidth * 1.1f, (-scrHeight) * 0.1f, scrHeight * 1.1f, 0.1f, 100.0f);
+    //projection = glm::ortho(-scrWidth, scrWidth * 2, -scrHeight, scrHeight * 2, 0.1f, 100.0f);
 
     // Send matrices to shader
     shader.use();
