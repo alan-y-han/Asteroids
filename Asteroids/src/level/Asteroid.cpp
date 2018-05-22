@@ -43,7 +43,7 @@ void Asteroid::collisionCheck()
 
         for (glm::vec2& collisionPoint : collisionPoints)
         {
-            generateHitParticle(glm::vec3(collisionPoint, 0.0f), -(objectCollisionList.first->gameObject.transform.velocity * glm::vec3(0.2)));
+            generateHitParticle(collisionPoint, -(objectCollisionList.first->gameObject.transform.velocity * glm::vec2(0.2)));
             objectCollisionList.first->gameObject.hit(&collisionObject, collisionPoint);
 
             hitPolyLocations.push_back(collisionPoint);
@@ -61,13 +61,13 @@ void Asteroid::collisionCheck()
     //}
 }
 
-void Asteroid::generateHitParticle(glm::vec3 hitPosition, glm::vec3 velocity)
+void Asteroid::generateHitParticle(glm::vec2 hitPosition, glm::vec2 velocity)
 {
-    glm::vec3 particlePos(RNG::randFloat(-1.0f, 1.0f), RNG::randFloat(-1.0f, 1.0f), 0.0f);
+    glm::vec2 particlePos(RNG::randFloat(-1.0f, 1.0f), RNG::randFloat(-1.0f, 1.0f));
     float dvx = RNG::randFloat(-2, 2);
     float dvy = -RNG::randFloat(-2, 2);
 
-    glm::vec3 particleVelRand(dvx, dvy, 0.0f);
+    glm::vec2 particleVelRand(dvx, dvy);
 
     levelManager.addGameObject(new Particle
     (

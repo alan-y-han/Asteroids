@@ -27,9 +27,9 @@ void LevelManager::initialiseLevel()
     playerShip = new Ship(
         *this,
         Transform(
-            glm::vec3(config::SCR_WIDTH / 2, config::SCR_HEIGHT / 2, 1.0f),
+            glm::vec2(config::SCR_WIDTH / 2, config::SCR_HEIGHT / 2),
             0.0f,
-            glm::vec3(0.0f, 0.0f, 0.0f),
+            glm::vec2(0.0f, 0.0f),
             0.0f
         )
     );
@@ -122,9 +122,9 @@ void LevelManager::createAsteroid()
     addGameObject(new Asteroid(
         *this,
         Transform(
-            glm::vec3(500, 400, 0),
+            glm::vec2(500, 400),
             0,
-            glm::vec3(0, 0, 0),
+            glm::vec2(0, 0),
             -2
         )
     ));

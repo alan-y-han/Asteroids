@@ -33,7 +33,7 @@ private:
     virtual void move();
     virtual void collisionCheck();
 
-    glm::vec3 rotate2D(float x, float y, float angle);
+    glm::vec2 rotate2D(float x, float y, float angle);
     void generateEngineParticle(bool accel);
     void fireLaser();
 

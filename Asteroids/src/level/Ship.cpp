@@ -109,9 +109,9 @@ void Ship::collisionCheck()
             (
                 levelManager,
                 Transform(
-                    glm::vec3(collisionPoint, 12.0f),
+                    glm::vec2(collisionPoint),
                     0.0f,
-                    glm::vec3(0),
+                    glm::vec2(0.0f, 0.0f),
                     0.0f
                 ),
                 0
@@ -120,18 +120,18 @@ void Ship::collisionCheck()
     }
 }
 
-glm::vec3 Ship::rotate2D(float x, float y, float angle)
+glm::vec2 Ship::rotate2D(float x, float y, float angle)
 {
     float dx = cos(glm::radians(angle)) * x - sin(glm::radians(angle)) * y;
     float dy = sin(glm::radians(angle)) * x + cos(glm::radians(angle)) * y;
-    return glm::vec3(dx, dy, 0.0f);
+    return glm::vec2(dx, dy);
 }
 
 void Ship::generateEngineParticle(bool accel)
 {
     const glm::vec2 enginePos(-28.0f, 0.0f);
 
-    glm::vec3 particlePos;
+    glm::vec2 particlePos;
     float dvx = 0.0f;
     float dvy = 0.0f;
 
@@ -148,7 +148,7 @@ void Ship::generateEngineParticle(bool accel)
         dvy = RNG::randFloat(-1.0f, 1.0f);
     }
 
-    glm::vec3 particleVelRand = rotate2D(dvx, dvy, transform.angle);
+    glm::vec2 particleVelRand = rotate2D(dvx, dvy, transform.angle);
     
     levelManager.addGameObject(new Particle
     (
@@ -165,8 +165,8 @@ void Ship::generateEngineParticle(bool accel)
 
 void Ship::fireLaser()
 {
-    glm::vec3 laserPos = rotate2D(50, 0, transform.angle);
-    glm::vec3 laserVel = rotate2D(12, 0, transform.angle);
+    glm::vec2 laserPos = rotate2D(50, 0, transform.angle);
+    glm::vec2 laserVel = rotate2D(12, 0, transform.angle);
 
     levelManager.addGameObject(new Laser
     (

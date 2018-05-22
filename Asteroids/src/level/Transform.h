@@ -9,17 +9,17 @@
 class Transform
 {
 public:
-    Transform(glm::vec3 position, float angle);
-    Transform(glm::vec3 position, float angle, glm::vec3 velocity, float aVelocity);
+    Transform(glm::vec2 position, float angle);
+    Transform(glm::vec2 position, float angle, glm::vec2 velocity, float aVelocity);
 
     void applyVelocities();
     glm::mat4 getModelMatrix(int x, int y);
 
 
-    glm::vec3 position;
+    glm::vec2 position;
     float angle;
 
-    glm::vec3 velocity;
+    glm::vec2 velocity;
     float aVelocity;
 
 private:

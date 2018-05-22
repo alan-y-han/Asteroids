@@ -57,12 +57,12 @@ DebugLine::~DebugLine()
     glDeleteBuffers(1, &instanceVBO);
 }
 
-void DebugLine::draw(glm::vec3 p1, glm::vec3 p2, glm::vec3 color)
+void DebugLine::draw(glm::vec2 p1, glm::vec2 p2, glm::vec3 color)
 {
     VBOtemp.clear();
-    VBOtemp.push_back(p1);
+    VBOtemp.push_back(glm::vec3(p1, 0.0f));
     VBOtemp.push_back(color);
-    VBOtemp.push_back(p2);
+    VBOtemp.push_back(glm::vec3(p2, 0.0f));
     VBOtemp.push_back(color);
 
     // Upload data

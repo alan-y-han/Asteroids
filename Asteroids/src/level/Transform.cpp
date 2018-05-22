@@ -1,12 +1,12 @@
 #include "Transform.h"
 #include "Config.h"
 
-Transform::Transform(glm::vec3 position, float angle) :
-    Transform(position, angle, glm::vec3(0.0f, 0.0f, 0.0f), 0.0f)
+Transform::Transform(glm::vec2 position, float angle) :
+    Transform(position, angle, glm::vec2(0.0f, 0.0f), 0.0f)
 {
 }
 
-Transform::Transform(glm::vec3 position, float angle, glm::vec3 velocity, float aVelocity) :
+Transform::Transform(glm::vec2 position, float angle, glm::vec2 velocity, float aVelocity) :
     position(position),
     angle(angle),
     velocity(velocity),
@@ -53,7 +53,7 @@ glm::mat4 Transform::getModelMatrix(int x, int y)
         // translation
         modelMatrix[3][0] = position.x;
         modelMatrix[3][1] = position.y;
-        modelMatrix[3][2] = position.z;
+        modelMatrix[3][2] = 0.0f;
 
         needsNewMatrix = false;
     }

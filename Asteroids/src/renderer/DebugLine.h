@@ -16,7 +16,7 @@ public:
     DebugLine();
     ~DebugLine();
 
-    void draw(glm::vec3 p1, glm::vec3 p2, glm::vec3 color);
+    void draw(glm::vec2 p1, glm::vec2 p2, glm::vec3 color);
 
 
     unsigned int VAO;
