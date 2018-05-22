@@ -59,7 +59,7 @@ void CollisionObject::addMeshToQuadtree(Quadtree& quadtree)
     }
 }
 
-std::unordered_map<CollisionObject*, std::vector<glm::vec2>> CollisionObject::checkCollisions(Quadtree& quadtree)
+std::unordered_map<CollisionObject*, std::vector<glm::vec2>> CollisionObject::getCollisions(Quadtree& quadtree)
 {
     std::unordered_map<CollisionObject*, std::vector<glm::vec2>> collisions;
     glm::vec2 collisionPoint;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm\gtc\type_ptr.hpp>
+#include <glm\glm.hpp>
 
 #include <vector>
 #include <unordered_map>
@@ -26,7 +26,7 @@ public:
 
     GameObject& gameObject;
 
-    std::unordered_map<CollisionObject*, std::vector<glm::vec2>> checkCollisions(Quadtree& quadtree);
+    std::unordered_map<CollisionObject*, std::vector<glm::vec2>> getCollisions(Quadtree& quadtree);
 
 
 private:

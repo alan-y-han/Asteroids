@@ -97,7 +97,7 @@ void Ship::move()
 
 void Ship::collisionCheck()
 {
-    std::unordered_map<CollisionObject*, std::vector<glm::vec2>> collisions = collisionObject.checkCollisions(levelManager.asteroidQuadtree);
+    std::unordered_map<CollisionObject*, std::vector<glm::vec2>> collisions = collisionObject.getCollisions(levelManager.asteroidQuadtree);
 
     for (std::pair<CollisionObject*, std::vector<glm::vec2>> objectCollisionList : collisions)
     {

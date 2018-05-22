@@ -6,7 +6,7 @@
 #include <sstream>
 #include <string>
 
-#include <glm\gtc\type_ptr.hpp>
+#include <glm\glm.hpp>
 
 
 class Shader

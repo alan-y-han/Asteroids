@@ -33,7 +33,9 @@ void Asteroid::move()
 
 void Asteroid::collisionCheck()
 {
-    std::unordered_map<CollisionObject*, std::vector<glm::vec2>> collisions = collisionObject.checkCollisions(levelManager.laserQuadtree);
+    std::unordered_map<CollisionObject*, std::vector<glm::vec2>> collisions = collisionObject.getCollisions(levelManager.laserQuadtree);
+
+    std::vector<glm::vec2> hitPolyLocations;
 
     for (std::pair<CollisionObject*, std::vector<glm::vec2>> objectCollisionList : collisions)
     {
@@ -43,9 +45,20 @@ void Asteroid::collisionCheck()
         {
             generateHitParticle(glm::vec3(collisionPoint, 0.0f), -(objectCollisionList.first->gameObject.transform.velocity * glm::vec3(0.2)));
             objectCollisionList.first->gameObject.hit(&collisionObject, collisionPoint);
+
+            hitPolyLocations.push_back(collisionPoint);
+
             break; // only hit object once
         }
     }
+
+    //std::unordered_set<std::vector<glm::vec2>> asteroidPolys;
+    ////asteroidPolys.insert(models::asteroidVertices);
+
+    //for (glm::vec2& hitPolyLocation : hitPolyLocations)
+    //{
+
+    //}
 }
 
 void Asteroid::generateHitParticle(glm::vec3 hitPosition, glm::vec3 velocity)

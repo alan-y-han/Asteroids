@@ -1,5 +1,5 @@
 #pragma once
-#include <glm/gtc/type_ptr.hpp>
+#include <glm/glm.hpp>
 
 
 // stores vertex attributes pertaining to a particular instance of GPUobject
