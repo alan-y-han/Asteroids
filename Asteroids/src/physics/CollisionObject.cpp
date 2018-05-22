@@ -11,7 +11,7 @@ CollisionObject::CollisionObject(GameObject& gameObject) :
 {
 }
 
-void CollisionObject::generateMesh(const std::vector<glm::vec3>& vertices, Transform& transform)
+void CollisionObject::generateMesh(const std::vector<glm::vec2>& vertices, Transform& transform)
 {
     worldVertices.clear();
     unsplitCollisionMesh.clear();
@@ -28,9 +28,9 @@ void CollisionObject::generateMesh(const std::vector<glm::vec3>& vertices, Trans
 
 
     glm::mat4 model = transform.getModelMatrix(0, 0);
-    for (const glm::vec3& v : vertices)
+    for (const glm::vec2& v : vertices)
     {
-        worldVertices.push_back(model * glm::vec4(v, 1.0));
+        worldVertices.push_back(model * glm::vec4(v, 0.0f, 1.0));
         // unsplitCollisionMesh creates new objects so safe to use .back() pointers
         addMotionLineToMesh(worldVertices.back(), transform);
     }

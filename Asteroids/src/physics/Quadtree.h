@@ -59,7 +59,7 @@ private:
 
     // debug
 
-    std::vector<glm::vec3> debugVertices;
+    std::vector<glm::vec2> debugVertices;
     GPUobject gpuDebugBox;
     RenderObject renderObject;
 };

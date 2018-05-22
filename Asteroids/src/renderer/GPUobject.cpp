@@ -2,18 +2,18 @@
 #include <iostream>
 
 
-GPUobject::GPUobject(std::vector<glm::vec3> vertices, glm::vec3 color) :
+GPUobject::GPUobject(std::vector<glm::vec2> vertices, glm::vec3 color) :
     noOfVertices(vertices.size())
 {
     // Assemble vertex data and color
     std::vector<glm::vec3> VBOtemp;
 
-    int vertexDataSize = vertices.size() * 3 * 2; // 6 floats per vertex
+    int vertexDataSize = vertices.size() * 2;
     VBOtemp.reserve(vertexDataSize);
 
-    for (glm::vec3& vertex : vertices)
+    for (glm::vec2& vertex : vertices)
     {
-        VBOtemp.push_back(vertex);
+        VBOtemp.push_back(glm::vec3(vertex, 0.0f));
         VBOtemp.push_back(color);
     }
 

@@ -22,7 +22,7 @@ public:
     GPUobject* laser;
     GPUobject* asteroid;
 
-    void createObject(std::vector<glm::vec3> vertices, glm::vec3 color);
+    void createObject(std::vector<glm::vec2> vertices, glm::vec3 color);
     void deleteObject(GPUobject* object);
 
     void drawAllObjects();

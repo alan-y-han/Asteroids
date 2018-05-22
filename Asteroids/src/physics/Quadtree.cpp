@@ -16,10 +16,10 @@ Quadtree::Quadtree(int level, iRectangle bounds) :
     subtreesEmpty(true),
     // debug
     debugVertices{
-        glm::vec3(0, 0, 0),
-        glm::vec3(0, bounds.tr.y - bounds.bl.y, 0),
-        glm::vec3(bounds.tr.x - bounds.bl.x, bounds.tr.y - bounds.bl.y, 0),
-        glm::vec3(bounds.tr.x - bounds.bl.x, 0, 0)
+        glm::vec2(0, 0),
+        glm::vec2(0, bounds.tr.y - bounds.bl.y),
+        glm::vec2(bounds.tr.x - bounds.bl.x, bounds.tr.y - bounds.bl.y),
+        glm::vec2(bounds.tr.x - bounds.bl.x, 0)
     },
     gpuDebugBox(debugVertices, glm::vec3(1.0f, 0.5f, 0.0f)),
     renderObject(&gpuDebugBox)

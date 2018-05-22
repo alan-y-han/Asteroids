@@ -20,7 +20,7 @@ class CollisionObject
 public:
     CollisionObject(GameObject& gameObject);
 
-    void generateMesh(const std::vector<glm::vec3>& vertices, Transform& transform);
+    void generateMesh(const std::vector<glm::vec2>& vertices, Transform& transform);
     void addMeshToQuadtree(Quadtree& quadtree);
 
 

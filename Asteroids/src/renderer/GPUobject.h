@@ -12,7 +12,7 @@
 class GPUobject
 {
 public:
-    GPUobject(std::vector<glm::vec3> vertices, glm::vec3 color);
+    GPUobject(std::vector<glm::vec2> vertices, glm::vec3 color);
     ~GPUobject();
     
     void addInstance(InstanceVAs* renderObject);
