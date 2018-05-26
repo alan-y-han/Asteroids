@@ -16,6 +16,7 @@ class Quadtree
 {
 public:
     Quadtree(iRectangle bounds);
+    Quadtree(iRectangle bounds, unsigned int maxLevels, unsigned int maxObjectsPerLevel);
     ~Quadtree();
 
     void clear();
@@ -35,11 +36,11 @@ private:
         bottomLeft = 2,
         bottomRight = 3
     };
-    static const int MAX_LEVELS = 6;
-    static const int MAX_OBJECTS = 1;
+    const unsigned int MAX_LEVELS;
+    const unsigned int MAX_OBJECTS;
 
 
-    Quadtree(int level, iRectangle bounds);
+    Quadtree(int level, iRectangle bounds, unsigned int maxLevels, unsigned int maxObjectsPerLevel);
 
     Quadtree* getSubtree(Line* line);
     void split();

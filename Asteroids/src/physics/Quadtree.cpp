@@ -5,11 +5,19 @@
 
 
 Quadtree::Quadtree(iRectangle bounds) :
-    Quadtree(1, bounds)
+    Quadtree(bounds, 6, 1)
 {
 }
 
-Quadtree::Quadtree(int level, iRectangle bounds) :
+Quadtree::Quadtree(iRectangle bounds, unsigned int maxLevels, unsigned int maxObjectsPerLevel) :
+    Quadtree(1, bounds, maxLevels, maxObjectsPerLevel)
+{
+
+}
+
+Quadtree::Quadtree(int level, iRectangle bounds, unsigned int maxLevels, unsigned int maxObjectsPerLevel) :
+    MAX_LEVELS(maxLevels),
+    MAX_OBJECTS(maxObjectsPerLevel),
     level(level),
     bounds(bounds),
     boundsCentre((bounds.bl + bounds.tr) / 2),
@@ -26,10 +34,10 @@ Quadtree::Quadtree(int level, iRectangle bounds) :
 {
     if (level < MAX_LEVELS)
     {
-        subtrees[bottomLeft] = new Quadtree(level + 1, iRectangle(bounds.bl, boundsCentre));
-        subtrees[bottomRight] = new Quadtree(level + 1, iRectangle(boundsCentre.x, bounds.bl.y, bounds.tr.x, boundsCentre.y));
-        subtrees[topLeft] = new Quadtree(level + 1, iRectangle(bounds.bl.x, boundsCentre.y, boundsCentre.x, bounds.tr.y));
-        subtrees[topRight]  = new Quadtree(level + 1, iRectangle(boundsCentre, bounds.tr));
+        subtrees[bottomLeft] = new Quadtree(level + 1, iRectangle(bounds.bl, boundsCentre), maxLevels, maxObjectsPerLevel);
+        subtrees[bottomRight] = new Quadtree(level + 1, iRectangle(boundsCentre.x, bounds.bl.y, bounds.tr.x, boundsCentre.y), maxLevels, maxObjectsPerLevel);
+        subtrees[topLeft] = new Quadtree(level + 1, iRectangle(bounds.bl.x, boundsCentre.y, boundsCentre.x, bounds.tr.y), maxLevels, maxObjectsPerLevel);
+        subtrees[topRight]  = new Quadtree(level + 1, iRectangle(boundsCentre, bounds.tr), maxLevels, maxObjectsPerLevel);
     }
 
     // debug
@@ -118,19 +126,40 @@ void Quadtree::retrieveHelper(Line* line, std::vector<Line*>& retrievedObjects)
 {
     retrievedObjects.insert(std::end(retrievedObjects), std::begin(objects), std::end(objects));
 
-    Quadtree* target = getSubtree(line);
-
-    if ((target == this) || subtreesEmpty)
+    if (!subtreesEmpty)
     {
-        std::vector<Line*> objectList(retrieveAll());
+        Quadtree* target = getSubtree(line);
 
-        retrievedObjects.insert(std::end(retrievedObjects), std::begin(objectList), std::end(objectList));
-        return;
+        if (target == this)
+        {
+            for (Quadtree* subtree : subtrees)
+            {
+                subtree->retrieveAllHelper(retrievedObjects);
+            }
+        }
+        else
+        {
+            target->retrieveHelper(line, retrievedObjects);
+        }
+
     }
-    else
-    {
-        target->retrieveHelper(line, retrievedObjects);
-    }
+
+    //Quadtree* target = getSubtree(line);
+
+    //if (target == this) //  || subtreesEmpty
+    //{
+    //    if (!subtreesEmpty)
+    //    {
+    //        std::vector<Line*> objectList(retrieveAll());
+
+    //        retrievedObjects.insert(std::end(retrievedObjects), std::begin(objectList), std::end(objectList));
+    //    }
+    //    return;
+    //}
+    //else
+    //{
+    //    target->retrieveHelper(line, retrievedObjects);
+    //}
 }
 
 std::vector<Line*> Quadtree::retrieveAll()
