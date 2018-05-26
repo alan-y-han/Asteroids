@@ -30,7 +30,7 @@ void CollisionObject::generateMesh(const std::vector<glm::vec2>& vertices, Trans
     glm::mat4 model = transform.getModelMatrix(0, 0);
     for (const glm::vec2& v : vertices)
     {
-        worldVertices.push_back(model * glm::vec4(v, 0.0f, 1.0));
+        worldVertices.push_back(model * glm::vec4(v, 0.0f, 1.0f)); // TODO: maybe use emplace_back
         // unsplitCollisionMesh creates new objects so safe to use .back() pointers
         addMotionLineToMesh(worldVertices.back(), transform);
     }
@@ -251,5 +251,5 @@ bool CollisionObject::checkLineLineCollision(Line& a, Line& b, glm::vec2& inColl
 
     inCollisionPoint = a1 + ((a2 - a1) * ma);
 
-    return ((ma < 1) && (ma > 0)) && ((mb < 1) && (mb > 0));
+    return ((ma < 1) && (ma >= 0)) && ((mb < 1) && (mb >= 0));
 }
