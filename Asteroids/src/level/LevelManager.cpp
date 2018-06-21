@@ -27,13 +27,34 @@ void LevelManager::initialiseLevel()
     playerShip = new Ship(
         *this,
         Transform(
-            glm::vec2(config::SCR_WIDTH / 2, config::SCR_HEIGHT / 2),
-            0.0f,
+            glm::vec2(config::SCR_WIDTH / 2 + 200, config::SCR_HEIGHT / 2),
+            180.0f,
             glm::vec2(0.0f, 0.0f),
             0.0f
         )
     );
     addGameObject(playerShip);
+
+    //addGameObject(new Laser
+    //(
+    //    *this,
+    //    Transform(
+    //        glm::vec2(510, 550),
+    //        -90,
+    //        glm::vec2(0, -2),
+    //        0
+    //    )
+    //));
+    //addGameObject(new Laser
+    //(
+    //    *this,
+    //    Transform(
+    //        glm::vec2(490, 550),
+    //        -90,
+    //        glm::vec2(0, -2),
+    //        0
+    //    )
+    //));
     
     createAsteroid();
 
@@ -122,10 +143,10 @@ void LevelManager::createAsteroid()
     addGameObject(new Asteroid(
         *this,
         Transform(
-            glm::vec2(500, 400),
+            glm::vec2(config::SCR_WIDTH / 2, config::SCR_HEIGHT / 2),
             0,
             glm::vec2(0, 0),
-            -2
+            1
         )
     ));
 }

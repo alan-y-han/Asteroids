@@ -16,6 +16,7 @@ class Asteroid : public GameObject
 {
 public:
     Asteroid(LevelManager& levelManager, Transform& transform);
+    Asteroid(LevelManager& levelManager, Transform& transform, std::vector<glm::vec2> vertices, GPUobject* gpuObject);
     ~Asteroid();
 
     virtual void initialise();
@@ -25,7 +26,10 @@ public:
 
 private:
     void generateHitParticle(glm::vec2 hitPosition, glm::vec2 velocity);
+    std::vector<glm::vec2> generateHitPoly(glm::vec2 location);
 
+
+    std::vector<glm::vec2> vertices;
 
     CollisionObject collisionObject;
 };

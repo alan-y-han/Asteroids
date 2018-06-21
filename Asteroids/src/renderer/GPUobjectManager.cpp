@@ -23,10 +23,11 @@ GPUobjectManager::~GPUobjectManager()
     }
 }
 
-void GPUobjectManager::createObject(std::vector<glm::vec2> vertices, glm::vec3 color)
+GPUobject* GPUobjectManager::createObject(std::vector<glm::vec2> vertices, glm::vec3 color)
 {
     GPUobject* newObject = new GPUobject(vertices, color);
     allObjects.insert(newObject);
+    return newObject;
 }
 
 void GPUobjectManager::deleteObject(GPUobject* object)

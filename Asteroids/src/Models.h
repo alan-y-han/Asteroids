@@ -59,6 +59,16 @@ namespace models
     };
     static const glm::vec3 asteroidColor(1.0f, 1.0f, 0.0f);
 
+
+    static const std::vector<glm::vec2> testCubeVertices =
+    {
+        glm::vec2(-100, -100),
+        glm::vec2(-100, 100),
+        glm::vec2(100, 100),
+        glm::vec2(100, -100)
+    };
+
+
     static std::vector<glm::vec2> randomAsteroid()
     {
         std::vector<glm::vec2> vertices;
@@ -98,7 +108,7 @@ namespace models
                 glm::vec2 clip2 = clip[(clip_i + 1) % clip.size()];
                 glm::vec2 clipLine = clip2 - clip1;
 
-                glm::vec2 clipLineInvNormal(clipLine.y, clipLine.x);
+                glm::vec2 clipLineInvNormal(clipLine.y, -clipLine.x);
 
                 // if target line is pointing into clip polygon
                 if (glm::dot(targetLine, clipLineInvNormal) > 0.0f)
@@ -106,6 +116,12 @@ namespace models
                     targetInbound_is.insert(i);
                 }
             }
+        }
+
+        if (!targetInbound_is.size())
+        {
+            newPolygons.push_back(target);
+            return newPolygons;
         }
 
 
@@ -119,8 +135,6 @@ namespace models
             // get a vertex from the inbound vertex set
             int targetInboundStart_i = *targetInbound_is.begin();
             int target_i = targetInboundStart_i;
-
-            std::cerr << target_i << std::endl;
 
             do
             {

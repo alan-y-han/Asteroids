@@ -164,6 +164,7 @@
     <ClCompile Include="src\level\GameObject.cpp" />
     <ClCompile Include="src\level\Asteroid.cpp" />
     <ClCompile Include="src\physics\CollisionObject.cpp" />
+    <ClCompile Include="src\physics\SliceObject.cpp" />
     <ClCompile Include="src\renderer\DebugLine.cpp" />
     <ClCompile Include="src\renderer\glad.c" />
     <ClCompile Include="src\Renderer\GPUobject.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="src\level\Asteroid.h" />
     <ClInclude Include="src\physics\CollisionObject.h" />
     <ClInclude Include="src\Config.h" />
+    <ClInclude Include="src\physics\SliceObject.h" />
     <ClInclude Include="src\renderer\DebugLine.h" />
     <ClInclude Include="src\Renderer\GPUobject.h" />
     <ClInclude Include="src\Renderer\GPUobjectManager.h" />

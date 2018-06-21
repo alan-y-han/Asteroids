@@ -89,7 +89,7 @@ int main(int argc, char const *argv[])
             renderer.draw();
 
             // debug
-            //std::cerr << levelManager.gameObjects.size() << std::endl;
+            std::cerr << levelManager.gameObjects.size() << std::endl;
 
             if (drawQuadtrees)
             {
