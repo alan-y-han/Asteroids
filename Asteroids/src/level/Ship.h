@@ -40,7 +40,7 @@ private:
 
     CollisionObject collisionObject;
 
-    float accel;
+    float dv;
     float frictionFactor;
     float rSpeed;
     int laserCooldown;

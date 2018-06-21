@@ -47,7 +47,7 @@ void Asteroid::collisionCheck()
 {
     std::unordered_map<CollisionObject*, std::vector<glm::vec2>> collisions = collisionObject.getCollisions(levelManager.laserQuadtree);
 
-    std::vector<glm::vec2> chunkLocations;
+    std::vector<std::pair<glm::vec2, glm::vec2>> chunkLocations;
     glm::mat4 modelInverse = glm::inverse(transform.getModelMatrix(0, 0));
 
     for (std::pair<CollisionObject*, std::vector<glm::vec2>> objectCollisionList : collisions)
@@ -59,7 +59,13 @@ void Asteroid::collisionCheck()
             generateHitParticle(collisionPoint, -(objectCollisionList.first->gameObject.transform.velocity * glm::vec2(0.2f)));
             objectCollisionList.first->gameObject.hit(&collisionObject, collisionPoint);
 
-            chunkLocations.push_back(modelInverse * glm::vec4(collisionPoint, 0.0f, 1.0f));
+            // TODO: make neater
+            glm::mat4 rotInverse = glm::inverse(transform.getRotationMatrix());
+
+            chunkLocations.emplace_back(
+                modelInverse * glm::vec4(collisionPoint, 0.0f, 1.0f),
+                rotInverse * glm::vec4(objectCollisionList.first->gameObject.transform.velocity, 0.0f, 1.0f)
+            );
 
             break; // only hit object once
         }
@@ -80,9 +86,9 @@ void Asteroid::collisionCheck()
     // TODO: check for edge cases, where chunk edge exactly overlaps with asteroid edge
 
     // slice at each hit location
-    for (glm::vec2& chunkLocation : chunkLocations)
+    for (std::pair<glm::vec2, glm::vec2>& chunkLocation : chunkLocations)
     {
-        std::vector<glm::vec2> chunkVertices = generateHitPoly(chunkLocation);
+        std::vector<glm::vec2> chunkVertices = generateHitPoly(chunkLocation.first, chunkLocation.second);
         SliceObject chunkSO(chunkVertices);
 
         asteroidPolys = newAsteroidPolys;
@@ -194,12 +200,48 @@ void Asteroid::collisionCheck()
 
     for (std::vector<glm::vec2> newAsteroidPoly : newAsteroidPolys)
     {
+        float area = 0;
+
+        std::cout << area << std::endl;
+
+        glm::vec2 centreOffset = models::getCentroid(newAsteroidPoly, area);
+
+        if (abs(area) < 100)
+        {
+            continue;
+        }
+
+        glm::vec3 omega(0.0f, 0.0f, glm::radians(transform.aVelocity));
+
+        // velocity obtained from rotational velocity
+        glm::vec2 extraVelocity = glm::cross(omega, glm::vec3(centreOffset, 0.0f));
+
+        for (glm::vec2& vertex : newAsteroidPoly)
+        {
+            vertex -= centreOffset;
+        }
+
+
         GPUobject* gpuObject = levelManager.gpuObjectManager.createObject(newAsteroidPoly, models::asteroidColor);
 
+        Transform newTransform = transform;
+
+        newTransform.position = transform.getModelMatrix(0, 0) * glm::vec4(centreOffset, 0.0f, 1.0f);
+        newTransform.velocity += glm::vec2(transform.getRotationMatrix() * glm::vec4(extraVelocity, 0.0f, 1.0f));
+
+        newTransform.needsNewMatrix = true;
+
         levelManager.addGameObject(new Asteroid
+
         (
-            levelManager, transform, newAsteroidPoly, gpuObject
+            levelManager, newTransform, newAsteroidPoly, gpuObject
         ));
+        //levelManager.addGameObject(new Particle
+        //(
+        //    levelManager,
+        //    newTransform,
+        //    100000
+        //));
     }
 
     levelManager.removeGameObject(this);
@@ -228,29 +270,53 @@ void Asteroid::generateHitParticle(glm::vec2 hitPosition, glm::vec2 velocity)
 
 // TODO: randomise
 // TODO: rotate so it's 
-std::vector<glm::vec2> Asteroid::generateHitPoly(glm::vec2 location)
+std::vector<glm::vec2> Asteroid::generateHitPoly(glm::vec2 location, glm::vec2 rotationDirection)
 {
-    /*return std::vector<glm::vec2>{
-        glm::vec2(location.x - 8, location.y - 180),
-        glm::vec2(location.x - 8, location.y + 8),
-        glm::vec2(location.x + 8, location.y + 8),
-        glm::vec2(location.x + 8, location.y - 180),
-    };*/
-
     //return std::vector<glm::vec2>{
+    //    glm::vec2(location.x - 8, location.y - 180),
+    //    glm::vec2(location.x - 8, location.y + 8),
+    //    glm::vec2(location.x + 8, location.y + 8),
+    //    glm::vec2(location.x + 8, location.y - 180),
+    //};
+
+    //std::vector<glm::vec2> vertices{
     //    glm::vec2(location.x - 8, location.y - 8),
     //    glm::vec2(location.x - 8, location.y + 8),
     //    glm::vec2(location.x + 8, location.y + 8),
     //    glm::vec2(location.x + 8, location.y - 8),
     //};
 
+    //std::vector<glm::vec2> vertices{
+    //    glm::vec2(300, 10),
+    //    glm::vec2(300, -10),
+    //    glm::vec2(-10, -10),
+    //    glm::vec2(-10, 10)
+    //};
+
     float minSize = 5.0f;
     float maxSize = 15.0f;
 
-    return std::vector<glm::vec2>{
-        glm::vec2(location.x - RNG::randFloat(minSize, maxSize), location.y - RNG::randFloat(minSize, maxSize)),
-        glm::vec2(location.x - RNG::randFloat(minSize, maxSize), location.y + RNG::randFloat(minSize, maxSize)),
-        glm::vec2(location.x + RNG::randFloat(minSize, maxSize), location.y + RNG::randFloat(minSize, maxSize)),
-        glm::vec2(location.x + RNG::randFloat(minSize, maxSize), location.y - RNG::randFloat(minSize, maxSize))
+    std::vector<glm::vec2> vertices = {
+        glm::vec2(- RNG::randFloat(minSize, maxSize), - RNG::randFloat(minSize, maxSize)),
+        glm::vec2(- RNG::randFloat(minSize, maxSize), + RNG::randFloat(minSize, maxSize)),
+        glm::vec2(+ RNG::randFloat(minSize, maxSize), + RNG::randFloat(minSize, maxSize)),
+        glm::vec2(+ RNG::randFloat(minSize, maxSize), - RNG::randFloat(minSize, maxSize))
     };
+
+    glm::vec2 normRot = glm::normalize(rotationDirection);
+
+    glm::mat4 rotMatrix;
+
+    rotMatrix[0][0] = normRot.x;
+    rotMatrix[1][0] = -normRot.y;
+    rotMatrix[0][1] = normRot.y;
+    rotMatrix[1][1] = normRot.x;
+
+    for (glm::vec2& vertex : vertices)
+    {
+        vertex = rotMatrix * glm::vec4(vertex, 0.0f, 1.0f);
+        vertex += location;
+    }
+
+    return vertices;
 }

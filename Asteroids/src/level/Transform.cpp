@@ -66,3 +66,20 @@ glm::mat4 Transform::getModelMatrix(int x, int y)
 
     return returnModel;
 }
+
+glm::mat4 Transform::getRotationMatrix()
+{
+    glm::mat4 rotMatrix;
+
+    float rad = glm::radians(angle);
+    rotMatrix[0][0] = cos(rad);
+    rotMatrix[1][0] = -sin(rad);
+    rotMatrix[0][1] = sin(rad);
+    rotMatrix[1][1] = cos(rad);
+    // translation
+    rotMatrix[3][0] = 0.0f;
+    rotMatrix[3][1] = 0.0f;
+    rotMatrix[3][2] = 0.0f;
+
+    return rotMatrix;
+}

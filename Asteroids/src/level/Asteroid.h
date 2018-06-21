@@ -26,7 +26,7 @@ public:
 
 private:
     void generateHitParticle(glm::vec2 hitPosition, glm::vec2 velocity);
-    std::vector<glm::vec2> generateHitPoly(glm::vec2 location);
+    std::vector<glm::vec2> generateHitPoly(glm::vec2 location, glm::vec2 rotationDirection);
 
 
     std::vector<glm::vec2> vertices;

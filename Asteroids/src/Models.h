@@ -132,7 +132,7 @@ namespace models
         {
             std::vector<glm::vec2> newPolygon;
 
-            // get a vertex from the inbound vertex set
+            // get A vertex from the inbound vertex set
             int targetInboundStart_i = *targetInbound_is.begin();
             int target_i = targetInboundStart_i;
 
@@ -182,5 +182,28 @@ namespace models
         }
 
         return newPolygons;
+    }
+
+    static glm::vec2 getCentroid(std::vector<glm::vec2> v, float& A)
+    {
+        float cx = 0;
+        float cy = 0;
+        //float A = 0;
+
+        for (int i = 0; i < v.size(); ++i)
+        {
+            glm::vec2& v1 = v[i];
+            glm::vec2& v2 = v[(i + 1) % v.size()];
+            float almostA = ((v1.x * v2.y) - (v2.x * v1.y));
+            A += almostA;
+            cx += (v1.x + v2.x) * almostA;
+            cy += (v1.y + v2.y) * almostA;
+        }
+
+        A /= 2;
+        cx /= 6 * A;
+        cy /= 6 * A;
+
+        return glm::vec2(cx, cy);
     }
 }

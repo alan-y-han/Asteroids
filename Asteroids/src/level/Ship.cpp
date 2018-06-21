@@ -19,10 +19,16 @@ void Ship::initialise()
 {
     levelManager.playerShip = this;
 
-    accel = 0.1f;
-    frictionFactor = 0.995f;
-    rSpeed = 3.0f;
-    laserCooldown = 5;
+    float dt = config::SPF;
+    float T = 0.1f; // time to get to ~63% max velocity
+    float vMax = 30.0f;
+
+
+    frictionFactor = 1 - (dt / T);
+    float accel = vMax / (frictionFactor * T);
+    dv = accel * dt;
+    rSpeed = 7.0f;
+    laserCooldown = 10;
     laserCooldownTimer = 0;
 }
 
@@ -35,13 +41,13 @@ void Ship::move()
     // but angle (AD) is processed after velocity (WS)
     if (keymap.accel)
     {
-        transform.velocity.x += cos(glm::radians(transform.angle)) * accel;
-        transform.velocity.y += sin(glm::radians(transform.angle)) * accel;
+        transform.velocity.x += cos(glm::radians(transform.angle)) * dv;
+        transform.velocity.y += sin(glm::radians(transform.angle)) * dv;
     }
     if (keymap.decel)
     {
-        transform.velocity.x -= cos(glm::radians(transform.angle)) * accel;
-        transform.velocity.y -= sin(glm::radians(transform.angle)) * accel;
+        transform.velocity.x -= cos(glm::radians(transform.angle)) * dv;
+        transform.velocity.y -= sin(glm::radians(transform.angle)) * dv;
     }
     if (keymap.left)
     {

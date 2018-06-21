@@ -14,6 +14,7 @@ public:
 
     void applyVelocities();
     glm::mat4 getModelMatrix(int x, int y);
+    glm::mat4 getRotationMatrix();
 
 
     glm::vec2 position;
@@ -22,7 +23,7 @@ public:
     glm::vec2 velocity;
     float aVelocity;
 
-private:
     bool needsNewMatrix;
+private:
     glm::mat4 modelMatrix;
 };
