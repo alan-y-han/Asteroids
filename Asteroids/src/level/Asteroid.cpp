@@ -10,15 +10,12 @@
 #include <unordered_set>
 
 
-Asteroid::Asteroid(LevelManager& levelManager, Transform& transform) :
-    GameObject(levelManager, levelManager.gpuObjectManager.asteroid, transform),
-    vertices(models::asteroidVertices),
-    collisionObject(*this)
-{
-}
-
-Asteroid::Asteroid(LevelManager& levelManager, Transform& transform, std::vector<glm::vec2> vertices, GPUobject* gpuObject) :
-    GameObject(levelManager, gpuObject, transform),
+Asteroid::Asteroid(LevelManager & levelManager, Transform & transform, std::vector<glm::vec2> vertices) :
+    GameObject(
+        levelManager,
+        levelManager.gpuObjectManager.createObject(vertices, models::asteroidColor),
+        transform
+    ),
     vertices(vertices),
     collisionObject(*this)
 {
@@ -26,6 +23,12 @@ Asteroid::Asteroid(LevelManager& levelManager, Transform& transform, std::vector
 
 Asteroid::~Asteroid()
 {
+    GPUobject* toDelete = renderObjects[0].getGPUobject();
+    for (int i = 0; i < 9; i++)
+    {
+        renderObjects[i].clearGPUobject();
+    }
+    levelManager.gpuObjectManager.deleteObject(toDelete);
     levelManager.asteroids.erase(this);
 }
 
@@ -108,7 +111,6 @@ void Asteroid::collisionCheck()
             std::vector<glm::vec2> target;
             std::unordered_map<Line*, std::vector<std::pair<glm::vec2, int>>> asteroidLinesTagged;
 
-            //for (int i = 0; i < chunkSO.collisionMesh.size(); i++)
             for (Line& chunkSOline : chunkSO.collisionMesh)
             {
                 // insert vertex
@@ -195,15 +197,9 @@ void Asteroid::collisionCheck()
 
     // generate new asteroids from newAsteroidPolys
 
-        // fix centres of mass for each new asteroid
-        // generate new renderObjects/gameObjects etc. with new asteroids
-
     for (std::vector<glm::vec2> newAsteroidPoly : newAsteroidPolys)
     {
-        float area = 0;
-
-        std::cout << area << std::endl;
-
+        float area(0.0f);
         glm::vec2 centreOffset = models::getCentroid(newAsteroidPoly, area);
 
         if (abs(area) < 100)
@@ -222,8 +218,6 @@ void Asteroid::collisionCheck()
         }
 
 
-        GPUobject* gpuObject = levelManager.gpuObjectManager.createObject(newAsteroidPoly, models::asteroidColor);
-
         Transform newTransform = transform;
 
         newTransform.position = transform.getModelMatrix(0, 0) * glm::vec4(centreOffset, 0.0f, 1.0f);
@@ -232,16 +226,11 @@ void Asteroid::collisionCheck()
         newTransform.needsNewMatrix = true;
 
         levelManager.addGameObject(new Asteroid
-
         (
-            levelManager, newTransform, newAsteroidPoly, gpuObject
+            levelManager,
+            newTransform,
+            newAsteroidPoly
         ));
-        //levelManager.addGameObject(new Particle
-        //(
-        //    levelManager,
-        //    newTransform,
-        //    100000
-        //));
     }
 
     levelManager.removeGameObject(this);
@@ -269,7 +258,6 @@ void Asteroid::generateHitParticle(glm::vec2 hitPosition, glm::vec2 velocity)
 }
 
 // TODO: randomise
-// TODO: rotate so it's 
 std::vector<glm::vec2> Asteroid::generateHitPoly(glm::vec2 location, glm::vec2 rotationDirection)
 {
     //return std::vector<glm::vec2>{

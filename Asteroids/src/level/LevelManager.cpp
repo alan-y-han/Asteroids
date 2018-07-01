@@ -2,6 +2,7 @@
 
 #include "Asteroid.h"
 #include "GameObject.h"
+#include "Models.h"
 #include "Ship.h"
 #include "Transform.h"
 
@@ -34,27 +35,6 @@ void LevelManager::initialiseLevel()
         )
     );
     addGameObject(playerShip);
-
-    //addGameObject(new Laser
-    //(
-    //    *this,
-    //    Transform(
-    //        glm::vec2(510, 550),
-    //        -90,
-    //        glm::vec2(0, -2),
-    //        0
-    //    )
-    //));
-    //addGameObject(new Laser
-    //(
-    //    *this,
-    //    Transform(
-    //        glm::vec2(490, 550),
-    //        -90,
-    //        glm::vec2(0, -2),
-    //        0
-    //    )
-    //));
     
     createAsteroid();
 
@@ -146,7 +126,8 @@ void LevelManager::createAsteroid()
             glm::vec2(config::SCR_WIDTH / 2, config::SCR_HEIGHT / 2),
             0,
             glm::vec2(0, 0),
-            1
-        )
+            0.3f
+        ),
+        models::testCubeVertices
     ));
 }

@@ -12,6 +12,13 @@ GameObject::GameObject(LevelManager& levelManager, GPUobject* gpuObject, Transfo
     updateInstanceVAsModelMatrix();
 }
 
+//GameObject::GameObject(LevelManager & levelManager, Transform transform) :
+//    levelManager(levelManager),
+//    transform(transform)
+//{
+//    updateInstanceVAsModelMatrix();
+//}
+
 GameObject::~GameObject()
 {
 }

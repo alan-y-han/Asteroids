@@ -12,7 +12,9 @@ public:
     RenderObject(GPUobject* gpuObject);
     ~RenderObject();
 
+    GPUobject* getGPUobject();
     void registerGPUobject(GPUobject* gpuObject);
+    void clearGPUobject();
 
     InstanceVAs instanceVAs;
 

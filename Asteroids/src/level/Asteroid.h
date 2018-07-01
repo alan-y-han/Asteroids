@@ -15,13 +15,12 @@
 class Asteroid : public GameObject
 {
 public:
-    Asteroid(LevelManager& levelManager, Transform& transform);
-    Asteroid(LevelManager& levelManager, Transform& transform, std::vector<glm::vec2> vertices, GPUobject* gpuObject);
+    Asteroid(LevelManager& levelManager, Transform& transform, std::vector<glm::vec2> vertices);
     ~Asteroid();
 
-    virtual void initialise();
-    virtual void move();
-    virtual void collisionCheck();
+    void initialise() override;
+    void move() override;
+    void collisionCheck() override;
 
 
 private:

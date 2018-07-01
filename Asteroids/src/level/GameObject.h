@@ -13,6 +13,7 @@ class GameObject
 {
 public:
     GameObject(LevelManager& levelManager, GPUobject* gpuObject, Transform transform);
+    //GameObject(LevelManager& levelManager, Transform transform);
     virtual ~GameObject();
 
     // public GameObject functions, to be overriden in derived classes
@@ -27,7 +28,6 @@ public:
 
 protected:
     void updateInstanceVAsModelMatrix();
-
 
     LevelManager& levelManager;
     RenderObject renderObjects[9];

@@ -20,6 +20,11 @@ RenderObject::~RenderObject()
     }
 }
 
+GPUobject * RenderObject::getGPUobject()
+{
+    return gpuObject;
+}
+
 void RenderObject::registerGPUobject(GPUobject * gpuObject)
 {
     if (gpuObject != NULL)
@@ -29,4 +34,13 @@ void RenderObject::registerGPUobject(GPUobject * gpuObject)
 
     this->gpuObject = gpuObject;
     gpuObject->addInstance(&instanceVAs);
+}
+
+void RenderObject::clearGPUobject()
+{
+    if (gpuObject != NULL)
+    {
+        gpuObject->removeInstance(&instanceVAs);
+        gpuObject = NULL;
+    }
 }
