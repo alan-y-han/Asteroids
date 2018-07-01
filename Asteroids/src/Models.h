@@ -62,10 +62,10 @@ namespace models
 
     static const std::vector<glm::vec2> testCubeVertices =
     {
-        glm::vec2(-100, -100),
-        glm::vec2(-100, 100),
-        glm::vec2(100, 100),
-        glm::vec2(100, -100)
+        glm::vec2(-200, -200),
+        glm::vec2(-200, 200),
+        glm::vec2(200, 200),
+        glm::vec2(200, -200)
     };
 
 
