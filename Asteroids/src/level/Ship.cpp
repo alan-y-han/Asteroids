@@ -19,17 +19,28 @@ void Ship::initialise()
 {
     levelManager.playerShip = this;
 
-    float dt = config::SPF;
-    float T = 0.1f; // time to get to ~63% max velocity
-    float vMax = 30.0f;
+    std::pair<float, float> transFricVel = calcVelAndFriction(1.0f, 30.0f);
+    transVelFriction = transFricVel.first;
+    transDeltaVel = transFricVel.second;
 
+    std::pair<float, float> angFricVel = calcVelAndFriction(0.07f, 5.0f);
+    aVelFriction = angFricVel.first;
+    aDeltaVel = angFricVel.second;
 
-    frictionFactor = 1 - (dt / T);
-    float accel = vMax / (frictionFactor * T);
-    dv = accel * dt;
-    rSpeed = 7.0f;
-    laserCooldown = 10;
+    laserCooldown = 0;
     laserCooldownTimer = 0;
+}
+
+std::pair<float, float> Ship::calcVelAndFriction(float time, float vMax)
+{
+    float dt = config::SPF;
+
+    float friction = 1.0f - (dt / time);
+
+    float accel = vMax / (friction * time);
+    float deltaV = accel * dt;
+
+    return std::pair<float, float>(friction, deltaV);
 }
 
 void Ship::move()
@@ -41,27 +52,26 @@ void Ship::move()
     // but angle (AD) is processed after velocity (WS)
     if (keymap.accel)
     {
-        transform.velocity.x += cos(glm::radians(transform.angle)) * dv;
-        transform.velocity.y += sin(glm::radians(transform.angle)) * dv;
+        transform.velocity.x += cos(glm::radians(transform.angle)) * transDeltaVel;
+        transform.velocity.y += sin(glm::radians(transform.angle)) * transDeltaVel;
     }
     if (keymap.decel)
     {
-        transform.velocity.x -= cos(glm::radians(transform.angle)) * dv;
-        transform.velocity.y -= sin(glm::radians(transform.angle)) * dv;
+        transform.velocity.x -= cos(glm::radians(transform.angle)) * transDeltaVel;
+        transform.velocity.y -= sin(glm::radians(transform.angle)) * transDeltaVel;
     }
     if (keymap.left)
     {
-        transform.angle += rSpeed;
-        //transform.aVelocity += 0.1f;
+        transform.aVelocity += aDeltaVel;
     }
     if (keymap.right)
     {
-        transform.angle -= rSpeed;
-        //transform.aVelocity -= 0.1f;
+        transform.aVelocity -= aDeltaVel;
     }
 
     // movement
-    transform.velocity *= frictionFactor;
+    transform.velocity *= transVelFriction;
+    transform.aVelocity *= aVelFriction;
     transform.applyVelocities();
 
     updateInstanceVAsModelMatrix();
@@ -172,7 +182,7 @@ void Ship::generateEngineParticle(bool accel)
 void Ship::fireLaser()
 {
     glm::vec2 laserPos = rotate2D(50, 0, transform.angle);
-    glm::vec2 laserVel = rotate2D(12, 0, transform.angle);
+    glm::vec2 laserVel = rotate2D(18, 0, transform.angle);
 
     levelManager.addGameObject(new Laser
     (

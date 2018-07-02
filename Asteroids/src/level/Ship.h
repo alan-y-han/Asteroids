@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <vector>
+#include <utility>
 
 #include "CollisionObject.h"
 #include "Config.h"
@@ -28,11 +29,14 @@ public:
     } keymap;
 
 
-private:    
+private:
     virtual void initialise();
     virtual void move();
     virtual void collisionCheck();
 
+    // time - time in seconds to reach ~63% of max velocity
+    // maxV - maximum velocity
+    std::pair<float, float> calcVelAndFriction(float time, float maxV);
     glm::vec2 rotate2D(float x, float y, float angle);
     void generateEngineParticle(bool accel);
     void fireLaser();
@@ -40,9 +44,12 @@ private:
 
     CollisionObject collisionObject;
 
-    float dv;
-    float frictionFactor;
-    float rSpeed;
+    float transDeltaVel;
+    float transVelFriction;
+
+    float aDeltaVel;
+    float aVelFriction;
+
     int laserCooldown;
     int laserCooldownTimer;
 };
